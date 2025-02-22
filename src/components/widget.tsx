@@ -64,17 +64,17 @@ function Widget({ exerciseId }: WidgetProps) {
   const options = {
     responsive: true,
     plugins: {
-      legend: {
-        labels: {
-          filter: function(legendItem, chartData) {
-            // Check if the dataset has an empty label and hide it from the legend
-            if (legendItem.datasetIndex === 0 && chartData.datasets[legendItem.datasetIndex].label === "") {
-              return false; // Hide the dataset from the legend
-            }
-            return true; // Otherwise, show it
-          }
-        }
-      },
+      // legend: {
+      //   labels: {
+      //     filter: function(legendItem, chartData) {
+      //       // Check if the dataset has an empty label and hide it from the legend
+      //       if (legendItem.datasetIndex === 0 && chartData.datasets[legendItem.datasetIndex].label === "") {
+      //         return false; // Hide the dataset from the legend
+      //       }
+      //       return true; // Otherwise, show it
+      //     }
+      //   }
+      // },
       annotation: {
         annotations: {
           line: {
@@ -97,14 +97,14 @@ function Widget({ exerciseId }: WidgetProps) {
         display: true,
         text: item?.label || 'none',
       },
-      tooltip: {
-        callbacks: {
-          title: function (tooltipItems) {
-            const date = new Date(tooltipItems[0].label);
-            return date.toLocaleString(); // Format the date in tooltip
-          },
-        },
-      },
+      // tooltip: {
+      //   callbacks: {
+      //     title: function (tooltipItems) {
+      //       const date = new Date(tooltipItems[0].label);
+      //       return date.toLocaleString(); // Format the date in tooltip
+      //     },
+      //   },
+      // },
     },
     scales: {
       x: {

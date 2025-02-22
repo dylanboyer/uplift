@@ -56,9 +56,16 @@ def user_log_out():
 
 # POST /users/create
 #	DATA { name, email, username, password }
-# {'status' : 'ok'}, 200 on success
+# {'status' : 'ok', 'u_id' : <users_id>}, 200 on success
 # {'status' : 'no'}, 400 on failure
 
 @bp.route('/create', methods=['POST'])
 def create_user():
-	pass
+	data = request.json
+	try:
+		new_id = Users.CreateUser(data)
+		session['name'] = data['email']
+		return jsonify({'status' : 'ok', 'u_id' : new_id}), 200
+	except Exception as e:
+		print(e)
+		return jsonify({'status' : 'no'}), 400
