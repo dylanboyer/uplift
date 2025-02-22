@@ -22,6 +22,7 @@ function Widget({ exerciseId }: WidgetProps) {
         }
         
         const data = await response.json();
+        console.log(data)
         setItem(data);
       } catch (error) {
         console.error('Error fetching item details:', error);
@@ -35,11 +36,10 @@ function Widget({ exerciseId }: WidgetProps) {
 
   return (
     <div>
-      <h1>Exercise Details</h1>
       {item ? (
         <div>
-          <h2>{item.label}</h2>
-          <p>{item.details}</p>
+          <h2>{item.label} Progress</h2>
+          <p></p>
         </div>
       ) : (
         <p>Loading...</p>

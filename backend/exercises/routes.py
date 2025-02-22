@@ -15,6 +15,7 @@ def test_users():
 def graph_data(exercises_id):
 	print(exercises_id)
 	data = Exercises.GetExercise(exercises_id)
+	print(data)
 	data['name']
 
 	data_entries = Exercises.GetData(exercises_id)

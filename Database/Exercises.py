@@ -12,7 +12,7 @@ def UsersExercises(user_id):
 
 def GetExercise(exercise_id):
 	sql = '''
-	SELECT * FROM Exercises WHERE e_id = %s;
+	SELECT e.name, e.goal, e.u_id, r.label FROM Exercises e INNER JOIN RepRange r ON r.r_id = e.RepRange_ID WHERE e_id = %s;
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,))
