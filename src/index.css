@@ -58,3 +58,7 @@
     --foreground: 356 0% 90%;
   }
 }
+
+html {
+  background: rgb(39 39 42);
+}
