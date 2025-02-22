@@ -76,7 +76,7 @@ def create_user():
 
 		for lift in Exercises.Default_Exercises:
 			status = Exercises.CreateAllExerciseRanges(new_id, [0], lift)
-			print('status on create', status)
+			print('status on create', status, 'adding',lift)
 
 
 

@@ -25,6 +25,7 @@ def get_users_exersise(spec):
 	else:
 		resp = Users.GetUsedUsersExercises(user_id, 'name')
 
+	print(resp)
 	return jsonify(resp), 200
 
 

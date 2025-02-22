@@ -20,6 +20,7 @@ export default function DataEntry() {
     return <div style={{ color: "red" }}>Error: {error}</div>;
   }
 
+  console.log(exercises)
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select an Exercise</h1>

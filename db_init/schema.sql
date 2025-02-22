@@ -58,7 +58,7 @@ CREATE TABLE main_gym_schema.Exercises(
 	FOREIGN KEY (RepRange_ID) REFERENCES main_gym_schema.RepRange(R_ID),
 	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID),
 
-	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME)
+	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME, RepRange_ID)
 );
 
 CREATE TABLE main_gym_schema.Entries(

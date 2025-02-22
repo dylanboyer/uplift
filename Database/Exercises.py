@@ -14,9 +14,7 @@ Default_Exercises = [
     'Lateral Raises',
     'Leg Extensions',
     'Leg Curls',
-    'Calf Raises',
-    'Incline Dumbbell Bench Press',
-    'Incline Barbell Bench Press'
+    'Calf Raises'
 ]
 
 
@@ -37,7 +35,7 @@ def GetExercise(exercise_id):
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,))
 
-		return session_to_json(session)[0]
+		return session_to_json(session)
 
 def ExerciseBelongsToUser(exercise_id):
 	sql = '''
@@ -46,7 +44,7 @@ def ExerciseBelongsToUser(exercise_id):
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,))
 
-		return session_single_to_json(session)[0]
+		return session_single_to_json(session)
 
 def GetRepRanges():
 	sql = '''
@@ -70,15 +68,15 @@ def CreateAllExerciseRanges(user_id, goals, name):
 	ranges_count = CountRepRanges()
 
 	if len(goals) > ranges_count:
-		return goals[:ranges_count]
+		goals = goals[:ranges_count]
 	elif len(goals) < ranges_count:
-		return goals + [0] * (ranges_count - len(goals))
-	else:
-		return goals
+		goals = goals + [0] * (ranges_count - len(goals))
 
 	status = True
 	for i in range(1,CountRepRanges()+1):
+		print(i)
 		resp = CreateExerciseWithRange(user_id, i, goals[i-1],name)
+		print(resp)
 		if not resp:
 			status = False
 
@@ -87,12 +85,13 @@ def CreateAllExerciseRanges(user_id, goals, name):
 
 def CreateExerciseWithRange(user_id, rep_range_id, goal, name):
 	sql = '''
-	INSERT INTO Exercises (U_UD, REPRANGE_ID, GOAL, NAME) VALUES (%s %s %s %s) RETURNING E_ID;
+	INSERT INTO Exercises (U_ID, REPRANGE_ID, GOAL, NAME) VALUES (%s, %s, %s, %s) RETURNING E_ID;
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (user_id,rep_range_id,goal,name,))
-
-		return session.fetchone()[0]
+		resp = session.fetchone()
+		print(resp)
+		return resp[0]
 '''
 DATA POINTS
 
