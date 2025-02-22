@@ -1,8 +1,8 @@
 // use-exercise.ts --- A BUNCH of hooks to get exercise data
 import { useState, useEffect } from "react";
 
-// GET /exercise/has/names --> list of strings of exercises the user has done before
-const useGetAllExercises = () => {
+// GET /exercises/has/names --> list of strings of exercises the user has done before
+export const useGetAllExercises = () => {
   const [exercises, setExercises] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,7 @@ const useGetAllExercises = () => {
 
       try {
         // Make the API request
-        const response = await fetch("/backend/exercise/has/names", {
+        const response = await fetch("/backend/exercises/has/names", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -46,13 +46,10 @@ const useGetAllExercises = () => {
 
   return { exercises, isLoading, error };
 };
-export default useGetAllExercises;
 
 
-// GET /exercise/use/names --> list of all exercises the user has
-import { useState, useEffect } from "react";
-
-const useGetUsedExercises = () => {
+// GET /exercises/use/names --> list of all exercises the user has
+export const useGetUsedExercises = () => {
   const [exercises, setExercises] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +61,7 @@ const useGetUsedExercises = () => {
 
       try {
         // Make the API request
-        const response = await fetch("/backend/exercise/use/names", {
+        const response = await fetch("/backend/exercises/use/names", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -96,11 +93,10 @@ const useGetUsedExercises = () => {
 
   return { exercises, isLoading, error };
 };
-export default useGetUsedExercises;
 
 
-// GET /exercise/ranges --> get a list of three strings 1-5, 6-10, 11+
-const useGetExerciseRanges = () => {
+// GET /exercises/ranges --> get a list of three strings 1-5, 6-10, 11+
+export const useGetExerciseRanges = () => {
     const [ranges, setRanges] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -112,7 +108,7 @@ const useGetExerciseRanges = () => {
   
         try {
           // Make the API request
-          const response = await fetch("/exercise/ranges", {
+          const response = await fetch("/exercises/ranges", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -144,14 +140,12 @@ const useGetExerciseRanges = () => {
   
     return { ranges, isLoading, error };
   };
-  export default useGetExerciseRanges;
   
-  
-// POST /exercise/create
+// POST /exercises/create
 // name string
 // goal of ints of your goals [0, 180, 0] --> have lista
 // response: 200, 400
-const useCreateExercise = () => {
+export const useCreateExercise = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
@@ -168,7 +162,7 @@ const useCreateExercise = () => {
       }
 
       // Make the API request
-      const response = await fetch("/exercise/create", {
+      const response = await fetch("/exercises/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -195,8 +189,6 @@ const useCreateExercise = () => {
 
   return { createExercise, isLoading, error, status };
 };
-export default useCreateExercise;
-
 
 
 // POST /entries/create
@@ -204,11 +196,9 @@ export default useCreateExercise;
 // sets int:
 // weight: int
 // date: datetime iso format
-// exercise_name (string, should match from previous click)
+// exercise/_name (string, should match from previous click)
 // response 200, 400
-import { useState } from "react";
-
-const useCreateEntry = () => {
+export const useCreateEntry = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
@@ -284,4 +274,3 @@ const useCreateEntry = () => {
 
   return { createEntry, isLoading, error, status };
 };
-export default useCreateEntry;

@@ -36,7 +36,7 @@ export default function MainLayout() {
               </NavigationMenuItem>
               <NavigationMenuItem className="p-2">
                 <Link to="/goals">
-                <Button className=" text-zinc-800 bg-zinc-200">
+                <Button className="text-zinc-800 bg-zinc-200">
                     Goals
                   </Button>
                 </Link>
@@ -45,9 +45,9 @@ export default function MainLayout() {
           </NavigationMenu>
         </div>
         <div className="content-center">
-            <h1 className="text-center text-4xl text-zinc-50">uplift.</h1>
+            <h1 className="text-center text-6xl text-zinc-50">uplift.</h1>
         </div>
-        <div className="content-center text-right p-4">
+        <div className="content-center text-right p-6">
         <Link to="/goals">
                 <Button className=" text-zinc-800 bg-zinc-200">
                     Settings
@@ -57,7 +57,6 @@ export default function MainLayout() {
       </div>
       <div>
         <main className="flex-grow p-4">
-          {" "}
           {/* This will take the remaining height */}
           <Outlet /> {/* Renders child routes here */}
         </main>
