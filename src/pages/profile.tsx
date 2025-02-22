@@ -1,54 +1,51 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-
+import { useGetUserID } from "@/hooks/useGetUserID"; // Assuming the hook is in a separate file
 import Widget from "@/components/widget";
-import EntryManager from "@/components/entry_manager";
 
 import "@/components/widget.css";
 
-export default function Profile() {
+export default function ProfileRouter() {
   const { user_id } = useParams(); // Get user_id from the URL
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [sessionUserId, setSessionUserId] = useState<number | null>(null);
-
-  // Fetch session data on load
-  useEffect(() => {
-    fetch("/backend/users/session")
-      .then((res) => res.json())
-      .then((data) => {
-        setIsAuthenticated(data.is_valid);
-        setSessionUserId(data.user_id); // Assuming the backend returns user_id
-      })
-      .catch(() => setIsAuthenticated(false));
-  }, []);
+  const { userID, loading, error } = useGetUserID(); // Use the custom hook
 
   // If session is still being checked, show loading state
-  if (isAuthenticated === null) {
+  if (loading) {
     return <p>Loading session data...</p>;
   }
 
+  // Handle errors if fetching session data fails
+  if (error) {
+    return <p>Error fetching session data</p>;
+  }
+
   // Check if the current profile is the logged-in user's profile
-  const isOwnProfile = sessionUserId === parseInt(user_id);
+  const isOwnProfile = userID === parseInt(user_id);
 
   return (
     <div>
-      <h1>{isOwnProfile ? "Your Profile" : "Public Profile"}</h1>
-      <div className="widgetBox">
-        {/* Show private profile widgets if it's the user's own profile */}
-        {isOwnProfile ? (
-          <>
-            <Widget exerciseId="1" />
-            <Widget exerciseId="2" />
-            <Widget exerciseId="3" />
-          </>
-        ) : (
-          // Show public profile widgets for other users
-          <>
-            <Widget exerciseId="4" />
-            <Widget exerciseId="5" />
-          </>
-        )}
-      </div>
+      {/* Show private profile widgets if it's the user's own profile */}
+      {isOwnProfile ? (
+        <PrivateProfile />
+      ) : (
+        // Show public profile widgets for other users
+        <PublicProfile />
+      )}
+    </div>
+  );
+}
+
+function PublicProfile() {
+  return (
+    <div>
+      <h1>Public page</h1>
+    </div>
+  );
+}
+
+function PrivateProfile() {
+  return (
+    <div>
+      <h1>Private page</h1>
     </div>
   );
 }

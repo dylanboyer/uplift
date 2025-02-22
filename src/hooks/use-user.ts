@@ -7,7 +7,6 @@ interface LoginResponse {
 }
 
 export const useGetUserID = () => {
-  import { useEffect, useState } from "react";
 
   const useGetUserID = () => {
     const [userID, setUserID] = useState(null);
@@ -17,7 +16,7 @@ export const useGetUserID = () => {
     useEffect(() => {
       const fetchUserID = async () => {
         try {
-          const response = await fetch("/session", {
+          const response = await fetch("/backend/users/session", {
             credentials: "include", // Ensure cookies are sent with the request
           });
 
@@ -100,7 +99,7 @@ export const useLogout = () => {
     setError(null);
 
     try {
-      const response = await fetch("/logout", {
+      const response = await fetch("/backend/users/logout", {
         method: "POST",
         credentials: "include", // Ensure cookies are sent with the request
       });
