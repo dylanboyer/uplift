@@ -102,3 +102,55 @@ VALUES
 ('Bicep Curls', 5, 3, 45),  -- User 5 doing Bicep Curls with rep range '11+' and goal of 45 lbs
 ('Tricep Dips', 5, 1, 30),  -- User 5 doing Tricep Dips with rep range '1 to 5' and goal of 30 reps
 ('Cable Rows', 5, 2, 140);  -- User 5 doing Cable Rows with rep range '6 to 10' and goal of 140 lbs
+
+-- Inserting entries to simulate detailed weight progression over 24 months for Exercise ID = 1 (deadlift)
+INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at) 
+VALUES
+-- Month 1: Initial weight
+(1, 150, '2025-01-01 10:00:00'),
+-- Month 2: Slight increase in weight
+(1, 155, '2025-02-01 10:00:00'),
+-- Month 3: Small increase
+(1, 160, '2025-03-01 10:00:00'),
+-- Month 4: Steady increase
+(1, 165, '2025-04-01 10:00:00'),
+-- Month 5: Continuing progress
+(1, 170, '2025-05-01 10:00:00'),
+-- Month 6: Slight jump in weight
+(1, 175, '2025-06-01 10:00:00'),
+-- Month 7: Progress continues
+(1, 180, '2025-07-01 10:00:00'),
+-- Month 8: Slow but steady progress
+(1, 185, '2025-08-01 10:00:00'),
+-- Month 9: Another increase
+(1, 190, '2025-09-01 10:00:00'),
+-- Month 10: Making progress toward the goal
+(1, 195, '2025-10-01 10:00:00'),
+-- Month 11: Slight increase
+(1, 200, '2025-11-01 10:00:00'),
+-- Month 12: Reached a significant milestone
+(1, 205, '2025-12-01 10:00:00'),
+-- Month 13: Slowly ramping up
+(1, 210, '2026-01-01 10:00:00'),
+-- Month 14: Continuing steady increase
+(1, 215, '2026-02-01 10:00:00'),
+-- Month 15: Making good progress
+(1, 220, '2026-03-01 10:00:00'),
+-- Month 16: Just under the goal
+(1, 225, '2026-04-01 10:00:00'),
+-- Month 17: Nearing the goal
+(1, 230, '2026-05-01 10:00:00'),
+-- Month 18: Approaching the goal weight
+(1, 235, '2026-06-01 10:00:00'),
+-- Month 19: Goal almost reached
+(1, 240, '2026-07-01 10:00:00'),
+-- Month 20: Slight improvement towards goal
+(1, 245, '2026-08-01 10:00:00'),
+-- Month 21: Final push towards goal
+(1, 247, '2026-09-01 10:00:00'),
+-- Month 22: Nearly at goal
+(1, 249, '2026-10-01 10:00:00'),
+-- Month 23: Goal achieved
+(1, 250, '2026-11-01 10:00:00'),
+-- Month 24: Maintaining goal weight
+(1, 250, '2026-12-01 10:00:00');
