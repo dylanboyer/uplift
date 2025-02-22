@@ -16,7 +16,7 @@ def create_app(config=None):
 	app.config['SESSION_COOKIE_SECURE'] = True  # Must be True in production (HTTPS)
 	Session(app)
 
-	CORS(app, supports_credentials=True)
+	CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
 	# from app.general import bp as general_bp
 	# app.register_blueprint(general_bp)

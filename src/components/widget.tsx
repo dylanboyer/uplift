@@ -2,47 +2,48 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 interface WidgetProps {
-  exerciseId: string; // Exercise ID passed as a prop
+  exerciseId: string; // Type it as a string
 }
 
 function Widget({ exerciseId }: WidgetProps) {
-  const [exerciseData, setExerciseData] = useState<any>(null); // State to hold the fetched exercise data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [item, setItem] = useState<any>(null);
 
-  // useEffect to fetch exercise data when the component mounts
+  console.log(exerciseId)
+
   useEffect(() => {
-    const fetchExerciseData = async () => {
+    const fetchItem = async () => {
       try {
-        const response = await fetch(`/exercises/${exerciseId}`);
+        const url = `/backend/exercises/${exerciseId}`;
+        console.log('Fetching from URL:', url);  // Log the URL being used for the request
+        const response = await fetch(url);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch exercise data');
+          throw new Error('Failed to fetch data');
         }
+        
         const data = await response.json();
-        setExerciseData(data); // Set the fetched data
-        setLoading(false); // Set loading to false once the data is fetched
-      } catch (error: any) {
-        setError(error.message); // Set error if the request fails
-        setLoading(false); // Set loading to false even if there's an error
+        setItem(data);
+      } catch (error) {
+        console.error('Error fetching item details:', error);
       }
     };
 
-    fetchExerciseData(); // Call the function to fetch the data
-  }, [exerciseId]); // Dependency array: runs again if exerciseId changes
-
-  if (loading) {
-    return <div>Loading...</div>; // Show loading text while fetching data
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>; // Show error if the request fails
-  }
+    if (exerciseId) {
+      fetchItem();  // Only call fetch if exerciseId is defined
+    }
+  }, [exerciseId]);
 
   return (
     <div>
-      <h1>{exerciseData?.label}</h1> {/* Display the label from the fetched data */}
-      <p>Details: {exerciseData?.details}</p> {/* Example field from the fetched data */}
-      <button onClick={() => console.log(exerciseData)}>Log Exercise Data</button>
+      <h1>Exercise Details</h1>
+      {item ? (
+        <div>
+          <h2>{item.label}</h2>
+          <p>{item.details}</p>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }
