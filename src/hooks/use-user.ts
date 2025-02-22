@@ -6,12 +6,55 @@ interface LoginResponse {
   error?: string;
 }
 
+export const useGetUserID = () => {
+  import { useEffect, useState } from "react";
+
+  const useGetUserID = () => {
+    const [userID, setUserID] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+      const fetchUserID = async () => {
+        try {
+          const response = await fetch("/session", {
+            credentials: "include", // Ensure cookies are sent with the request
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch session data");
+          }
+
+          const data = await response.json();
+
+          if (data.is_valid) {
+            setUserID(data.user_id); // Set the user_id if the session is valid
+          } else {
+            setUserID(null); // Set user_id to null if the session is invalid
+          }
+        } catch (err) {
+          setError(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUserID();
+    }, []);
+
+    return { userID, loading, error };
+  };
+};
+
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const login = async (email: string, password: string): Promise<LoginResponse> => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<LoginResponse> => {
     setIsLoading(true);
     setError(null);
     setIsSuccess(false);
@@ -31,7 +74,10 @@ export const useLogin = () => {
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Login failed");
-        return { status: response.status, error: errorData.error || "Login failed" };
+        return {
+          status: response.status,
+          error: errorData.error || "Login failed",
+        };
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -45,5 +91,31 @@ export const useLogin = () => {
 };
 
 export const useLogout = () => {
-  return null;
-}
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+
+  const logout = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/logout", {
+        method: "POST",
+        credentials: "include", // Ensure cookies are sent with the request
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to log out");
+      }
+
+      setIsLoggedOut(true); // Logout was successful
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { logout, loading, error, isLoggedOut };
+};
