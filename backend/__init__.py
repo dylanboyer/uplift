@@ -1,11 +1,22 @@
 from flask import Flask
 import config
 import secrets
+from flask_session import Session
+from flask_cors import CORS
 
 def create_app(config=None):
-	print("ok")
 	app = Flask(__name__)
 	app.secret_key = secrets.token_urlsafe(16)
+
+	app.config["SESSION_PERMANENT"] = False
+	app.config["SESSION_TYPE"] = "filesystem"
+	app.config['SESSION_PERMANENT'] = False
+	app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent JavaScript access
+	app.config['SESSION_COOKIE_SAMESITE'] = "None"  # Needed for cross-origin
+	app.config['SESSION_COOKIE_SECURE'] = True  # Must be True in production (HTTPS)
+	Session(app)
+
+	CORS(app, supports_credentials=True)
 
 	# from app.general import bp as general_bp
 	# app.register_blueprint(general_bp)

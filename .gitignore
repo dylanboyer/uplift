@@ -29,3 +29,4 @@ dist-ssr
 # python virtual env
 
 .venv/
+test.py
