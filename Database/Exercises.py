@@ -19,11 +19,82 @@ def GetExercise(exercise_id):
 
 		return session_to_json(session)[0]
 
-def GetData(exercise_id):
+
+'''
+DATA POINTS
+
+ADD 
+REMOVE
+UPDATE
+GET ALL
+
+'''
+
+def GetDataPoint(entry_id):
 	sql = '''
-	SELECT * FROM Entries WHERE Exercise_id = %s;
+	SELECT * FROM Entries WHERE e_id = %s;
 	'''
 	with SessionManager() as session:
-		session.execute(sql, (exercise_id,))
+		session.execute(sql, (entry_id,))
 
-		return session_to_json(session)
+		return session_to_json(session)[0]
+
+def AllDataPoints(exercise_id, *selection):
+	args = len(selection)
+	print(args)
+	selection_text = '*'
+	if args > 0:
+		selection_text = ','.join(selection)
+
+	sql = '''
+	SELECT {} FROM Entries WHERE Exercise_id = %s;
+	'''.format(selection_text)
+
+	print(sql)
+
+	with SessionManager() as session:
+		session.execute(sql,(exercise_id,))
+
+		if args == 1:
+			return session_single_to_json(session)
+		else:
+			return session_to_json(session)
+
+def AddDataPoint(exercise_id, weight, date=None):
+	sql = '''
+	INSERT INTO ENTRIES (EXERCISE_ID, WEIGHT) VALUES (%s, %s) RETURNING E_ID;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (exercise_id,weight,))
+		return session_to_json(session)[0][0]
+
+def RemoveDataPoint(entry_id):
+	sql = '''
+	DELETE FROM ENTRIES WHERE e_id = %d;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (entry_id,))
+
+		return True
+
+	return False
+
+def UpdateDataPoint(entry_id, fields):
+	
+	setting_fields = []
+	for key, value in fields.items():
+		setting_fields.append('{0} = %({0})s'.format(key))
+
+	fields['entry_id'] = entry_id
+
+	sql = '''
+	UPDATE ENTRIES SET {} WHERE e_id = %(entry_id)s
+	'''.format(', '.join(setting_fields))
+	with SessionManager() as session:
+		session.execute(sql, fields)
+
+		return True
+
+	return False
+
+# def UpdateDataPoint()

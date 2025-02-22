@@ -11,7 +11,13 @@ from Database import Exercises
 def test_users():
 	return "hello"
 
-@bp.route('/<exercises_id>')
+@bp.route('/<exercises_id>/points')
+def get_points(exercises_id):
+	data = Exercises.AllDataPoints(exercises_id, 'e_id')
+
+	return jsonify(data), 200
+
+@bp.route('/<exercises_id>/view')
 def graph_data(exercises_id):
 	print(exercises_id)
 	data = Exercises.GetExercise(exercises_id)

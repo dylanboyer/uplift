@@ -38,7 +38,7 @@ function Widget({ exerciseId }: WidgetProps) {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const response = await fetch(`/backend/exercises/${exerciseId}`);
+        const response = await fetch(`/backend/entries/${exerciseId}`);
         const data = await response.json();
         console.log(data);
         setItem(data);
@@ -65,6 +65,17 @@ function Widget({ exerciseId }: WidgetProps) {
   const options = {
     responsive: true,
     plugins: {
+      legend: {
+        labels: {
+          filter: function(legendItem, chartData) {
+            // Check if the dataset has an empty label and hide it from the legend
+            if (legendItem.datasetIndex === 0 && chartData.datasets[legendItem.datasetIndex].label === "") {
+              return false; // Hide the dataset from the legend
+            }
+            return true; // Otherwise, show it
+          }
+        }
+      },
       annotation: {
         annotations: {
           line: {
@@ -117,7 +128,7 @@ function Widget({ exerciseId }: WidgetProps) {
     labels: item?.labels?.map((label: string) => new Date(label)) || [], // Convert label strings to Date objects
     datasets: [
       {
-        label: 'Exercise Progress',
+        label: "",
         data: item?.values || [],
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
