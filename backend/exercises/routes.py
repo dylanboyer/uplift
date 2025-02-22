@@ -90,11 +90,11 @@ def create_exercise():
 
 	#ensure the goals are present for every range 
 	if len(goals) > ranges_count:
-        return goals[:ranges_count]
-    elif len(goals) < ranges_count:
-        return goals + [0] * (ranges_count - len(goals))
-    else:
-        return goals
+		return goals[:ranges_count]
+	elif len(goals) < ranges_count:
+		return goals + [0] * (ranges_count - len(goals))
+	else:
+		return goals
 	
 
 	# create one exercise for each rep range
@@ -108,9 +108,9 @@ def create_exercise():
 			print(e_id)
 	except Exception as e:
 		print(e)
-		return jsonify('status' : 'no'), 400
+		return jsonify({'status' : 'no'}), 400
 
-	return jsonify('status' : 'no'), 200
+	return jsonify({'status' : 'ok'}), 200
 
 
 
