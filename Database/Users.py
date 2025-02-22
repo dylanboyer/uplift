@@ -79,6 +79,41 @@ def CreateUser(user_json):
 		user_id = session.fetchone()
 		return user_id[0]
 
+# collecteds all the exerisies a given user has active with or without data
+def GetAllUsersExercises(user_id, *selection):
+	args = len(selection)
+	selection_text = '*'
+	if selection:
+		selection_text = ','.join(selection)
 
+	sql = '''
+	SELECT DISTINCT {} FROM Exercises WHERE u_id = %s;
+	'''.format(selection_text)
+	print(sql)
+	with SessionManager() as session:
+		session.execute(sql, (user_id,))
 
+		if args == 1:
+			return session_single_to_json(session)
+		else:
+			return session_to_json(session)
+
+# collecteds all the exerisies a given user has active only with data entries
+def GetUsedUsersExercises(user_id, *selection):
+	args = len(selection)
+	selection_text = '*'
+	if selection:
+		selection_text = ','.join(selection)
+
+	sql = '''
+	SELECT DISTINCT {} FROM Exercises WHERE u_id = %s AND entry_count > 0;
+	'''.format(selection_text)
+	print(sql)
+	with SessionManager() as session:
+		session.execute(sql, (user_id,))
+
+		if args == 1:
+			return session_single_to_json(session)
+		else:
+			return session_to_json(session)
 
