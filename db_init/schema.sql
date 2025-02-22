@@ -67,13 +67,13 @@ CREATE TABLE main_gym_schema.Exercises(
 );
 
 CREATE TABLE main_gym_schema.Entries(
-	ENTRY_ID SERIAL PRIMARY KEY,
-	RANGE_ID INT,
+	E_ID SERIAL PRIMARY KEY,
+	Exercise_ID INT,
 	WEIGHT INT,
 	
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-	FOREIGN KEY (RANGE_ID) REFERENCES main_gym_schema.RepRange(R_ID)
+	FOREIGN KEY (Exercise_ID) REFERENCES main_gym_schema.Exercises(E_ID)
 
 );
 
