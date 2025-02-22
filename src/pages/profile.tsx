@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetUserID } from "@/hooks/useGetUserID"; // Assuming the hook is in a separate file
+import { useGetUserID } from "@/hooks/use-user"; // Assuming the hook is in a separate file
 import Widget from "@/components/widget";
 
 import "@/components/widget.css";
