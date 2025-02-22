@@ -3,10 +3,10 @@ DROP SCHEMA IF EXISTS main_gym_schema CASCADE;
 -- Recreate the schema
 CREATE SCHEMA main_gym_schema;
 
-CREATE TABLE main_gym_schema.GenderOptions(
-	G_ID SERIAL PRIMARY KEY,
-	NAME VARCHAR(20)
-);
+-- CREATE TABLE main_gym_schema.GenderOptions(
+-- 	G_ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR(20)
+-- );
 
 CREATE TABLE main_gym_schema.RepRange(
 	R_ID SERIAL PRIMARY KEY,
@@ -19,17 +19,11 @@ CREATE TABLE main_gym_schema.Users(
 	PASSWORD VARCHAR(50),
 	EMAIL VARCHAR(50),
 	NAME VARCHAR(20), 
-	AGE INT,
-	HEIGHT_FOOT INT,
-	HEIGHT_INCH INT,
-	Gender_ID INT,
 	PFP_URL VARCHAR(200),
 	FOLLOWER_COUNT INT DEFAULT 0,
 
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-	FOREIGN KEY (Gender_ID) REFERENCES main_gym_schema.GenderOptions(G_ID)
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ); 
 
 CREATE VIEW main_gym_schema.PublicUsers AS
@@ -38,10 +32,6 @@ SELECT
     USERNAME, 
     EMAIL,
     NAME, 
-    AGE, 
-    HEIGHT_FOOT, 
-    HEIGHT_INCH, 
-    Gender_ID, 
     PFP_URL, 
     FOLLOWER_COUNT, 
     created_at, 
@@ -118,9 +108,9 @@ EXECUTE FUNCTION update_follower_count();
 
  
 
-INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Male');
-INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Female');
-INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Other');
+-- INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Male');
+-- INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Female');
+-- INSERT INTO main_gym_schema.GenderOptions (NAME) VALUES ('Other');
 
 INSERT INTO main_gym_schema.RepRange (LABEL) VALUES ('1 to 5');
 INSERT INTO main_gym_schema.RepRange (LABEL) VALUES ('6 to 10');

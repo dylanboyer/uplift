@@ -55,8 +55,10 @@ def user_log_out():
 
 
 # POST /users/create
-#	DATA { all user data...}
-# not done
+#	DATA { name, email, username, password }
+# {'status' : 'ok'}, 200 on success
+# {'status' : 'no'}, 400 on failure
+
 @bp.route('/create', methods=['POST'])
 def create_user():
 	pass
