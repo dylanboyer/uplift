@@ -21,7 +21,7 @@ def get_points(exercises_id):
 def graph_data(exercises_id):
 	print(exercises_id)
 	data = Exercises.GetExercise(exercises_id)
-	data_entries = Exercises.GetData(exercises_id)
+	data_entries = Exercises.AllDataPoints(exercises_id)
 
 
 	data_label = "%s, %s Rep Range"%(data['name'],data['label'])
