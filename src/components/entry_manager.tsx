@@ -34,7 +34,7 @@ function DataEntry({ entryId }: { entryId: number }) {
         console.log("Fetched entry:", data);
 
         setEntry(data);
-        setDate(Date(data.created_at));
+        setDate(data.created_at);
         setWeight(data.weight);
       } catch (error) {
         console.error("Error fetching entry details:", error);
@@ -121,7 +121,7 @@ function EntryManager({ exerciseId }: ManagerProps) {
   }
   console.log(points)
   return (
-	<div className="manager">
+	<div className="bg-white">
 	  <ScrollArea className="h-[500px] w-[1200px] rounded-md border p-4">
 		{points.map((entry) => (
 			<>
