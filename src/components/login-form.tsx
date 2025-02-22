@@ -49,7 +49,7 @@ export function LoginForm({
                 <Input id="password" type="password" required />
               </div>
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full text-zinc-800 bg-zinc-200">
                   Login
                 </Button>
               </div>
