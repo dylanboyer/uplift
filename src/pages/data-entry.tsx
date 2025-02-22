@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Separator } from "@/components/ui/separator"; // Import the Separator component
 import {
   useGetAllExercises,
   useGetExerciseRanges,
@@ -9,6 +10,7 @@ import {
 export default function DataEntry() {
   // Fetch the list of exercises
   const { exercises, isLoading, error } = useGetAllExercises();
+  const [exerciseName, setExerciseName] = useState<string>("");
 
   // Handle loading state
   if (isLoading) {
@@ -23,20 +25,33 @@ export default function DataEntry() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select an Exercise</h1>
+
+      {/* Exercise Selection Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {exercises.map((exercise, index) => (
           <button
             key={index}
             className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             onClick={() => {
-              // Handle button click (e.g., navigate to a new page or open a modal)
-              console.log(`Selected exercise: ${exercise}`);
+              // Set the selected exercise
+              setExerciseName(exercise);
             }}
           >
             {exercise}
           </button>
         ))}
       </div>
+
+      {/* Separator */}
+      <Separator className="my-6" />
+
+      {/* Selected Exercise Display */}
+      {exerciseName && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold mb-4">Selected Exercise</h2>
+          <p className="text-lg">{exerciseName}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ interface LoginResponse {
   error?: string;
 }
 
-const useLogin = () => {
+export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -44,4 +44,6 @@ const useLogin = () => {
   return { login, isLoading, error, isSuccess };
 };
 
-export default useLogin;
+export const useLogout = () => {
+  return null;
+}
