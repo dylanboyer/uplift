@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface LoginResponse {
   status: number;
@@ -7,42 +7,39 @@ interface LoginResponse {
 }
 
 export const useGetUserID = () => {
+  const [userID, setUserID] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const useGetUserID = () => {
-    const [userID, setUserID] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchUserID = async () => {
+      try {
+        const response = await fetch("/backend/users/session", {
+          credentials: "include", // Ensure cookies are sent with the request
+        });
 
-    useEffect(() => {
-      const fetchUserID = async () => {
-        try {
-          const response = await fetch("/backend/users/session", {
-            credentials: "include", // Ensure cookies are sent with the request
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to fetch session data");
-          }
-
-          const data = await response.json();
-
-          if (data.is_valid) {
-            setUserID(data.user_id); // Set the user_id if the session is valid
-          } else {
-            setUserID(null); // Set user_id to null if the session is invalid
-          }
-        } catch (err) {
-          setError(err);
-        } finally {
-          setLoading(false);
+        if (!response.ok) {
+          throw new Error("Failed to fetch session data");
         }
-      };
 
-      fetchUserID();
-    }, []);
+        const data = await response.json();
 
-    return { userID, loading, error };
-  };
+        if (data.is_valid) {
+          setUserID(data.user_id); // Set the user_id if the session is valid
+        } else {
+          setUserID(null); // Set user_id to null if the session is invalid
+        }
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserID();
+  }, []);
+
+  return { userID, loading, error };
 };
 
 export const useLogin = () => {

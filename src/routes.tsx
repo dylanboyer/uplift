@@ -5,7 +5,8 @@ import Home from "./pages/home";
 import NotFound from "./pages/404";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
-import Profile from "./pages/profile";
+import PublicProfile from "./pages/public-profile";
+import PrivateProfile from "./pages/private-profile";
 import DataEntry from "./pages/data-entry";
 import ProtectedRoute from "./components/protected-route";
 
@@ -14,9 +15,11 @@ const AppRoutes = (
     <Route element={<MainLayout />}>
       <Route path="/" element={<Home />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/user/:user_id" element={<Profile />} />
+        <Route path="/profile" element={<PrivateProfile />} />
+        <Route path="/users/:user_id" element={<PublicProfile />} />
         <Route path="/entry" element={<DataEntry />} />
       </Route>
+
       <Route path="*" element={<NotFound />} />
     </Route>
     <Route element={<LoggedOutLayout />}>
