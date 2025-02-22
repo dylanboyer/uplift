@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import useLogin from "@/hooks/use-login"; // Import the hook
 
+import { useNavigate } from 'react-router-dom';
+
 export function LoginForm({
   className,
   ...props
@@ -21,15 +23,22 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const { login, isLoading, error, isSuccess } = useLogin();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await login(email, password);
 
     if (response.status === 200) {
       console.log("Login successful!", response.data);
+
+      navigate('/')
+
       // Redirect or update state as needed
     } else {
       console.error("Login failed:", response.error);
+
+      navigate('/signup')
     }
   };
 

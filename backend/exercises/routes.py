@@ -5,7 +5,7 @@ from datetime import datetime
 
 from Database import Exercises
 
-
+import ChartBuilder
 
 @bp.route('/test')
 def test_users():
@@ -14,38 +14,17 @@ def test_users():
 @bp.route('/<exercises_id>/points')
 def get_points(exercises_id):
 	data = Exercises.AllDataPoints(exercises_id, 'e_id')
-
 	return jsonify(data), 200
 
 @bp.route('/<exercises_id>/view')
 def graph_data(exercises_id):
 	print(exercises_id)
-	data = Exercises.GetExercise(exercises_id)
-	data_entries = Exercises.AllDataPoints(exercises_id)
 
-
-	data_label = "%s, %s Rep Range"%(data['name'],data['label'])
-	print(data_entries)
-
-	labels = []
-	values = []
-
-	for entry in data_entries:
-		labels.append(entry['created_at'].isoformat())
-		values.append(entry['weight'])
-
-	print({
-			"goal" : data['goal'],
-			"label": data_label,
-	  		"labels": labels,
-	  		"values": values	
-		})
+	chart_data, chart_options = ChartBuilder.construct_basic_chart(exercises_id)
 
 	return jsonify(
 		{
-			"goal" : data['goal'],
-			"label": data_label,
-	  		"labels": labels,
-	  		"values": values	
+			"data": chart_data,
+			"options": chart_options
 		}
 	), 200
