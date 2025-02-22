@@ -28,7 +28,33 @@ def ExerciseBelongsToUser(exercise_id):
 
 		return session_single_to_json(session)[0]
 
+def GetRepRanges():
+	sql = '''
+	SELECT label FROM RepRange;
+	'''
+	with SessionManager() as session:
+		session.execute(sql)
 
+		return session_single_to_json(session)
+
+def CountRepRanges():
+	sql = '''
+	SELECT count(*) FROM RepRange;
+	'''
+	with SessionManager() as session:
+		session.execute(sql)
+
+		return session.fetchone()[0]
+
+
+def CreateExerciseWithRange(user_id, rep_range_id, goal, name):
+	sql = '''
+	INSERT INTO Exercises (U_UD, REPRANGE_ID, GOAL, NAME) VALUES (%s %s %s %s) RETURNING E_ID;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (user_id,rep_range_id,goal,name,))
+
+		return session.fetchone()[0]
 '''
 DATA POINTS
 

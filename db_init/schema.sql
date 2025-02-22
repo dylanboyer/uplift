@@ -52,16 +52,20 @@ CREATE TABLE main_gym_schema.Exercises(
 	NAME VARCHAR(100),
 	U_ID INT,
 	RepRange_ID INT,
-	GOAL INT,
+	GOAL INT DEFAULT 0,
+	ENTRY_COUNT INT DEFAULT 0,
 
 	FOREIGN KEY (RepRange_ID) REFERENCES main_gym_schema.RepRange(R_ID),
-	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID)
+	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID),
+
+	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME)
 );
 
 CREATE TABLE main_gym_schema.Entries(
 	E_ID SERIAL PRIMARY KEY,
 	Exercise_ID INT,
 	WEIGHT INT,
+	SETS INT,
 	
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -105,6 +109,35 @@ AFTER INSERT OR DELETE
 ON main_gym_schema.Follows
 FOR EACH ROW
 EXECUTE FUNCTION update_follower_count();
+
+
+-- Function to update ENTRY_COUNT
+CREATE OR REPLACE FUNCTION update_entry_count()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE main_gym_schema.Exercises
+    SET ENTRY_COUNT = ENTRY_COUNT + 1
+    WHERE E_ID = NEW.Exercise_ID;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE main_gym_schema.Exercises
+    SET ENTRY_COUNT = ENTRY_COUNT - 1
+    WHERE E_ID = OLD.Exercise_ID;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for INSERT
+CREATE TRIGGER entry_insert_trigger
+AFTER INSERT ON main_gym_schema.Entries
+FOR EACH ROW EXECUTE FUNCTION update_entry_count();
+
+-- Trigger for DELETE
+CREATE TRIGGER entry_delete_trigger
+AFTER DELETE ON main_gym_schema.Entries
+FOR EACH ROW EXECUTE FUNCTION update_entry_count();
+
 
  
 
