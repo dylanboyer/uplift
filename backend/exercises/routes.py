@@ -15,22 +15,30 @@ def test_users():
 def graph_data(exercises_id):
 	print(exercises_id)
 	data = Exercises.GetExercise(exercises_id)
-	print(data)
-	data['name']
-
 	data_entries = Exercises.GetData(exercises_id)
+
+
+	data_label = "%s, %s Rep Range"%(data['name'],data['label'])
 	print(data_entries)
 
 	labels = []
 	values = []
 
 	for entry in data_entries:
-		labels.append(entry['created_at'])
+		labels.append(entry['created_at'].isoformat())
 		values.append(entry['weight'])
+
+	print({
+			"goal" : data['goal'],
+			"label": data_label,
+	  		"labels": labels,
+	  		"values": values	
+		})
 
 	return jsonify(
 		{
-			"label": data['name'],
+			"goal" : data['goal'],
+			"label": data_label,
 	  		"labels": labels,
 	  		"values": values	
 		}

@@ -154,3 +154,31 @@ VALUES
 (1, 250, '2026-11-01 10:00:00'),
 -- Month 24: Maintaining goal weight
 (1, 250, '2026-12-01 10:00:00');
+
+INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at)
+VALUES
+-- Exercise 2 (Deadlift - User 1) with varying weights and dates
+(2, 180, '2025-01-01 10:00:00'),  -- Start with a lighter weight
+(2, 185, '2025-01-05 10:00:00'),  -- Slightly increase the weight
+(2, 190, '2025-01-10 10:00:00'),  -- Increase further
+(2, 195, '2025-01-15 10:00:00'),  -- Continue progressing
+(2, 200, '2025-01-20 10:00:00'),  -- Further progress
+(2, 205, '2025-01-25 10:00:00'),  -- Further increase
+(2, 210, '2025-01-30 10:00:00'),  -- Increase more
+(2, 215, '2025-02-04 10:00:00'),  -- Increase more
+(2, 220, '2025-02-09 10:00:00'),  -- Approach the goal
+(2, 225, '2025-02-14 10:00:00'),  -- Goal achieved (matching the goal of 225 lbs)
+(2, 230, '2025-02-19 10:00:00'),  -- Going slightly above goal
+(2, 235, '2025-02-24 10:00:00'),  -- Increase further
+(2, 230, '2025-03-01 10:00:00'),  -- Slight reduction
+(2, 225, '2025-03-05 10:00:00'),  -- Going back to goal weight
+(2, 220, '2025-03-10 10:00:00'),  -- Slight decrease
+(2, 215, '2025-03-15 10:00:00'),  -- Further decrease
+(2, 210, '2025-03-20 10:00:00'),  -- Further reduction
+(2, 205, '2025-03-25 10:00:00'),  -- Decrease weight
+(2, 200, '2025-03-30 10:00:00'),  -- Lighter than previous weight
+(2, 195, '2025-04-04 10:00:00'),  -- Going up again
+(2, 190, '2025-04-09 10:00:00'),  -- Decrease a bit
+(2, 185, '2025-04-14 10:00:00'),  -- Slight decrease
+(2, 180, '2025-04-19 10:00:00');  -- Back to lighter weight
+
