@@ -80,32 +80,18 @@ def create_exercise():
 	if not user_id:
 		return({'status' : 'no permission'}), 403
 
-	rep_ranges = Exercises.GetRepRanges() # return the number of ranges from db
-	ranges_count = len(rep_ranges)
-
 	data = request.json
 
 	goals = data['goals']
 	exercise_name = data['name']
 
-	#ensure the goals are present for every range 
-	if len(goals) > ranges_count:
-		return goals[:ranges_count]
-	elif len(goals) < ranges_count:
-		return goals + [0] * (ranges_count - len(goals))
-	else:
-		return goals
-	
+
 
 	# create one exercise for each rep range
 	try:
+		status = Exercises.CreateAllExerciseRanges(user_id, goals, exercise_name)
+		print('status on create', status)
 
-		for rep_range_id in range(1,rep_ranges+1): # the ids start at 1
-			print(user_id, rep_range_id, goals[i-1], exercise_name)
-
-			e_id = CreateExerciseWithRange(user_id, rep_range_id, goals[i-1], exercise_name)
-
-			print(e_id)
 	except Exception as e:
 		print(e)
 		return jsonify({'status' : 'no'}), 400

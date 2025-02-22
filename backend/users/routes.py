@@ -2,6 +2,7 @@ from backend.users import bp
 from flask import jsonify, request, session
 
 from Database import Users
+from Database import Exercises
 
 # GET /users/all_id
 # returns json list of all users id
@@ -69,7 +70,16 @@ def create_user():
 	data = request.json
 	try:
 		new_id = Users.CreateUser(data)
-		session['name'] = data['email']
+		session['user_id'] = new_id
+
+		# add all the basic lifts
+
+		for lift in Exercises.Default_Exercises:
+			status = Exercises.CreateAllExerciseRanges(new_id, [0], lift)
+			print('status on create', status)
+
+
+
 		return jsonify({'status' : 'ok', 'u_id' : new_id}), 200
 	except Exception as e:
 		print(e)

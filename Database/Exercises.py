@@ -1,5 +1,25 @@
 from Database.General import *
 
+Default_Exercises = [
+    'Dumbbell Bench Press',
+    'Barbell Bench Press',
+    'Squat',
+    'Deadlift',
+    'Lat Pulldown',
+    'Rows',
+    'Chest Flys',
+    'Bicep Curls',
+    'Tricep Extensions',
+    'Shoulder Press',
+    'Lateral Raises',
+    'Leg Extensions',
+    'Leg Curls',
+    'Calf Raises',
+    'Incline Dumbbell Bench Press',
+    'Incline Barbell Bench Press'
+]
+
+
 def UsersExercises(user_id):
 	sql = '''
 	SELECT * FROM Exercises WHERE u_id = %s;
@@ -45,6 +65,24 @@ def CountRepRanges():
 		session.execute(sql)
 
 		return session.fetchone()[0]
+
+def CreateAllExerciseRanges(user_id, goals, name):
+	ranges_count = CountRepRanges()
+
+	if len(goals) > ranges_count:
+		return goals[:ranges_count]
+	elif len(goals) < ranges_count:
+		return goals + [0] * (ranges_count - len(goals))
+	else:
+		return goals
+
+	status = True
+	for i in range(1,CountRepRanges()+1):
+		resp = CreateExerciseWithRange(user_id, i, goals[i-1],name)
+		if not resp:
+			status = False
+
+	return status
 
 
 def CreateExerciseWithRange(user_id, rep_range_id, goal, name):
