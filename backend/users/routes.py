@@ -38,11 +38,12 @@ def user_log_in():
 	# username
 	# password
 	data = request.json
+	print(data)
 
 	if Users.Authenticate(data['email'],data['password']):
 		session['name'] = data['email']
-		return 200
-	return 400
+		return jsonify({'status':'ok'}), 200
+	return jsonify({'status':'no'}), 400
 
 # POST /users/logout
 # remove session and log out user
