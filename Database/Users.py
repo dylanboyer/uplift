@@ -11,15 +11,20 @@ CREATE
 DELETE
 '''
 
-def Authenticate(user_name, user_password):
+
+# checks to make sure the given username and password match up to a user in db
+# BOOLEAN -> on success
+
+def Authenticate(user_email, user_password):
 	sql = '''
-	SELECT 1 FROM USERS WHERE username = %s AND password = %s;
+	SELECT 1 FROM USERS WHERE email = %s AND password = %s;
 	'''
 	with SessionManager() as session:
-		session.execute(sql,(user_name, user_password,))
+		session.execute(sql,(user_email, user_password,))
 		return bool(session.fetchone())
 
 
+# returns a json list of all users and their information based on a selection input
 def AllUsers(*selection):
 	args = len(selection)
 	selection_text = '*'
@@ -38,6 +43,7 @@ def AllUsers(*selection):
 		else:
 			return session_to_json(session)
 
+# gets all information about user with id
 def GetUser(user_id):
 	sql = '''
 	SELECT * FROM PUBLICUSERS WHERE u_id = %s;
@@ -47,6 +53,9 @@ def GetUser(user_id):
 
 		return session_to_json(session)[0]
 
+# create a user with all the information given
+# provide a dict of user data
+# returns user id
 def CreateUser(user_json):
 	args = []
 	values = []

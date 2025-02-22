@@ -39,8 +39,8 @@ def user_log_in():
 	# password
 	data = request.json
 
-	if Users.Authenticate(data['username'],data['password']):
-		session['name'] = data['username']
+	if Users.Authenticate(data['email'],data['password']):
+		session['name'] = data['email']
 		return 200
 	return 400
 
