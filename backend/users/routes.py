@@ -8,10 +8,13 @@ from Database import Users
 
 @bp.route('/all_id')
 def get_all_ids():
-	print(session.get("name"))
-	if session.get("name"):
-		return jsonify(Users.AllUsers('u_id')), 200
-	return jsonify({}), 400
+	return jsonify(Users.AllUsers('u_id')), 200
+
+@bp.route('/session')
+def give_session_data():
+	if session.get("user_id"):
+		return jsonify({'is_valid' : True}), 200
+	return jsonify({'is_valid' : False}), 400
 
 # GET /users/all
 # returns json list of all users information
@@ -40,8 +43,10 @@ def user_log_in():
 	data = request.json
 	print(data)
 
-	if Users.Authenticate(data['email'],data['password']):
-		session['name'] = data['email']
+	user_id = Users.Authenticate(data['email'],data['password'])
+
+	if user_id:
+		session['user_id'] = user_id
 		return jsonify({'status':'ok'}), 200
 	return jsonify({'status':'no'}), 400
 
@@ -50,7 +55,7 @@ def user_log_in():
 
 @bp.route('/logout', methods=['POST'])
 def user_log_out():
-	session['name'] = None
+	session['user_id'] = None
 	return 200
 
 

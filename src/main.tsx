@@ -1,18 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Routes from "./routes.tsx";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import { RouterProvider } from "react-router-dom";
+import AppRoutes from "./routes";
 
-const router = createBrowserRouter(createRoutesFromElements(Routes()));
+const router = createBrowserRouter(createRoutesFromElements(AppRoutes));
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <div className="flex h-screen v-screen bg-zinc-800 text-zinc-100 font-sans ">
+    <div className="flex h-screen w-screen bg-zinc-800 text-zinc-100 font-sans">
       <RouterProvider router={router} />
     </div>
   </React.StrictMode>

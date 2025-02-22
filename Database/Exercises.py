@@ -19,6 +19,15 @@ def GetExercise(exercise_id):
 
 		return session_to_json(session)[0]
 
+def ExerciseBelongsToUser(exercise_id):
+	sql = '''
+	SELECT u_id FROM Exercises WHERE e_id = %s;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (exercise_id,))
+
+		return session_single_to_json(session)[0]
+
 
 '''
 DATA POINTS
@@ -66,7 +75,7 @@ def AddDataPoint(exercise_id, weight, date=None):
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,weight,))
-		return session_to_json(session)[0][0]
+		return session_to_json(session)[0]
 
 def RemoveDataPoint(entry_id):
 	sql = '''

@@ -32,13 +32,11 @@ export function LoginForm({
     if (response.status === 200) {
       console.log("Login successful!", response.data);
 
-      navigate('/')
+      navigate('/profile')
 
       // Redirect or update state as needed
     } else {
       console.error("Login failed:", response.error);
-
-      navigate('/signup')
     }
   };
 

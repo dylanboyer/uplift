@@ -104,82 +104,86 @@ VALUES
 ('Tricep Dips', 5, 1, 30),  -- User 5 doing Tricep Dips with rep range '1 to 5' and goal of 30 reps
 ('Cable Rows', 5, 2, 140);  -- User 5 doing Cable Rows with rep range '6 to 10' and goal of 140 lbs
 
--- Inserting entries to simulate detailed weight progression over 24 months for Exercise ID = 1 (deadlift)
+-- Inserting additional entries for Exercise 1 (Squat)
 INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at) 
 VALUES
--- Month 1: Initial weight
-(1, 150, '2025-01-01 10:00:00'),
--- Month 2: Slight increase in weight
-(1, 155, '2025-02-01 10:00:00'),
--- Month 3: Small increase
-(1, 160, '2025-03-01 10:00:00'),
--- Month 4: Steady increase
-(1, 165, '2025-04-01 10:00:00'),
--- Month 5: Continuing progress
-(1, 170, '2025-05-01 10:00:00'),
--- Month 6: Slight jump in weight
-(1, 175, '2025-06-01 10:00:00'),
--- Month 7: Progress continues
-(1, 180, '2025-07-01 10:00:00'),
--- Month 8: Slow but steady progress
-(1, 185, '2025-08-01 10:00:00'),
--- Month 9: Another increase
-(1, 190, '2025-09-01 10:00:00'),
--- Month 10: Making progress toward the goal
-(1, 195, '2025-10-01 10:00:00'),
--- Month 11: Slight increase
-(1, 200, '2025-11-01 10:00:00'),
--- Month 12: Reached a significant milestone
-(1, 205, '2025-12-01 10:00:00'),
--- Month 13: Slowly ramping up
-(1, 210, '2026-01-01 10:00:00'),
--- Month 14: Continuing steady increase
-(1, 215, '2026-02-01 10:00:00'),
--- Month 15: Making good progress
-(1, 220, '2026-03-01 10:00:00'),
--- Month 16: Just under the goal
-(1, 225, '2026-04-01 10:00:00'),
--- Month 17: Nearing the goal
-(1, 230, '2026-05-01 10:00:00'),
--- Month 18: Approaching the goal weight
-(1, 235, '2026-06-01 10:00:00'),
--- Month 19: Goal almost reached
-(1, 240, '2026-07-01 10:00:00'),
--- Month 20: Slight improvement towards goal
-(1, 245, '2026-08-01 10:00:00'),
--- Month 21: Final push towards goal
-(1, 247, '2026-09-01 10:00:00'),
--- Month 22: Nearly at goal
-(1, 249, '2026-10-01 10:00:00'),
--- Month 23: Goal achieved
-(1, 250, '2026-11-01 10:00:00'),
--- Month 24: Maintaining goal weight
-(1, 250, '2026-12-01 10:00:00');
+(1, 155, '2025-01-01 10:00:00'),
+(1, 160, '2025-01-15 10:00:00'),
+(1, 165, '2025-02-01 10:00:00'),
+(1, 170, '2025-02-15 10:00:00'),
+(1, 175, '2025-03-01 10:00:00'),
+(1, 180, '2025-03-15 10:00:00'),
+(1, 185, '2025-04-01 10:00:00'),
+(1, 190, '2025-04-15 10:00:00'),
+(1, 195, '2025-05-01 10:00:00'),
+(1, 200, '2025-05-15 10:00:00'),
+(1, 205, '2025-06-01 10:00:00'),
+(1, 210, '2025-06-15 10:00:00'),
+(1, 215, '2025-07-01 10:00:00'),
+(1, 220, '2025-07-15 10:00:00'),
+(1, 225, '2025-08-01 10:00:00'),
+(1, 230, '2025-08-15 10:00:00'),
+(1, 235, '2025-09-01 10:00:00'),
+(1, 240, '2025-09-15 10:00:00'),
+(1, 245, '2025-10-01 10:00:00'),
+(1, 250, '2025-10-15 10:00:00'),
+(1, 250, '2025-11-01 10:00:00'); 
+
+-- Inserting additional entries for Exercise 3 (Dumbbell Bench Press)
+INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at) 
+VALUES
+(3, 85, '2025-01-01 10:00:00'),
+(3, 90, '2025-01-15 10:00:00'),
+(3, 95, '2025-02-01 10:00:00'),
+(3, 100, '2025-02-15 10:00:00'),
+(3, 105, '2025-03-01 10:00:00'),
+(3, 110, '2025-03-15 10:00:00'),
+(3, 115, '2025-04-01 10:00:00'),
+(3, 120, '2025-04-15 10:00:00'),
+(3, 125, '2025-05-01 10:00:00'),
+(3, 130, '2025-05-15 10:00:00'),
+(3, 135, '2025-06-01 10:00:00'),
+(3, 140, '2025-06-15 10:00:00'),
+(3, 145, '2025-07-01 10:00:00'),
+(3, 150, '2025-07-15 10:00:00'),
+(3, 155, '2025-08-01 10:00:00'),
+(3, 160, '2025-08-15 10:00:00'),
+(3, 165, '2025-09-01 10:00:00'),
+(3, 170, '2025-09-15 10:00:00'),
+(3, 175, '2025-10-01 10:00:00'),
+(3, 180, '2025-10-15 10:00:00'),
+(3, 185, '2025-11-01 10:00:00'); 
+
+-- Inserting additional entries for Exercise 4 (Barbell Bench Press)
+INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at) 
+VALUES
+(4, 150, '2025-01-01 10:00:00'),
+(4, 155, '2025-01-15 10:00:00'),
+(4, 160, '2025-02-01 10:00:00'),
+(4, 165, '2025-02-15 10:00:00'),
+(4, 170, '2025-03-01 10:00:00'),
+(4, 175, '2025-03-15 10:00:00'),
+(4, 180, '2025-04-01 10:00:00'),
+(4, 185, '2025-04-15 10:00:00'),
+(4, 190, '2025-05-01 10:00:00'),
+(4, 195, '2025-05-15 10:00:00'),
+(4, 200, '2025-06-01 10:00:00'),
+(4, 205, '2025-06-15 10:00:00'),
+(4, 210, '2025-07-01 10:00:00'),
+(4, 215, '2025-07-15 10:00:00'),
+(4, 220, '2025-08-01 10:00:00'),
+(4, 225, '2025-08-15 10:00:00'),
+(4, 230, '2025-09-01 10:00:00'),
+(4, 235, '2025-09-15 10:00:00'),
+(4, 240, '2025-10-01 10:00:00'),
+(4, 245, '2025-10-15 10:00:00'),
+(4, 250, '2025-11-01 10:00:00');
+
+-- Continue adding similar entries for the other exercises (e.g., Deadlift, Pull-ups, Overhead Press, Bent Over Rows, Leg Press, Lunges, Bicep Curls, Tricep Dips, Cable Rows) with reasonable progression based on user goals.
 
 INSERT INTO main_gym_schema.Entries (Exercise_ID, WEIGHT, created_at)
 VALUES
--- Exercise 2 (Deadlift - User 1) with varying weights and dates
-(2, 180, '2025-01-01 10:00:00'),  -- Start with a lighter weight
-(2, 185, '2025-01-05 10:00:00'),  -- Slightly increase the weight
-(2, 190, '2025-01-10 10:00:00'),  -- Increase further
-(2, 195, '2025-01-15 10:00:00'),  -- Continue progressing
-(2, 200, '2025-01-20 10:00:00'),  -- Further progress
-(2, 205, '2025-01-25 10:00:00'),  -- Further increase
-(2, 210, '2025-01-30 10:00:00'),  -- Increase more
-(2, 215, '2025-02-04 10:00:00'),  -- Increase more
-(2, 220, '2025-02-09 10:00:00'),  -- Approach the goal
-(2, 225, '2025-02-14 10:00:00'),  -- Goal achieved (matching the goal of 225 lbs)
-(2, 230, '2025-02-19 10:00:00'),  -- Going slightly above goal
-(2, 235, '2025-02-24 10:00:00'),  -- Increase further
-(2, 230, '2025-03-01 10:00:00'),  -- Slight reduction
-(2, 225, '2025-03-05 10:00:00'),  -- Going back to goal weight
-(2, 220, '2025-03-10 10:00:00'),  -- Slight decrease
-(2, 215, '2025-03-15 10:00:00'),  -- Further decrease
-(2, 210, '2025-03-20 10:00:00'),  -- Further reduction
-(2, 205, '2025-03-25 10:00:00'),  -- Decrease weight
-(2, 200, '2025-03-30 10:00:00'),  -- Lighter than previous weight
-(2, 195, '2025-04-04 10:00:00'),  -- Going up again
-(2, 190, '2025-04-09 10:00:00'),  -- Decrease a bit
-(2, 185, '2025-04-14 10:00:00'),  -- Slight decrease
-(2, 180, '2025-04-19 10:00:00');  -- Back to lighter weight
+(5, 22, '2025-01-15 10:00:00'),  -- Slight increase
+(5, 25, '2025-01-20 10:00:00'),  -- Increase to 25 reps
+(5, 30, '2025-01-25 10:00:00');  -- Increased reps
 

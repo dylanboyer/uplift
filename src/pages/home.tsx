@@ -13,11 +13,6 @@ export default function Home() {
       <h1><Link to="/signup">SIGN UP</Link></h1>
 
       {/*<EntryManager exerciseId="1"/>*/}
-
-      <div className="widgetBox">
-        <Widget exerciseId="1" />
-        <Widget exerciseId="2" />
-      </div>
     </div>
   )
 }

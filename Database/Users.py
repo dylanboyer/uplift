@@ -17,11 +17,14 @@ DELETE
 
 def Authenticate(user_email, user_password):
 	sql = '''
-	SELECT 1 FROM USERS WHERE email = %s AND password = %s;
+	SELECT u_id FROM USERS WHERE email = %s AND password = %s;
 	'''
 	with SessionManager() as session:
 		session.execute(sql,(user_email, user_password,))
-		return bool(session.fetchone())
+		response = session.fetchone()
+		if not response:
+			return None
+		return response[0]
 
 
 # returns a json list of all users and their information based on a selection input
