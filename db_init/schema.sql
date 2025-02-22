@@ -23,13 +23,28 @@ CREATE TABLE main_gym_schema.Users(
 	HEIGHT_INCH INT,
 	Gender_ID INT,
 	PFP_URL VARCHAR(200),
-	FOLLOWER_COUNT INT,
+	FOLLOWER_COUNT INT DEFAULT 0,
 
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 	FOREIGN KEY (Gender_ID) REFERENCES main_gym_schema.GenderOptions(G_ID)
 ); 
+
+CREATE VIEW main_gym_schema.PublicUsers AS
+SELECT 
+    U_ID, 
+    USERNAME, 
+    NAME, 
+    AGE, 
+    HEIGHT_FOOT, 
+    HEIGHT_INCH, 
+    Gender_ID, 
+    PFP_URL, 
+    FOLLOWER_COUNT, 
+    created_at, 
+    updated_at
+FROM main_gym_schema.Users;
 
 CREATE TABLE main_gym_schema.Follows(
 	USER_OF_INTREST INT,
@@ -72,6 +87,32 @@ CREATE TABLE main_gym_schema.Posts(
 
 	FOREIGN KEY (Exercise_ID) REFERENCES main_gym_schema.Exercises(E_ID)
 );
+
+CREATE OR REPLACE FUNCTION update_follower_count()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- If a new row is inserted (a user is followed), increment the follower count
+    IF TG_OP = 'INSERT' THEN
+        UPDATE main_gym_schema.Users
+        SET FOLLOWER_COUNT = FOLLOWER_COUNT + 1
+        WHERE U_ID = NEW.USER_OF_INTREST;
+    
+    -- If a row is deleted (a user is unfollowed), decrement the follower count
+    ELSIF TG_OP = 'DELETE' THEN
+        UPDATE main_gym_schema.Users
+        SET FOLLOWER_COUNT = FOLLOWER_COUNT - 1
+        WHERE U_ID = OLD.USER_OF_INTREST;
+    END IF;
+
+    RETURN NULL; -- Triggers that perform updates typically return NULL
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER follows_update_trigger
+AFTER INSERT OR DELETE
+ON main_gym_schema.Follows
+FOR EACH ROW
+EXECUTE FUNCTION update_follower_count();
 
  
 
