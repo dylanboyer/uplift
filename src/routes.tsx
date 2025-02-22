@@ -5,6 +5,7 @@ import NotFound from "./pages/404";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
 import Profile from "./pages/profile";
+import DataEntry from "./pages/data-entry";
 import ProtectedRoute from "./components/protected-route";
 
 const AppRoutes = (
@@ -13,6 +14,7 @@ const AppRoutes = (
       <Route path="/" element={<Home />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/entry" element={<DataEntry />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>

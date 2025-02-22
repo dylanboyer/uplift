@@ -34,7 +34,7 @@ export function SignupForm({
 
     if (response.status === "ok") {
       console.log("Signup successful! User ID:", response.u_id);
-      navigate('/')
+      navigate('/login')
     } else {
       console.error("Signup failed:", response.error);
     }
