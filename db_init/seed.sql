@@ -1,0 +1,104 @@
+INSERT INTO main_gym_schema.Users (USERNAME, PASSWORD, NAME, AGE, HEIGHT_FOOT, HEIGHT_INCH, Gender_ID, PFP_URL, FOLLOWER_COUNT)
+VALUES
+('john_doe', 'password123', 'John Doe', 25, 5, 10, 1, 'https://placehold.co/250x250', 150),
+('jane_smith', 'password123', 'Jane Smith', 28, 5, 5, 2, 'https://placehold.co/250x250', 200),
+('mike_johnson', 'password123', 'Mike Johnson', 22, 6, 2, 1, 'https://placehold.co/250x250', 350),
+('susan_lee', 'password123', 'Susan Lee', 30, 5, 7, 2, 'https://placehold.co/250x250', 450),
+('alex_martinez', 'password123', 'Alex Martinez', 24, 5, 11, 1, 'https://placehold.co/250x250', 80),
+('lisa_williams', 'password123', 'Lisa Williams', 26, 5, 4, 2, 'https://placehold.co/250x250', 320),
+('david_brown', 'password123', 'David Brown', 27, 6, 0, 1, 'https://placehold.co/250x250', 110),
+('emily_clark', 'password123', 'Emily Clark', 23, 5, 8, 2, 'https://placehold.co/250x250', 500),
+('matthew_rodgers', 'password123', 'Matthew Rodgers', 35, 5, 9, 1, 'https://placehold.co/250x250', 90),
+('hannah_white', 'password123', 'Hannah White', 32, 5, 6, 2, 'https://placehold.co/250x250', 620),
+('daniel_harris', 'password123', 'Daniel Harris', 29, 6, 1, 1, 'https://placehold.co/250x250', 430),
+('olivia_james', 'password123', 'Olivia James', 21, 5, 3, 2, 'https://placehold.co/250x250', 70),
+('william_martin', 'password123', 'William Martin', 33, 6, 5, 1, 'https://placehold.co/250x250', 150),
+('emma_thompson', 'password123', 'Emma Thompson', 27, 5, 6, 2, 'https://placehold.co/250x250', 200),
+('ethan_smith', 'password123', 'Ethan Smith', 24, 5, 8, 1, 'https://placehold.co/250x250', 160),
+('charlotte_davis', 'password123', 'Charlotte Davis', 25, 5, 7, 2, 'https://placehold.co/250x250', 400),
+('oliver_taylor', 'password123', 'Oliver Taylor', 28, 6, 0, 1, 'https://placehold.co/250x250', 230),
+('zoe_adams', 'password123', 'Zoe Adams', 30, 5, 9, 2, 'https://placehold.co/250x250', 330),
+('jack_wilson', 'password123', 'Jack Wilson', 22, 5, 10, 1, 'https://placehold.co/250x250', 300),
+('isabella_moore', 'password123', 'Isabella Moore', 26, 5, 8, 2, 'https://placehold.co/250x250', 250),
+('lucas_jones', 'password123', 'Lucas Jones', 34, 6, 3, 1, 'https://placehold.co/250x250', 190),
+('mia_scott', 'password123', 'Mia Scott', 21, 5, 2, 2, 'https://placehold.co/250x250', 150),
+('aiden_taylor', 'password123', 'Aiden Taylor', 32, 6, 2, 1, 'https://placehold.co/250x250', 380),
+('ella_anderson', 'password123', 'Ella Anderson', 27, 5, 4, 2, 'https://placehold.co/250x250', 410),
+('james_kim', 'password123', 'James Kim', 23, 5, 9, 1, 'https://placehold.co/250x250', 470),
+('grace_hall', 'password123', 'Grace Hall', 24, 5, 7, 2, 'https://placehold.co/250x250', 120),
+('henry_garcia', 'password123', 'Henry Garcia', 29, 6, 6, 1, 'https://placehold.co/250x250', 240),
+('lily_roberts', 'password123', 'Lily Roberts', 33, 5, 6, 2, 'https://placehold.co/250x250', 520),
+('leo_morris', 'password123', 'Leo Morris', 31, 5, 10, 1, 'https://placehold.co/250x250', 270),
+('evan_wright', 'password123', 'Evan Wright', 29, 6, 4, 1, 'https://placehold.co/250x250', 180),
+('sophia_hall', 'password123', 'Sophia Hall', 24, 5, 11, 2, 'https://placehold.co/250x250', 250),
+('mason_evans', 'password123', 'Mason Evans', 21, 6, 0, 1, 'https://placehold.co/250x250', 340),
+('victoria_green', 'password123', 'Victoria Green', 28, 5, 5, 2, 'https://placehold.co/250x250', 210),
+('liam_carter', 'password123', 'Liam Carter', 26, 5, 8, 1, 'https://placehold.co/250x250', 290),
+('sophia_williams', 'password123', 'Sophia Williams', 30, 5, 9, 2, 'https://placehold.co/250x250', 330),
+('noah_king', 'password123', 'Noah King', 24, 6, 2, 1, 'https://placehold.co/250x250', 420),
+('ava_harris', 'password123', 'Ava Harris', 22, 5, 3, 2, 'https://placehold.co/250x250', 240),
+('logan_carter', 'password123', 'Logan Carter', 27, 6, 0, 1, 'https://placehold.co/250x250', 100),
+('scarlett_lee', 'password123', 'Scarlett Lee', 31, 5, 4, 2, 'https://placehold.co/250x250', 500);
+
+INSERT INTO main_gym_schema.Follows (USER_OF_INTREST, FOLLOWING_USER)
+VALUES
+(1, 2),  -- User 1 is followed by User 2
+(1, 3),  -- User 1 is followed by User 3
+(2, 1),  -- User 2 is followed by User 1
+(2, 4),  -- User 2 is followed by User 4
+(3, 1),  -- User 3 is followed by User 1
+(4, 5),  -- User 4 is followed by User 5
+(6, 7),  -- User 6 is followed by User 7
+(7, 8),  -- User 7 is followed by User 8
+(8, 6),  -- User 8 is followed by User 6
+(9, 10), -- User 9 is followed by User 10
+(10, 9), -- User 10 is followed by User 9
+(11, 12), -- User 11 is followed by User 12
+(12, 13), -- User 12 is followed by User 13
+(13, 14), -- User 13 is followed by User 14
+(14, 15), -- User 14 is followed by User 15
+(15, 16), -- User 15 is followed by User 16
+(16, 17), -- User 16 is followed by User 17
+(17, 18), -- User 17 is followed by User 18
+(18, 19), -- User 18 is followed by User 19
+(19, 20), -- User 19 is followed by User 20
+(20, 19), -- User 20 is followed by User 19
+(21, 22), -- User 21 is followed by User 22
+(22, 23), -- User 22 is followed by User 23
+(23, 24), -- User 23 is followed by User 24
+(24, 25), -- User 24 is followed by User 25
+(25, 26), -- User 25 is followed by User 26
+(26, 27), -- User 26 is followed by User 27
+(27, 28), -- User 27 is followed by User 28
+(28, 29), -- User 28 is followed by User 29
+(29, 30), -- User 29 is followed by User 30
+(30, 31), -- User 30 is followed by User 31
+(31, 32), -- User 31 is followed by User 32
+(32, 33), -- User 32 is followed by User 33
+(33, 34), -- User 33 is followed by User 34
+(34, 35), -- User 34 is followed by User 35
+(35, 36), -- User 35 is followed by User 36
+(36, 37), -- User 36 is followed by User 37
+(37, 38), -- User 37 is followed by User 38
+(38, 39); -- User 38 is followed by User 39
+
+
+-- Insert sample exercises for the first 5 users
+INSERT INTO main_gym_schema.Exercises (NAME, U_ID, RepRange_ID, GOAL)
+VALUES
+('Squat', 1, 1, 150),  -- User 1 doing Squats with rep range '1 to 5' and goal of 150 lbs
+('Deadlift', 1, 2, 225),  -- User 1 doing Deadlifts with rep range '6 to 10' and goal of 225 lbs
+
+('Dumbbell Bench Press', 2, 3, 100),  -- User 2 doing Dumbbell Bench Press with rep range '11+' and goal of 100 lbs
+('Barbell Bench Press', 2, 2, 185),  -- User 2 doing Barbell Bench Press with rep range '6 to 10' and goal of 185 lbs
+('Pull-ups', 2, 1, 20),  -- User 2 doing Pull-ups with rep range '1 to 5' and goal of 20 reps
+
+('Overhead Press', 3, 2, 135),  -- User 3 doing Overhead Press with rep range '6 to 10' and goal of 135 lbs
+('Bent Over Rows', 3, 3, 175),  -- User 3 doing Bent Over Rows with rep range '11+' and goal of 175 lbs
+
+('Leg Press', 4, 1, 300),  -- User 4 doing Leg Press with rep range '1 to 5' and goal of 300 lbs
+('Lunges', 4, 2, 120),  -- User 4 doing Lunges with rep range '6 to 10' and goal of 120 lbs
+
+('Bicep Curls', 5, 3, 45),  -- User 5 doing Bicep Curls with rep range '11+' and goal of 45 lbs
+('Tricep Dips', 5, 1, 30),  -- User 5 doing Tricep Dips with rep range '1 to 5' and goal of 30 reps
+('Cable Rows', 5, 2, 140);  -- User 5 doing Cable Rows with rep range '6 to 10' and goal of 140 lbs
