@@ -38,7 +38,7 @@ function Widget({ exerciseId }: WidgetProps) {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const response = await fetch(`/backend/entries/${exerciseId}`);
+        const response = await fetch(`/backend/exercises/${exerciseId}/view`);
         const data = await response.json();
         console.log(data);
         setItem(data);
@@ -57,9 +57,8 @@ function Widget({ exerciseId }: WidgetProps) {
   if (item) {
     var data_points = item.labels.length
     var last_date = item.labels[data_points-1]
-    console.log(last_date)
   } else {
-    last_date = undefined
+    var last_date = undefined
   }
 
   const options = {
@@ -115,6 +114,9 @@ function Widget({ exerciseId }: WidgetProps) {
           tooltipFormat: 'll', // Nice format for tooltips
         },
         min: item?.labels && item?.labels[0] ? new Date(item.labels[0]) : undefined,
+        ticks: {
+          autoSkip: false,
+        },
       },
       y: {
         beginAtZero: true,
@@ -140,7 +142,7 @@ function Widget({ exerciseId }: WidgetProps) {
   console.log(data)
 
   return (
-    <div>
+    <div className="outline-1 outline-zinc-200">
       {item ? <Line data={data} options={options}/> : <p>Loading...</p>}
     </div>
   );

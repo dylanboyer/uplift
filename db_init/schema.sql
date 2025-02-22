@@ -17,6 +17,7 @@ CREATE TABLE main_gym_schema.Users(
 	U_ID SERIAL PRIMARY KEY, 
 	USERNAME VARCHAR(20),
 	PASSWORD VARCHAR(50),
+	EMAIL VARCHAR(50),
 	NAME VARCHAR(20), 
 	AGE INT,
 	HEIGHT_FOOT INT,
@@ -35,6 +36,7 @@ CREATE VIEW main_gym_schema.PublicUsers AS
 SELECT 
     U_ID, 
     USERNAME, 
+    EMAIL,
     NAME, 
     AGE, 
     HEIGHT_FOOT, 

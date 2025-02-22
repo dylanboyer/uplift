@@ -10,10 +10,10 @@ export default function Home() {
       <h1><Link to="/login">LOGIN</Link></h1>
       <h1><Link to="/signup">SIGN UP</Link></h1>
 
-      <EntryManager exerciseId="1"/>
+      {/*<EntryManager exerciseId="1"/>*/}
 
-      {/*<Widget exerciseId="1" />*/}
-      {/*<Widget exerciseId="2" />*/}
+      <Widget exerciseId="1" />
+      <Widget exerciseId="2" />
 
     </div>
   )
