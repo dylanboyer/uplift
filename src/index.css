@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: 356 0% 95%;
@@ -57,14 +56,5 @@
   .dark {
     --background: 356 10% 5%;
     --foreground: 356 0% 90%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
