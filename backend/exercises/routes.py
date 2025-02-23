@@ -9,6 +9,10 @@ from Database import Users
 import ChartBuilder
 #GET /exercises/<exercises_id>
 # return name of exercise and all 3 goals in order of r_id
+# return { name : string, goals: int[3]}
+# POST /exercises/<exercises_id>
+#  body { name : string, goals: int[3]}
+# DELETE /exercises/<exercises_id>
 
 @bp.route('/<exercises_id>', methods=['GET','POST','DELETE'])
 def exercsies_interactions(exercises_id):
