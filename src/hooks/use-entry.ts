@@ -43,3 +43,37 @@ export const useCreateEntry = (): UseCreateEntryResult => {
   return { createEntry, isLoading, error };
 };
 
+import { useState, useCallback } from 'react';
+
+export const useDeleteEntry = (entryId: string) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const deleteEntry = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const response = await fetch(`/backend/entries/${entryId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete entry");
+      }
+
+      setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unknown error occurred");
+    } finally {
+      setLoading(false);
+    }
+  }, [entryId]);
+
+  return { deleteEntry, loading, error, success };
+};

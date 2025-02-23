@@ -6,6 +6,7 @@ import { EditExerciseForm } from "@/components/edit-exercise-form";
 import { LoadingCircle } from "@/components/loading-circle";
 import { navigate, useNavigate } from "react-router-dom";
 import { EntryPopup } from "@/components/entry-popup";
+import { ViewEntriesPopup } from "@/components/view-entries-popup";
 
 export default function WorkoutEntry() {
   const { exercises = [], isLoading, error } = useGetAllExercises();
@@ -41,7 +42,7 @@ export default function WorkoutEntry() {
       <Separator className="bg-white my-6" />
 
       {selectedExercise && (
-        <EntryPopup
+        <ViewEntriesPopup
           exercise={selectedExercise}
           onClose={() => setSelectedExercise(null)}
         />
