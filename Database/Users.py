@@ -87,7 +87,7 @@ def GetAllUsersExercises(user_id, *selection):
 		selection_text = ','.join(selection)
 
 	sql = '''
-	SELECT DISTINCT {} FROM Exercises WHERE u_id = %s;
+	SELECT {} FROM Exercises WHERE u_id = %s;
 	'''.format(selection_text)
 	print(sql)
 	with SessionManager() as session:
@@ -106,7 +106,7 @@ def GetUsedUsersExercises(user_id, *selection):
 		selection_text = ','.join(selection)
 
 	sql = '''
-	SELECT DISTINCT {} FROM Exercises WHERE u_id = %s AND entry_count > 0;
+	SELECT {} FROM Exercises WHERE u_id = %s AND EXISTS (SELECT 1 FROM ExerciseBuckets WHERE ENTRY_COUNT > 0);
 	'''.format(selection_text)
 	print(sql)
 	with SessionManager() as session:

@@ -5,9 +5,9 @@ BACKGROUND_COLOR = '#f32c87'
 GOAL_LINE_COLOR = '#A7D15C'
 
 
-def construct_basic_chart(exercise_id):
-	data = Exercises.GetExercise(exercise_id)
-	data_entries = Exercises.AllDataPoints(exercise_id)
+def construct_basic_chart(exercise_id, bucket_id):
+	data = Exercises.GetExercise(exercise_id, bucket_id)
+	data_entries = Exercises.AllDataPoints(bucket_id)
 
 	
 	data['data_label'] = f"{data['name']}, {data['label']} Rep Range"

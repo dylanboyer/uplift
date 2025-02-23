@@ -51,25 +51,34 @@ CREATE TABLE main_gym_schema.Exercises(
 	E_ID SERIAL PRIMARY KEY,
 	NAME VARCHAR(100),
 	U_ID INT,
+
+	
+	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID) ON DELETE CASCADE,
+
+	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME)
+);
+
+CREATE TABLE main_gym_schema.ExerciseBuckets(
+	B_ID SERIAL PRIMARY KEY,
+	E_ID INT,
 	RepRange_ID INT,
 	GOAL INT DEFAULT 0,
 	ENTRY_COUNT INT DEFAULT 0,
 
 	FOREIGN KEY (RepRange_ID) REFERENCES main_gym_schema.RepRange(R_ID),
-	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID) ON DELETE CASCADE,
+	FOREIGN KEY (E_ID) REFERENCES main_gym_schema.Exercises(E_ID) ON DELETE CASCADE
 
-	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME, RepRange_ID)
 );
 
 CREATE TABLE main_gym_schema.Entries(
 	E_ID SERIAL PRIMARY KEY,
-	Exercise_ID INT,
+	B_ID INT,
 	WEIGHT INT,
 	SETS INT,
 	
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-	FOREIGN KEY (Exercise_ID) REFERENCES main_gym_schema.Exercises(E_ID) ON DELETE CASCADE
+	FOREIGN KEY (B_ID) REFERENCES main_gym_schema.ExerciseBuckets(B_ID) ON DELETE CASCADE
 
 );
 
@@ -116,13 +125,13 @@ CREATE OR REPLACE FUNCTION update_entry_count()
 RETURNS TRIGGER AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
-    UPDATE main_gym_schema.Exercises
+    UPDATE main_gym_schema.ExerciseBuckets
     SET ENTRY_COUNT = ENTRY_COUNT + 1
-    WHERE E_ID = NEW.Exercise_ID;
+    WHERE B_ID = NEW.B_ID;
   ELSIF TG_OP = 'DELETE' THEN
-    UPDATE main_gym_schema.Exercises
+    UPDATE main_gym_schema.ExerciseBuckets
     SET ENTRY_COUNT = ENTRY_COUNT - 1
-    WHERE E_ID = OLD.Exercise_ID;
+    WHERE B_ID = OLD.B_ID;
   END IF;
   RETURN NULL;
 END;

@@ -17,20 +17,24 @@ Default_Exercises = [
     'Calf Raises'
 ]
 
-
+# given a user return all Exercises owned by user
 def UsersExercises(user_id):
 	sql = '''
-	SELECT * FROM Exercises WHERE u_id = %s;
+	SELECT e_id FROM Exercises WHERE u_id = %s;
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (user_id,))
 
 		return session_to_json(session)
 
-
-def GetExercise(exercise_id):
+# get summary over Exercise with the bucket in mind 
+def GetExerciseBucket(exercise_id, rep_range_id):
+	return "DO THIS LATER"
 	sql = '''
-	SELECT e.name, e.goal, e.u_id, r.label FROM Exercises e INNER JOIN RepRange r ON r.r_id = e.RepRange_ID WHERE e_id = %s;
+	SELECT e.name, b.goal, e.u_id, r.label FROM Exercises e 
+		INNER JOIN ExerciseBucket b ON b.e_id = e.e_id 
+		INNER JOIN RepRange r ON r.r_id = b.r_id
+		WHERE e_id = %s;
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,))
@@ -47,15 +51,6 @@ def ExerciseBelongsToUser(exercise_id):
 
 		return session_single_to_json(session)
 
-# list all exercise owned by user
-def AllExercisesFromUser(user_id):
-	sql = '''
-	SELECT e_id FROM Exercises WHERE u_id = %s;
-	'''
-	with SessionManager() as session:
-		session.execute(sql, (user_id,))
-
-		return session_single_to_json(session)
 
 def GetRepRanges():
 	sql = '''
@@ -76,6 +71,16 @@ def CountRepRanges():
 		return session.fetchone()[0]
 
 def CreateAllExerciseRanges(user_id, goals, name):
+	# add Exercise to db
+	sql = '''
+	INSERT INTO Exercises (U_ID, NAME) VALUES (%s, %s) RETURNING E_ID;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (user_id,name))
+		resp = session.fetchone()
+		print('exercise_id created',resp)
+		exercise_id	= resp[0]
+
 	ranges_count = CountRepRanges()
 
 	if len(goals) > ranges_count:
@@ -86,7 +91,7 @@ def CreateAllExerciseRanges(user_id, goals, name):
 	status = True
 	for i in range(1,CountRepRanges()+1):
 		print(i)
-		resp = CreateExerciseWithRange(user_id, i, goals[i-1],name)
+		resp = CreateExerciseBucket(exercise_id, i, goals[i-1])
 		print(resp)
 		if not resp:
 			status = False
@@ -94,12 +99,12 @@ def CreateAllExerciseRanges(user_id, goals, name):
 	return status
 
 
-def CreateExerciseWithRange(user_id, rep_range_id, goal, name):
+def CreateExerciseBucket(exercise_id, rep_range_id, goal):
 	sql = '''
-	INSERT INTO Exercises (U_ID, REPRANGE_ID, GOAL, NAME) VALUES (%s, %s, %s, %s) RETURNING E_ID;
+	INSERT INTO ExerciseBuckets (E_ID, REPRANGE_ID, GOAL) VALUES (%s, %s, %s) RETURNING B_ID;
 	'''
 	with SessionManager() as session:
-		session.execute(sql, (user_id,rep_range_id,goal,name,))
+		session.execute(sql, (exercise_id,rep_range_id,goal,))
 		resp = session.fetchone()
 		print(resp)
 		return resp[0]
@@ -122,7 +127,7 @@ def GetDataPoint(entry_id):
 
 		return session_to_json(session)[0]
 
-def AllDataPoints(exercise_id, *selection):
+def AllDataPoints(bucket_id, *selection):
 	args = len(selection)
 	print(args)
 	selection_text = '*'
@@ -130,7 +135,7 @@ def AllDataPoints(exercise_id, *selection):
 		selection_text = ','.join(selection)
 
 	sql = '''
-	SELECT {} FROM Entries WHERE Exercise_id = %s;
+	SELECT {} FROM Entries WHERE B_id = %s;
 	'''.format(selection_text)
 
 	print(sql)
@@ -143,12 +148,12 @@ def AllDataPoints(exercise_id, *selection):
 		else:
 			return session_to_json(session)
 
-def AddDataPoint(exercise_id, weight, date=None):
+def AddDataPoint(bucket_id, weight, date=None):
 	sql = '''
-	INSERT INTO ENTRIES (EXERCISE_ID, WEIGHT) VALUES (%s, %s) RETURNING E_ID;
+	INSERT INTO ENTRIES (B_ID, WEIGHT) VALUES (%s, %s) RETURNING E_ID;
 	'''
 	with SessionManager() as session:
-		session.execute(sql, (exercise_id,weight,))
+		session.execute(sql, (bucket_id,weight,))
 		return session_to_json(session)[0]
 
 def RemoveDataPoint(entry_id):

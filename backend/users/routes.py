@@ -27,12 +27,12 @@ def get_all_user_data():
 
 
 # GET /users/<user_id>/exercises
-# returns json list of all users information
+# returns json list of all users exersies information
 
 @bp.route('/<user_id>/exercises')
 def get_all_users_exercises(user_id):
 	print(user_id)
-	resp = Exercises.AllExercisesFromUser(user_id)
+	resp = Exercises.UsersExercises(user_id)
 	print(resp)
 	return jsonify(resp), 200
 

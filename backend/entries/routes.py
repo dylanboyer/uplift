@@ -14,11 +14,7 @@ def get_entry_data(entry_id):
 		# goal
 		# name
 
-		
-
-		pass
-
-	elif request.method == 'DELETE' #delete
+	elif request.method == 'DELETE': #delete
 		pass
 
 	return jsonify({'status', 'no'}), 400
