@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { useCreateExercise } from "@/hooks/use-create-exercise"; // Import the hook
+import { useCreateExercise } from "@/hooks/use-exercise"; // Import the hook
 
 interface ExerciseFormProps {
   exerciseName: string; // Prop for the exercise name

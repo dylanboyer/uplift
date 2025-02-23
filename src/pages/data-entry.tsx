@@ -7,6 +7,8 @@ import {
   useCreateEntry,
 } from "@/hooks/use-exercise";
 
+import { ExerciseForm } from "@/components/exercise-form"; // Import the ExerciseForm component
+
 export default function DataEntry() {
   // Fetch the list of exercises
   const { exercises, isLoading, error } = useGetAllExercises();
@@ -22,7 +24,7 @@ export default function DataEntry() {
     return <div style={{ color: "red" }}>Error: {error}</div>;
   }
 
-  console.log(exercises)
+  console.log(exercises);
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select an Exercise</h1>
@@ -51,6 +53,7 @@ export default function DataEntry() {
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-4">Selected Exercise</h2>
           <p className="text-lg">{exerciseName}</p>
+          <ExerciseForm exerciseName={exerciseName} />
         </div>
       )}
     </div>
