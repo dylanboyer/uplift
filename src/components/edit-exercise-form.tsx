@@ -9,6 +9,7 @@ import {
   useDeleteExercise,
 } from "@/hooks/use-exercise";
 import { navigate, useNavigate } from "react-router-dom";
+import { LoadingCircle } from "@/components/loading-circle";
 
 interface EditExerciseFormProps {
   exerciseId: string;
@@ -72,18 +73,23 @@ export function EditExerciseForm({
       alert("Repetitions must be positive numbers.");
       return;
     }
-    navigate("/exercises");
     await editExercise(exerciseId, { name: exerciseName, goals });
+    navigate(0);
   };
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this exercise?")) {
-      navigate("/exercises");
       await deleteExercise(exerciseId);
+      navigate(0);
     }
   };
 
-  if (loadingExercise) return <p>Loading...</p>;
+  if (loadingExercise)
+    return (
+      <div>
+        <LoadingCircle />
+      </div>
+    );
   if (errorExercise) return <p>Error: {errorExercise.message}</p>;
 
   return (

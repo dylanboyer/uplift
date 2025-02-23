@@ -38,8 +38,8 @@ export function CreateExerciseForm({ className }: CreateExerciseFormProps) {
       alert("Repetitions must be positive numbers.");
       return;
     }
-    navigate("/exercises");
     await createExercise(exerciseName, goals);
+    navigate(0);
   };
 
   return (
