@@ -24,13 +24,13 @@ def get_entry_data(entry_id):
 		# (entry_id, weight, sets, date)
 		Entries.UpdateEntry(entry_id, data['weight'], data['sets'], data['date'])
 
-		return jsonify({'status', 'ok'}), 200
+		return jsonify({'status' :'ok'}), 200
 
 	elif request.method == 'DELETE': #delete
 		Entries.DeleteEntry(entry_id)
-		return jsonify({'status', 'ok'}), 200
+		return jsonify({'status': 'ok'}), 200
 
-	return jsonify({'status', 'no'}), 400
+	return jsonify({'status': 'no'}), 400
 
 
 #POST /entries/create
