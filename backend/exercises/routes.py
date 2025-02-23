@@ -109,8 +109,6 @@ def create_exercise():
 	goals = data['goals']
 	exercise_name = data['name']
 
-
-
 	# create one exercise for each rep range
 	try:
 		status = Exercises.CreateAllExerciseRanges(user_id, goals, exercise_name)

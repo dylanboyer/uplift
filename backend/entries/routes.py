@@ -4,6 +4,12 @@ from flask import jsonify, request
 from Database import Exercises
 from Database import Entries
 
+# GET /entries/<entry_id>
+#  returns { e_id, b_id, reprange_id, weight, sets, created_at }
+# DELETE /entries/<entry_id>
+# deletes entry
+# POST /entries/<entry_id>
+# data {weight, date, sets}
 
 @bp.route('/<entry_id>',methods=['GET','POST','DELETE'])
 def get_entry_data(entry_id):
@@ -12,17 +18,23 @@ def get_entry_data(entry_id):
 		return jsonify(data), 200
 	elif request.method == 'POST': #update
 		data = request.json
-		# goal
-		# name
+		# weight
+		# set
+		# created_at
+		# (entry_id, weight, sets, date)
+		Entries.UpdateEntry(entry_id, data['weight'], data['sets'], data['date'])
+
+		return jsonify({'status', 'ok'}), 200
 
 	elif request.method == 'DELETE': #delete
-		pass
+		Entries.DeleteEntry(entry_id)
+		return jsonify({'status', 'ok'}), 200
 
 	return jsonify({'status', 'no'}), 400
 
 
 #POST /entries/create
-# provide {rep_range_id, sets, weight, date, exercise_name}
+# provide {rep_range_id, sets, weight, date, b_id}
 @bp.route('/create',methods=['POST'])
 def create_entry():
 	data = request.json
@@ -33,16 +45,9 @@ def create_entry():
 		return({'status' : 'no permission'}), 403
 
 
-	# i need to check that the user has a exercise with this rep_range and name
+	# bucket_id, weight, sets, date, rep_range_id
 
-	response = Entries.CreateEntry(
-		user_id,
-		data['exercise_name'], 
-		data['rep_range_id'], 
-		data['weight'], 
-		data['date'],
-		data['sets']
-		)
+	response = Entries.CreateEntry(data['b_id'],data['weight'],data['sets'],data['date'],data['rep_range_id'])
 
 	if response:
 		return jsonify({'status' : 'ok'}), 200
