@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { RepRangeDropdown } from "@/components/ui/rep-range-dropdown";
+import useCreateEntry from "@/hooks/use-entry";
 
 interface EntryPopupProps {
   exercise: { name: string; id: string };
@@ -13,12 +14,22 @@ interface EntryPopupProps {
 export function EntryPopup({ exercise, onClose }: EntryPopupProps) {
   const [weight, setWeight] = useState("");
   const [sets, setSets] = useState("");
-  const [reps, setReps] = useState("");
+  const [reps, setReps] = useState(""); // Store rep range value here
+  const { createEntry, isLoading, error } = useCreateEntry();
 
-  const handleSubmit = () => {
-    console.log({ weight, sets, reps });
+  const handleSubmit = async () => {
+    if (!weight || !sets || !reps) return;
+
+    await createEntry({
+        e_id: exercise.id,
+        weight: parseInt(weight),
+        sets: parseInt(sets, 10),
+        rep_range_id: parseInt(reps, 10), // Ensure reps are correctly passed
+        date: new Date().toISOString(),
+    });
+
+    onClose();
   };
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/65">
       <div className="bg-zinc-800 border-2 border-black p-6 rounded-lg shadow-lg w-96">
@@ -45,7 +56,7 @@ export function EntryPopup({ exercise, onClose }: EntryPopupProps) {
           <Label className="mb-2" htmlFor="reps">
             Reps
           </Label>
-          <RepRangeDropdown />
+          <RepRangeDropdown value={reps} onChange={setReps} />
         </div>
         <div className="mb-8">
           <Label className="mb-1" htmlFor="weight">
@@ -59,14 +70,17 @@ export function EntryPopup({ exercise, onClose }: EntryPopupProps) {
           />
         </div>
 
+        {error && <p className="text-red-500">{error}</p>}
+
         <div className="w-full justify-end gap-2">
           <Button
-            className="bg-zinc-200 text-black outline-2 outline-black w-full mr-"
+            className="bg-zinc-200 text-black outline-2 outline-black w-full"
             type="submit"
             variant="outline"
             onClick={handleSubmit}
+            disabled={isLoading}
           >
-            Add Entry
+            {isLoading ? "Adding..." : "Add Entry"}
           </Button>
         </div>
       </div>
