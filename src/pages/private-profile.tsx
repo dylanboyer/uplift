@@ -67,7 +67,7 @@ export default function PrivateProfile() {
         <h3 className="text-xl font-semibold mb-6">Your Dashboard</h3>
         
         {/* Scrollable Area for Charts or other widgets */}
-        <ScrollArea className="h-full max-h-[500px] overflow-auto rounded-lg bg-zinc-700 p-4">
+        <ScrollArea className="overflow-auto rounded-lg bg-zinc-700 p-4">
           <WidgetBox user_id={userID} col_num={1} />
         </ScrollArea>
       </div>
