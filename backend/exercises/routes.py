@@ -97,7 +97,7 @@ def graph_data(exercises_id):
 	), 200
 
 # POST /exercise/create
-# give { name, goals [] }
+# give { name, int array of size 3 named "goals" [] }
 # one goals for each rep range 0 if no goal wanted
 
 @bp.route('/create',methods=['POST'])

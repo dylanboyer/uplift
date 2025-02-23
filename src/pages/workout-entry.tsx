@@ -7,7 +7,7 @@ import {
   useCreateEntry,
 } from "@/hooks/use-exercise";
 
-import { ExerciseForm } from "@/components/edit-exercise-form"; // Import the ExerciseForm component
+import { ExerciseForm } from "@/components/create-exercise-form"; // Import the ExerciseForm component
 
 export default function WorkoutEntry() {
   // Fetch the list of exercises

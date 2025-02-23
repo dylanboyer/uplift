@@ -1,97 +1,49 @@
 // use-exercise.ts --- A BUNCH of hooks to get exercise data
 import { useState, useEffect } from "react";
 
-// GET /exercises/has/names --> list of strings of exercises the user has done before
+// GET /exercises/has/names --> list of strings and ids of exercises the user has
 export const useGetAllExercises = () => {
-  const [exercises, setExercises] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [exercises, setExercises] = useState([]); // ✅ Default to empty array
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchExercises = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Make the API request
-        const response = await fetch("/backend/exercises/has/names", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        // Handle non-OK responses
-        if (!response.ok) {
-          throw new Error(`Failed to fetch exercises: ${response.statusText}`);
-        }
-
-        // Parse the response
-        const data = await response.json();
-
-        // Update the state with the list of exercise names
+    fetch("/backend/exercises/has/names")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched exercises:", data); // ✅ Debugging log
         setExercises(data);
-      } catch (err) {
-        // Handle errors
-        setError(err instanceof Error ? err.message : "Failed to fetch exercises");
-      } finally {
-        // Reset loading state
-        setIsLoading(false);
-      }
-    };
+      })
+      .catch((err) => {
+        console.error("Error fetching exercises:", err);
+        setError(err);
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
 
-    // Call the fetch function
-    fetchExercises();
-  }, []); // Empty dependency array ensures this runs only once on mount
-
-  return { exercises, isLoading, error };
+  return { exercises, error, isLoading };
 };
 
-
-// GET /exercises/use/names --> list of all exercises the user has
 export const useGetUsedExercises = () => {
-  const [exercises, setExercises] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [exercises, setExercises] = useState([]); // ✅ Default to empty array
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchExercises = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Make the API request
-        const response = await fetch("/backend/exercises/use/names", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        // Handle non-OK responses
-        if (!response.ok) {
-          throw new Error(`Failed to fetch exercises: ${response.statusText}`);
-        }
-
-        // Parse the response
-        const data = await response.json();
-
-        // Update the state with the list of exercise names
+    fetch("/backend/exercises/use/names")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched exercises:", data); // ✅ Debugging log
         setExercises(data);
-      } catch (err) {
-        // Handle errors
-        setError(err instanceof Error ? err.message : "Failed to fetch exercises");
-      } finally {
-        // Reset loading state
-        setIsLoading(false);
-      }
-    };
+      })
+      .catch((err) => {
+        console.error("Error fetching exercises:", err);
+        setError(err);
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
 
-    // Call the fetch function
-    fetchExercises();
-  }, []); // Empty dependency array ensures this runs only once on mount
-
-  return { exercises, isLoading, error };
+  return { exercises, error, isLoading };
 };
 
 
@@ -146,48 +98,37 @@ export const useGetExerciseRanges = () => {
 // goal of ints of your goals [0, 180, 0] --> have lista
 // response: 200, 400
 export const useCreateExercise = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
-  const createExercise = async (name: string, goals: number[]) => {
-    setIsLoading(true);
+  const createExercise = async (name, goals) => {
+    setLoading(true);
     setError(null);
-    setStatus(null);
+    setSuccess(false);
 
     try {
-      // Validate goals array length
-      if (goals.length !== 3) {
-        throw new Error("Goals must be a list of 3 integers.");
-      }
-
-      // Make the API request
-      const response = await fetch("/exercises/create", {
-        method: "POST",
+      const response = await fetch('/backend/exercises/create', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, goals }),
       });
 
-      // Handle non-OK responses
       if (!response.ok) {
-        throw new Error(`Failed to create exercise: ${response.statusText}`);
+        throw new Error('Failed to create exercise');
       }
 
-      // Set the response status
-      setStatus(response.status);
+      setSuccess(true);
     } catch (err) {
-      // Handle errors
-      setError(err instanceof Error ? err.message : "Failed to create exercise");
-      setStatus(400); // Set status to 400 on error
+      setError(err.message);
     } finally {
-      // Reset loading state
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  return { createExercise, isLoading, error, status };
+  return { createExercise, loading, error, success };
 };
 
 

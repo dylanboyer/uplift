@@ -1,128 +1,96 @@
-import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { useCreateExercise } from "@/hooks/use-exercise"; // Import the hook
+import { useCreateExercise } from "@/hooks/use-exercise";
+import { Navigate } from "react-router-dom";
 
-interface ExerciseFormProps {
-  exerciseName: string; // Prop for the exercise name
+interface CreateExerciseFormProps {
   className?: string;
 }
 
-export function CreateExerciseForm({
-  exerciseName,
-  className,
-  ...props
-}: ExerciseFormProps) {
+export function CreateExerciseForm({ className }: CreateExerciseFormProps) {
+  const [exerciseName, setExerciseName] = useState("");
   const [lowReps, setLowReps] = useState<number | "">("");
-  const [mediumReps, setMediumReps] = useState<number | "">("");
+  const [medReps, setmedReps] = useState<number | "">("");
   const [highReps, setHighReps] = useState<number | "">("");
 
-  const { createExercise, isLoading, error, status } = useCreateExercise();
+  const { createExercise, loading, error, success } = useCreateExercise();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate inputs (must be positive integers)
-    if (
-      typeof lowReps !== "number" ||
-      typeof mediumReps !== "number" ||
-      typeof highReps !== "number" ||
-      lowReps <= 0 ||
-      mediumReps <= 0 ||
-      highReps <= 0
-    ) {
-      alert("Please enter valid positive integers for all fields.");
+    if (lowReps === "" && medReps === "" && highReps === "") {
+      alert("Please fill out all fields correctly.");
       return;
     }
-
-    // Prepare the goals array
-    const goals = [lowReps, mediumReps, highReps];
-
-    // Call the createExercise function from the hook
-    await createExercise(exerciseName, goals);
-
-    // Handle success or error
-    if (status === 200) {
-      console.log("Exercise created successfully!");
-    } else if (status === 400) {
-      console.error("Failed to create exercise:", error);
+    const goals = [lowReps, medReps, highReps].map(Number);
+    if (lowReps != "" && lowReps < 0) {
+      alert("Repetitions must be positive numbers.");
+      return;
     }
+    if (medReps != "" && medReps < 0) {
+      alert("Repetitions must be positive numbers.");
+      return;
+    }
+    if (highReps != "" && highReps < 0) {
+      alert("Repetitions must be positive numbers.");
+      return;
+    }
+    await createExercise(exerciseName, goals);
+    Navigate("/exercises")
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      {/* Title Label */}
-      <h2 className="text-2xl font-bold text-center">{exerciseName}</h2>
-
-      {/* Input Fields */}
-      <form onSubmit={handleSubmit}>
+    <div className={`p-4 rounded-lg ${className}`}>
+      <h2 className="text-xl font-semibold text-center mb-4">Create New Exercise</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="exercise-name">Exercise Name</Label>
+          <Input
+            id="exercise-name"
+            type="text"
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
+            required
+          />
+        </div>
         <div className="grid grid-cols-3 gap-4">
-          {/* 1-5 Reps */}
           <div>
             <Label htmlFor="low-reps">1-5 Reps</Label>
             <Input
               id="low-reps"
               type="number"
-              min="1"
+              min="0"
               value={lowReps}
-              onChange={(e) =>
-                setLowReps(e.target.value === "" ? "" : Number(e.target.value))
-              }
-              required
+              onChange={(e) => setLowReps(e.target.value === "" ? "" : Number(e.target.value))}
             />
           </div>
-
-          {/* 6-10 Reps */}
           <div>
             <Label htmlFor="medium-reps">6-10 Reps</Label>
             <Input
               id="medium-reps"
               type="number"
-              min="1"
-              value={mediumReps}
-              onChange={(e) =>
-                setMediumReps(e.target.value === "" ? "" : Number(e.target.value))
-              }
-              required
+              min="0"
+              value={medReps}
+              onChange={(e) => setmedReps(e.target.value === "" ? "" : Number(e.target.value))}
             />
           </div>
-
-          {/* 11+ Reps */}
           <div>
             <Label htmlFor="high-reps">11+ Reps</Label>
             <Input
               id="high-reps"
               type="number"
-              min="1"
+              min="0"
               value={highReps}
-              onChange={(e) =>
-                setHighReps(e.target.value === "" ? "" : Number(e.target.value))
-              }
-              required
+              onChange={(e) => setHighReps(e.target.value === "" ? "" : Number(e.target.value))}
             />
           </div>
         </div>
-
-        {/* Submit Button */}
-        <div className="mt-6">
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Submitting..." : "Submit"}
-          </Button>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <p className="mt-4 text-center text-sm text-red-500">{error}</p>
-        )}
-
-        {/* Success Message */}
-        {status === 200 && (
-          <p className="mt-4 text-center text-sm text-green-500">
-            Exercise created successfully!
-          </p>
-        )}
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Submitting..." : "Create Exercise"}
+        </Button>
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {success && <p className="text-green-500 text-sm text-center">Exercise created successfully!</p>}
       </form>
     </div>
   );
