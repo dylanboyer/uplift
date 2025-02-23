@@ -7,9 +7,9 @@ import {
   useCreateEntry,
 } from "@/hooks/use-exercise";
 
-import { ExerciseForm } from "@/components/exercise-form"; // Import the ExerciseForm component
+import { ExerciseForm } from "@/components/edit-exercise-form"; // Import the ExerciseForm component
 
-export default function DataEntry() {
+export default function WorkoutEntry() {
   // Fetch the list of exercises
   const { exercises, isLoading, error } = useGetAllExercises();
   const [exerciseName, setExerciseName] = useState<string>("");
@@ -49,13 +49,13 @@ export default function DataEntry() {
       <Separator className="my-6" />
 
       {/* Selected Exercise Display */}
-      {exerciseName && (
+      {/* {exerciseName && (
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-4">Selected Exercise</h2>
           <p className="text-lg">{exerciseName}</p>
-          <ExerciseForm exerciseName={exerciseName} />
+          <WorkoutEntryForm exerciseName={exerciseName} />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

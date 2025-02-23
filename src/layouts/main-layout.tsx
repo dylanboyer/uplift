@@ -9,7 +9,12 @@ import { useLogout, useGetUserID } from "@/hooks/use-user"; // Import the logout
 
 export default function MainLayout() {
   const { userID, loading: userLoading, error: userError } = useGetUserID(); // Check if the user is logged in
-  const { logout, loading: logoutLoading, error: logoutError, isLoggedOut } = useLogout(); // Logout functionality
+  const {
+    logout,
+    loading: logoutLoading,
+    error: logoutError,
+    isLoggedOut,
+  } = useLogout(); // Logout functionality
 
   const handleLogout = () => {
     Navigate("/login"); // Redirect to the login page after logging out
@@ -28,20 +33,6 @@ export default function MainLayout() {
           <NavigationMenu className="flex justify-around">
             <NavigationMenuList>
               <NavigationMenuItem className="p-2">
-                <Link to="/analytics">
-                  <Button className=" text-zinc-800 bg-zinc-200">
-                    Analytics
-                  </Button>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="p-2">
-                <Link to="/entry">
-                  <Button className=" text-zinc-800 bg-zinc-200">
-                    Entry
-                  </Button>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="p-2">
                 <Link to="/profile">
                   <Button className=" text-zinc-800 bg-zinc-200">
                     Profile
@@ -49,9 +40,16 @@ export default function MainLayout() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem className="p-2">
-                <Link to="/goals">
-                  <Button className="text-zinc-800 bg-zinc-200">
-                    Goals
+                <Link to="/exercises">
+                  <Button className=" text-zinc-800 bg-zinc-200">
+                    Add Exercises & Goals
+                  </Button>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="p-2">
+                <Link to="/entry">
+                  <Button className=" text-zinc-800 bg-zinc-200">
+                    Workouts
                   </Button>
                 </Link>
               </NavigationMenuItem>
@@ -61,19 +59,34 @@ export default function MainLayout() {
         <div className="content-center">
           <h1 className="text-center text-6xl text-zinc-50">uplift.</h1>
         </div>
-        <div className="content-center text-right p-6">
-          {/* Render the logout button only if the user is logged in */}
-          {userID && !isLoggedOut && (
-            <Link to="/login">
-              <Button
-                className="text-zinc-800 bg-zinc-200"
-                onClick={handleLogout}
-                disabled={logoutLoading} // Disable the button while logging out
-              >
-                {logoutLoading ? "Logging out..." : "Logout"} {/* Show loading text if logging out */}
-              </Button>
-            </Link>
-          )}
+        <div className="flex justify-around content-center text-right p-6">
+          <NavigationMenu className="flex justify-around ml-auto">
+            {" "}
+            {/* Add ml-auto here */}
+            <NavigationMenuList>
+              <NavigationMenuItem className="p-2">
+                <Link to="/goals">
+                  <Button className="text-zinc-800 bg-zinc-200">
+                    Search User
+                  </Button>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="p-2">
+                {/* Render the logout button only if the user is logged in */}
+                {userID && !isLoggedOut ? (
+                  <Link to="/login">
+                    <Button
+                      className="text-zinc-800 bg-zinc-200"
+                      onClick={handleLogout}
+                      disabled={logoutLoading} // Disable the button while logging out
+                    >
+                      {logoutLoading ? "Logging out..." : "Logout"}
+                    </Button>
+                  </Link>
+                ) : null}
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </div>
       <div>

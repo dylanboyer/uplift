@@ -7,7 +7,8 @@ import Login from "./pages/login";
 import SignUp from "./pages/signup";
 import PublicProfile from "./pages/public-profile";
 import PrivateProfile from "./pages/private-profile";
-import DataEntry from "./pages/data-entry";
+import ExerciseConfig from "./pages/exercise-config";
+import WorkoutEntry from "./pages/workout-entry";
 import ProtectedRoute from "./components/protected-route";
 
 const AppRoutes = (
@@ -17,7 +18,8 @@ const AppRoutes = (
       <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<PrivateProfile />} />
         <Route path="/users/:user_id" element={<PublicProfile />} />
-        <Route path="/entry" element={<DataEntry />} />
+        <Route path="/exercises" element={<ExerciseConfig />} />
+        <Route path="/entry" element={<WorkoutEntry />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

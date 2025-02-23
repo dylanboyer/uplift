@@ -10,7 +10,7 @@ interface ExerciseFormProps {
   className?: string;
 }
 
-export function ExerciseForm({
+export function CreateExerciseForm({
   exerciseName,
   className,
   ...props
