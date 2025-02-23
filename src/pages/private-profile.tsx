@@ -6,7 +6,7 @@ import AccomplishmentsBox from "@/components/accomplishments";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Scrollable Area component for charts
 
 export default function PrivateProfile() {
-  const { userID, loading_user, error_user } = useGetUserID(); // Use the custom hook
+  const { userID, loading_user, error_user } = useGetUserID() | null; // Use the custom hook
   // const { userData, loading_data, error_data } = useGetUserData(userID);
 
   // Placeholder user data

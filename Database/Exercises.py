@@ -28,6 +28,9 @@ def GetExerciseInformation(exercise_id):
 
 		response = session_to_json(session)
 
+	print(response)
+	if not response:
+		return None
 	joined_response = {
 		'name' : response[0]['name'],
 		'goals' : []

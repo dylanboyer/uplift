@@ -105,6 +105,7 @@ def create_exercise():
 		return({'status' : 'no permission'}), 403
 
 	data = request.json
+	print(data)
 
 	goals = data['goals']
 	exercise_name = data['name']
