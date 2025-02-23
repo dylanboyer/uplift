@@ -42,6 +42,7 @@ export function Widget({ bucketId }: WidgetProps) {
       try {
         const response = await fetch(`/backend/exercises/${bucketId}/view`);
 
+
         if (response.status === 403) {
           setNoPermission(true);
           return;
@@ -115,7 +116,7 @@ export function WidgetBox({ user_id, col_num}: WidgetBoxProps) {
   if (error) {
     return <div className="text-center text-red-500">Error: {error.message}</div>;
   }
-
+  console.log('from widgetbox', bucket_ids)
   return (
     <div className={`grid grid-cols-1 grid-cols-${col_num} gap-6 justify-center p-6 rounded-lg shadow-lg`}>
       {bucket_ids.map((bucket_id: number) => (
