@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { RepRangeDropdown } from "@/components/ui/rep-range-dropdown";
-import useCreateEntry from "@/hooks/use-entry";
+import { useCreateEntry } from "@/hooks/use-entry";
 
 interface EntryPopupProps {
   exercise: { name: string; id: string };
@@ -21,11 +21,11 @@ export function EntryPopup({ exercise, onClose }: EntryPopupProps) {
     if (!weight || !sets || !reps) return;
 
     await createEntry({
-        e_id: exercise.id,
-        weight: parseInt(weight),
-        sets: parseInt(sets, 10),
-        rep_range_id: parseInt(reps, 10), // Ensure reps are correctly passed
-        date: new Date().toISOString(),
+      e_id: exercise.id,
+      weight: parseInt(weight),
+      sets: parseInt(sets, 10),
+      rep_range_id: parseInt(reps, 10), // Ensure reps are correctly passed
+      date: new Date().toISOString(),
     });
 
     onClose();

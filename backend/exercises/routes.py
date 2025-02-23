@@ -70,7 +70,7 @@ def get_rep_ranges():
 @bp.route('/<exercises_id>/points',methods=['GET'])
 def get_points(exercises_id):
 	user_id = session.get('user_id')
-	if not user_id or ExerciseBelongsToUser(exercises_id) != user_id:
+	if not user_id or Exercises.ExerciseBelongsToUser(exercises_id) != user_id:
 		return({'status' : 'no permission'}), 403
 
 

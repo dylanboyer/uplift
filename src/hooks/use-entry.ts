@@ -13,7 +13,7 @@ interface UseCreateEntryResult {
   error: string | null;
 }
 
-const useCreateEntry = (): UseCreateEntryResult => {
+export const useCreateEntry = (): UseCreateEntryResult => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,4 +43,3 @@ const useCreateEntry = (): UseCreateEntryResult => {
   return { createEntry, isLoading, error };
 };
 
-export default useCreateEntry;
