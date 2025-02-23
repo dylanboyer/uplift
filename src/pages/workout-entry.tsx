@@ -4,20 +4,12 @@ import { useGetAllExercises } from "@/hooks/use-exercise";
 import { CreateExerciseForm } from "@/components/create-exercise-form";
 import { EditExerciseForm } from "@/components/edit-exercise-form";
 import { LoadingCircle } from "@/components/loading-circle";
-import {navigate, useNavigate} from "react-router-dom";
+import { navigate, useNavigate } from "react-router-dom";
+import { EntryPopup } from "@/components/entry-popup";
 
 export default function WorkoutEntry() {
   const { exercises = [], isLoading, error } = useGetAllExercises();
-  const [selectedExercise, setSelectedExercise] = useState<{
-    name: string;
-    id: string;
-  } | null>(null);
-  const [isNewExercise, setIsNewExercise] = useState<boolean>(false);
-  navigate = useNavigate();
-
-  function handleSelectExercise(exercise: { name: string; id: string }) {
-      navigate("/entry/" + exercise.id);
-  }
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   if (isLoading) return <LoadingCircle />;
   if (error) return <div style={{ color: "red" }}>Error: {error}</div>;
@@ -28,29 +20,32 @@ export default function WorkoutEntry() {
         Pick an exercise to make an entry for:
       </h1>
 
-      {/* Exercise Selection Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {exercises.length > 0
           ? exercises.map((exercise) => (
               <button
                 key={exercise.e_id}
                 className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                onClick={() => {
+                onClick={() =>
                   setSelectedExercise({
                     name: exercise.name,
                     id: exercise.e_id,
-                  });
-                }}
+                  })
+                }
               >
                 {exercise.name}
               </button>
             ))
           : null}
-        </button>
       </div>
-
       <Separator className="bg-white my-6" />
 
+      {selectedExercise && (
+        <EntryPopup
+          exercise={selectedExercise}
+          onClose={() => setSelectedExercise(null)}
+        />
+      )}
     </div>
   );
 }

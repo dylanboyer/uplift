@@ -22,6 +22,7 @@ const AppRoutes = (
         <Route path="/exercises" element={<ExerciseConfig />} />
         <Route path="/entry" element={<WorkoutEntry />} />
         <Route path="/search" element={<SearchUsers />} />
+        <Route path="/test" element={<WorkoutEntry />}/>
       </Route>
 
       <Route path="*" element={<NotFound />} />
