@@ -42,12 +42,12 @@ def GetExerciseInformation(exercise_id):
 	
 
 def UpdateExerciseInformation(exercise_id, name, goals):
-	bucket_script = 'UPDATE ExerciseBuckets SET goal = %s WHERE RepRange_ID = %s;'
+	bucket_script = 'UPDATE ExerciseBuckets SET goal = %s WHERE RepRange_ID = %s AND e_id = %s;'
 	sql = '''
 	UPDATE Exercises SET name = %s WHERE e_id = %s;
 	'''
 	for range_id in range(1,len(goals) + 1):
-		sql += bucket_script%(goals[range_id-1], range_id)
+		sql += bucket_script%(goals[range_id-1], range_id, exercise_id)
 
 	try:
 		with SessionManager() as session:
@@ -158,25 +158,17 @@ def CreateAllExerciseRanges(user_id, goals, name):
 		goals = goals + [0] * (ranges_count - len(goals))
 
 	status = True
-	for i in range(1,CountRepRanges()+1):
-		print(i)
-		resp = CreateExerciseBucket(exercise_id, i, goals[i-1])
-		print(resp)
-		if not resp:
-			status = False
 
-	return status
+	query = ""
+	for i in range(1,CountRepRanges()+1):
+		query += CreateExerciseBucket(exercise_id, i, goals[i-1])
+
+	with SessionManager() as session:
+		session.execute(query)
 
 
 def CreateExerciseBucket(exercise_id, rep_range_id, goal):
-	sql = '''
-	INSERT INTO ExerciseBuckets (E_ID, REPRANGE_ID, GOAL) VALUES (%s, %s, %s) RETURNING B_ID;
-	'''
-	with SessionManager() as session:
-		session.execute(sql, (exercise_id,rep_range_id,goal,))
-		resp = session.fetchone()
-		print(resp)
-		return resp[0]
+	return 'INSERT INTO ExerciseBuckets (E_ID, REPRANGE_ID, GOAL) VALUES (%d, %d, %d);'%(exercise_id, rep_range_id, goal)
 '''
 DATA POINTS
 

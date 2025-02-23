@@ -42,8 +42,8 @@ CREATE TABLE main_gym_schema.Follows(
 	USER_OF_INTREST INT,
 	FOLLOWING_USER INT, 
 
-	FOREIGN KEY (USER_OF_INTREST) REFERENCES main_gym_schema.Users(U_ID),
-	FOREIGN KEY (FOLLOWING_USER) REFERENCES main_gym_schema.Users(U_ID)
+	FOREIGN KEY (USER_OF_INTREST) REFERENCES main_gym_schema.Users(U_ID) ON DELETE CASCADE,
+	FOREIGN KEY (FOLLOWING_USER) REFERENCES main_gym_schema.Users(U_ID) ON DELETE CASCADE
 
 );
 
@@ -96,22 +96,23 @@ CREATE TABLE main_gym_schema.Posts(
 CREATE OR REPLACE FUNCTION update_follower_count()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- If a new row is inserted (a user is followed), increment the follower count
+    -- If a new row is inserted (a user is followed), increment the follower count of the followed user
     IF TG_OP = 'INSERT' THEN
         UPDATE main_gym_schema.Users
         SET FOLLOWER_COUNT = FOLLOWER_COUNT + 1
-        WHERE U_ID = NEW.USER_OF_INTREST;
+        WHERE U_ID = NEW.FOLLOWING_USER;  -- Increment follower count for the FOLLOWING_USER
     
-    -- If a row is deleted (a user is unfollowed), decrement the follower count
+    -- If a row is deleted (a user is unfollowed), decrement the follower count of the unfollowed user
     ELSIF TG_OP = 'DELETE' THEN
         UPDATE main_gym_schema.Users
         SET FOLLOWER_COUNT = FOLLOWER_COUNT - 1
-        WHERE U_ID = OLD.USER_OF_INTREST;
+        WHERE U_ID = OLD.FOLLOWING_USER;  -- Decrement follower count for the FOLLOWING_USER
     END IF;
 
     RETURN NULL; -- Triggers that perform updates typically return NULL
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE TRIGGER follows_update_trigger
 AFTER INSERT OR DELETE

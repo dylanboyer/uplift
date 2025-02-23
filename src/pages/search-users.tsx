@@ -22,7 +22,8 @@ export default function SearchUsers() {
 
   // Filter the list of users based on the search query
   const filteredUsers = searchData?.filter((user) =>
-    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
 	return (

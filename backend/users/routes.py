@@ -23,7 +23,7 @@ def give_session_data():
 
 @bp.route('/all')
 def get_all_user_data():
-	return jsonify(Users.AllUsers('u_id','username')), 200
+	return jsonify(Users.AllUsers('u_id','username', 'name')), 200
 
 
 # GET /users/<user_id>/exercises
