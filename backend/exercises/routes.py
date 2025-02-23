@@ -8,6 +8,8 @@ from Database import Users
 
 import ChartBuilder
 
+@bp.route('/<exercises_id>', methods=['GET','POST','DELETE'])
+
 
 @bp.route('/<spec>/names',methods=['GET'])
 def get_users_exersise(spec):
@@ -21,9 +23,9 @@ def get_users_exersise(spec):
 		return({'status' : 'no permission'}), 403
 
 	if spec == options[0]:
-		resp = Users.GetAllUsersExercises(user_id, 'name')
+		resp = Users.GetAllUsersExercises(user_id, 'name', 'e_id')
 	else:
-		resp = Users.GetUsedUsersExercises(user_id, 'name')
+		resp = Users.GetUsedUsersExercises(user_id, 'name', 'e_id')
 
 	print(resp)
 	return jsonify(resp), 200

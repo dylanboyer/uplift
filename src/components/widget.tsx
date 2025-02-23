@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
+import {  useGetAllExercisesFromUser } from "@/hooks/use-exercise";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -29,7 +30,7 @@ interface WidgetProps {
 	exerciseId: string;
 }
 
-function Widget({ exerciseId }: WidgetProps) {
+export function Widget({ exerciseId }: WidgetProps) {
 	const [options, setOptions] = useState<any>(null);
 	const [dataset, setDataset] = useState<any>({ labels: [], datasets: [] });
 	const [loading, setLoading] = useState(true);
@@ -93,4 +94,16 @@ function Widget({ exerciseId }: WidgetProps) {
 		</div>
 	);
 }
-export default Widget;
+export function WidgetBox({user_id} : int) {
+	if (!user_id) {
+		return null;
+	}
+	
+	const { exercises_ids, isLoading, error } = useGetAllExercisesFromUser(user_id);
+	console.log(exercises_ids)
+	return (
+		<div className='WidgetBox'>
+		hi
+		</div>
+	);
+}

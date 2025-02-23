@@ -56,7 +56,7 @@ CREATE TABLE main_gym_schema.Exercises(
 	ENTRY_COUNT INT DEFAULT 0,
 
 	FOREIGN KEY (RepRange_ID) REFERENCES main_gym_schema.RepRange(R_ID),
-	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID),
+	FOREIGN KEY (U_ID) REFERENCES main_gym_schema.Users(U_ID) ON DELETE CASCADE,
 
 	CONSTRAINT unique_exercise_name_per_user UNIQUE (U_ID, NAME, RepRange_ID)
 );
@@ -69,7 +69,7 @@ CREATE TABLE main_gym_schema.Entries(
 	
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-	FOREIGN KEY (Exercise_ID) REFERENCES main_gym_schema.Exercises(E_ID)
+	FOREIGN KEY (Exercise_ID) REFERENCES main_gym_schema.Exercises(E_ID) ON DELETE CASCADE
 
 );
 

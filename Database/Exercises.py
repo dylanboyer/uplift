@@ -37,12 +37,23 @@ def GetExercise(exercise_id):
 
 		return session_to_json(session)
 
+# returns the owner of the exercise
 def ExerciseBelongsToUser(exercise_id):
 	sql = '''
 	SELECT u_id FROM Exercises WHERE e_id = %s;
 	'''
 	with SessionManager() as session:
 		session.execute(sql, (exercise_id,))
+
+		return session_single_to_json(session)
+
+# list all exercise owned by user
+def AllExercisesFromUser(user_id):
+	sql = '''
+	SELECT e_id FROM Exercises WHERE u_id = %s;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (user_id,))
 
 		return session_single_to_json(session)
 

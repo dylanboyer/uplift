@@ -26,6 +26,17 @@ def get_all_user_data():
 	return jsonify(Users.AllUsers()), 200
 
 
+# GET /users/<user_id>/exercises
+# returns json list of all users information
+
+@bp.route('/<user_id>/exercises')
+def get_all_users_exercises(user_id):
+	print(user_id)
+	resp = Exercises.AllExercisesFromUser(user_id)
+	print(resp)
+	return jsonify(resp), 200
+
+
 # GET /users/<user_id>
 # returns json information of user with given id
 

@@ -1,14 +1,27 @@
 from backend.entries import bp
-from flask import jsonify
+from flask import jsonify, request
 
 from Database import Exercises
 from Database import Entries
 
-@bp.route('/<entry_id>',methods=['GET'])
+@bp.route('/<entry_id>',methods=['GET','POST','DELETE'])
 def get_entry_data(entry_id):
-	data = Exercises.GetDataPoint(entry_id)
+	if request.method == 'GET': # get
+		data = Exercises.GetDataPoint(entry_id)
+		return jsonify(data), 200
+	elif request.method == 'POST': #update
+		data = request.json
+		# goal
+		# name
 
-	return jsonify(data), 200
+		
+
+		pass
+
+	elif request.method == 'DELETE' #delete
+		pass
+
+	return jsonify({'status', 'no'}), 400
 
 
 #POST /entries/create

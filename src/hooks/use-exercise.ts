@@ -274,3 +274,50 @@ export const useCreateEntry = () => {
 
   return { createEntry, isLoading, error, status };
 };
+
+
+export const useGetAllExercisesFromUser = (user_id) => {
+  const [exercises_ids, setExercises] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  console.log(`/backend/users/${user_id}/exercises`)
+  useEffect(() => {
+    const fetchExercises = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // Make the API request
+        const response = await fetch(`/backend/users/${user_id}/exercises`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Handle non-OK responses
+        if (!response.ok) {
+          throw new Error(`Failed to fetch exercises: ${response.statusText}`);
+        }
+
+        // Parse the response
+        const data = await response.json();
+
+        // Update the state with the list of exercise names
+        setExercises(data);
+      } catch (err) {
+        // Handle errors
+        setError(err instanceof Error ? err.message : "Failed to fetch exercises");
+      } finally {
+        // Reset loading state
+        setIsLoading(false);
+      }
+    };
+
+    // Call the fetch function
+    fetchExercises();
+  }, []); // Empty dependency array ensures this runs only once on mount
+
+  return { exercises_ids, isLoading, error };
+};
