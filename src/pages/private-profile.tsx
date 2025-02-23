@@ -3,7 +3,6 @@ import { useGetUserID } from "@/hooks/use-user"; // Assuming the hook is in a se
 import { useGetUsedExercises } from "@/hooks/use-exercise";
 import {Widget, WidgetBox} from "@/components/widget";
 
-import "@/components/widget.css";
 
 export default function PrivateProfile() {
   const { userID, loading_user, error_user } = useGetUserID(); // Use the custom hook

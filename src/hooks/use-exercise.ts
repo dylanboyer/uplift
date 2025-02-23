@@ -276,12 +276,11 @@ export const useCreateEntry = () => {
 };
 
 
-export const useGetAllExercisesFromUser = (user_id) => {
-  const [exercises_ids, setExercises] = useState<string[]>([]);
+export const useGetAllBucketsFromUser = (user_id) => {
+  const [bucket_ids, setExercises] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  console.log(`/backend/users/${user_id}/exercises`)
   useEffect(() => {
     const fetchExercises = async () => {
       setIsLoading(true);
@@ -289,7 +288,7 @@ export const useGetAllExercisesFromUser = (user_id) => {
 
       try {
         // Make the API request
-        const response = await fetch(`/backend/users/${user_id}/exercises`, {
+        const response = await fetch(`/backend/users/${user_id}/buckets`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -303,6 +302,8 @@ export const useGetAllExercisesFromUser = (user_id) => {
 
         // Parse the response
         const data = await response.json();
+
+        console.log(data)
 
         // Update the state with the list of exercise names
         setExercises(data);
@@ -319,5 +320,5 @@ export const useGetAllExercisesFromUser = (user_id) => {
     fetchExercises();
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  return { exercises_ids, isLoading, error };
+  return { bucket_ids, isLoading, error };
 };

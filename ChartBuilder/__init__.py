@@ -5,10 +5,13 @@ BACKGROUND_COLOR = '#f32c87'
 GOAL_LINE_COLOR = '#A7D15C'
 
 
-def construct_basic_chart(exercise_id, bucket_id):
-	data = Exercises.GetExercise(exercise_id, bucket_id)
+def construct_basic_chart(bucket_id):
+	data = Exercises.GetExerciseBucket(bucket_id)[0]
 	data_entries = Exercises.AllDataPoints(bucket_id)
 
+
+	print(data)
+	print(data_entries)
 	
 	data['data_label'] = f"{data['name']}, {data['label']} Rep Range"
 
@@ -101,18 +104,6 @@ def empty_chart(exercise_data):
             "backgroundColor": BORDER_COLOR,  # Light gray for background
             "borderWidth": 2,
             "fill": True
-        },
-        {  # Goal line placeholder (even if no data)
-            "label": "Goal Line",
-            "data": [
-                {"x": "2025-01-01T00:00:00Z", "y": exercise_data['goal']},  # Placeholder goal data (adjust timestamp as needed)
-                {"x": "2025-12-31T23:59:59Z", "y": exercise_data['goal']}
-            ],
-            "borderColor": GOAL_LINE_COLOR,  # Light green for goal line
-            "backgroundColor": GOAL_LINE_COLOR,
-            "borderDash": [5, 5],
-            "fill": False,
-            "type": "line"
         }]
     }
 
