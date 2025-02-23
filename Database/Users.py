@@ -1,5 +1,32 @@
 from Database.General import *
 
+
+def FollowUser(current_user, user_to_follow_id):
+	sql = '''
+	INSERT INTO FOLLOWS (USER_OF_INTREST, FOLLOWING_USER) VALUES (%s, %s);
+	'''
+	with SessionManager() as session:
+		session.execute(sql,(current_user,user_to_follow_id,))
+
+def UnfollowUser(current_user, user_to_unfollow_id):
+	sql = '''
+	DELETE FROM FOLLOWS WHERE USER_OF_INTREST = %s AND FOLLOWING_USER = %s;
+	'''
+	with SessionManager() as session:
+		session.execute(sql,(current_user,user_to_unfollow_id,))
+
+# check if current user follows user of intersest
+
+def CheckIsFollowing(current_user, user_of_interest):
+	sql = '''
+	SELECT 1 FROM FOLLOWS WHERE USER_OF_INTREST = %s AND FOLLOWING_USER = %s;
+	'''
+	with SessionManager() as session:
+		session.execute(sql,(current_user,user_of_interest,))
+		response = session.fetchone()
+		return not not response
+
+
 '''
 GET
  - get all

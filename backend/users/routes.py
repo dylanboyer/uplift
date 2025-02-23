@@ -5,6 +5,47 @@ import threading
 from Database import Users
 from Database import Exercises
 
+# POST users/follow
+# data { u_id : } <- id of user ur wanna follow
+@bp.route('/follow/', methods=['POST'])
+def follow_user():
+	data = request.json
+
+	user_id = session.get('user_id')
+	if not user_id:
+		return jsonify({'status' : 'no permission'}), 403
+
+	Users.FollowUser(int(user_id), int(data['u_id']))
+
+	return jsonify({'status' : 'ok'}), 200
+
+# POST users/unfollow
+# data { u_id : } <- id of user ur wanna follow
+@bp.route('/unfollow/', methods=['POST'])
+def unfollow_user():
+	data = request.json
+
+	
+
+	user_id = session.get('user_id')
+	if not user_id:
+		return jsonify({'status' : 'no permission'}), 403
+
+	Users.UnfollowUser(int(user_id), int(data['u_id']))
+
+	return jsonify({'status' : 'ok'}), 200
+
+@bp.route('/is_following/<user_id>', methods=['GET'])
+def check_if_following(user_id):
+	my_user_id = session.get('user_id')
+	if not my_user_id:
+		return jsonify({'status' : 'no permission'}), 403
+	resp = Users.CheckIsFollowing(my_user_id,user_id)
+
+	print('is following', resp)
+
+	return jsonify({'isFollowing' : resp}), 200
+
 # GET /users/all_id
 # returns json list of all users id
 
