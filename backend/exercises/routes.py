@@ -1,5 +1,5 @@
 from backend.exercises import bp
-from flask import jsonify, session
+from flask import jsonify, session, request
 from flask_cors import cross_origin
 from datetime import datetime
 
@@ -7,9 +7,29 @@ from Database import Exercises
 from Database import Users
 
 import ChartBuilder
+#GET /exercises/<exercises_id>
+# return name of exercise and all 3 goals in order of r_id
 
 @bp.route('/<exercises_id>', methods=['GET','POST','DELETE'])
+def exercsies_interactions(exercises_id):
+	if request.method == 'GET':
+		return jsonify(Exercises.GetExerciseInformation(exercises_id)), 200
+	elif request.method == 'POST':
+		data = request.json
+		# name
+		# goals[]
+		resp = Exercises.UpdateExerciseInformation(exercises_id, data['name'], data['goals'])
+		if resp:
+			return jsonify({'status' : 'ok'}), 200
+		return jsonify({'status' : 'no'}), 400
 
+	elif request.method == 'DELETE':
+		resp = Exercises.DeleteExercise(exercises_id)
+		if resp:
+			return jsonify({'status' : 'ok'}), 200
+		return jsonify({'status' : 'no'}), 400
+
+	return jsonify({'status' : 'no'}),400
 
 @bp.route('/<spec>/names',methods=['GET'])
 def get_users_exersise(spec):

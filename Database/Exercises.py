@@ -17,6 +17,63 @@ Default_Exercises = [
     'Calf Raises'
 ]
 
+# given exercises id return 
+# { name : name, goals[] ... # of goals it has and what thry are}
+def GetExerciseInformation(exercise_id):
+	sql ='''
+	SELECT e.name, b.goal FROM ExerciseBuckets b INNER JOIN Exercises e ON b.e_id = e.e_id WHERE e.e_id = %s ORDER BY b.RepRange_ID;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (exercise_id,))
+
+		response = session_to_json(session)
+
+	joined_response = {
+		'name' : response[0]['name'],
+		'goals' : []
+	}
+
+	for entry in response:
+		joined_response['goals'].append(entry['goal'])
+
+	print(joined_response)
+
+	return joined_response
+	
+
+def UpdateExerciseInformation(exercise_id, name, goals):
+	bucket_script = 'UPDATE ExerciseBuckets SET goal = %s WHERE RepRange_ID = %s;'
+	sql = '''
+	UPDATE Exercises SET name = %s WHERE e_id = %s;
+	'''
+	for range_id in range(1,len(goals) + 1):
+		sql += bucket_script%(goals[range_id-1], range_id)
+
+	try:
+		with SessionManager() as session:
+			session.execute(sql, (name,exercise_id,))
+
+	except Exception as e:
+		print(e)
+		return False
+
+	return True
+
+def DeleteExercise(exercise_id):
+	sql = '''
+	DELETE FROM Exercises WHERE e_id = %s;
+	'''
+	try:
+		with SessionManager() as session:
+			session.execute(sql, (exercise_id,))
+
+	except Exception as e:
+		print(e)
+		return False
+
+	return True
+
+
 # given a user return all Exercises owned by user
 def UsersExercises(user_id):
 	sql = '''
