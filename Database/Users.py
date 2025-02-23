@@ -33,7 +33,8 @@ def GetAchievements(user_id):
 	WITH RankedEntries AS (
 		SELECT 
 			r.label, 
-			e.weight, 
+			e.weight,
+			ex.name, 
 			eb.goal,
 			eb.B_ID, 
 			e.E_ID,
@@ -47,7 +48,7 @@ def GetAchievements(user_id):
 		  AND eb.GOAL > 0
 		  AND e.WEIGHT > eb.GOAL
 	)
-	SELECT label, weight, CREATED_AT, GOAL
+	SELECT label, weight, CREATED_AT, GOAL, NAME
 	FROM RankedEntries
 	WHERE rn = 1;
 	'''
@@ -61,12 +62,11 @@ def GetAchievements(user_id):
 		date_str = entry['created_at'].strftime("%A, %B %d")
 		
 		# Use the rep range label, focus on the weight lifted, and include the goal
-		accomplishment_text = (f"Lifted {entry['weight']} lbs in the '{entry['label']}' rep range, "
-							   f"surpassing the goal of {entry['goal']} lbs, on {date_str}.")
+		accomplishment_text = (f"Hit {entry['weight']} lbs on {entry['name']} in the '{entry['label']}' rep range, "
+							   f"surpassing the goal of {entry['goal']} lbs!")
 		accomplishments.append(accomplishment_text)
 
-	print(accomplishments)
-
+	return accomplishments
 
 '''
 GET

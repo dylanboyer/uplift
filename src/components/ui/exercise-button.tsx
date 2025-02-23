@@ -25,7 +25,7 @@ const ExerciseButton: React.FC<ExerciseButtonProps> = ({
         onClick={onClick}
         className={`w-52 h-52 p-4 rounded-lg transition-colors ${
           isNew
-            ? "bg-green-700 rounded-full text-white text-4xl font-bold hover:bg-green-600"
+            ? "bg-indigo-600 rounded-full text-white text-4xl font-bold hover:bg-indigo-500"
             : "bg-zinc-700 text-white hover:bg-zinc-600 font-semibold text-xl"
         } flex items-center justify-center relative`}
       >

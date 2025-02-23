@@ -4,6 +4,7 @@ import { WidgetBox } from "@/components/widget";
 import React, { useState, useEffect } from "react";
 import "@/components/widget.css";
 
+import AccomplishmentsBox from "@/components/accomplishments";
 
 export default function PublicProfile() {
   const { user_id } = useParams(); // Get user_id from the URL
@@ -93,8 +94,14 @@ export default function PublicProfile() {
           {userData?.bio || "This user has not added a bio yet."}
         </p>
       </div>
-      <WidgetBox user_id={user_id} col_num={2}/>
 
+      {/* Accomplishments Section */}
+      <div className="mb-8">
+        <AccomplishmentsBox user_id={user_id} owner={false} />
+      </div>
+
+      {/* Widgets Section */}
+      <WidgetBox user_id={user_id} col_num={2} />
     </div>
   );
 }

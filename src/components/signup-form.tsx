@@ -131,7 +131,7 @@ export function SignupForm({
             <div className="mt-6">
               <Button
                 type="submit"
-                className="w-full text-zinc-800 bg-zinc-200"
+                className="w-full text-zinc-800 bg-zinc-200 hover:text-zinc-200 hover:bg-indigo-600 transition-colors duration-300"
                 disabled={isLoading}
               >
                 {isLoading ? "Signing up..." : "Sign Up"}

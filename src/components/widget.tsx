@@ -42,7 +42,6 @@ export function Widget({ bucketId }: WidgetProps) {
       try {
         const response = await fetch(`/backend/exercises/${bucketId}/view`);
 
-
         if (response.status === 403) {
           setNoPermission(true);
           return;
@@ -99,32 +98,35 @@ export function Widget({ bucketId }: WidgetProps) {
 
 interface WidgetBoxProps {
   user_id: number;
-  col_num: number
+  col_num: number;
 }
 
-export function WidgetBox({ user_id, col_num}: WidgetBoxProps) {
+export function WidgetBox({ user_id, col_num }: WidgetBoxProps) {
   if (!user_id) {
-    return null;
+    return null; // If no user_id, don't render anything
   }
 
   const { bucket_ids, isLoading, error } = useGetAllBucketsFromUser(user_id);
 
-  if (isLoading || !bucket_ids) {
+  if (isLoading) {
     return <div className="text-center text-white">Loading...</div>;
   }
 
   if (error) {
     return <div className="text-center text-red-500">Error: {error.message}</div>;
   }
-  console.log('from widgetbox', bucket_ids)
+
+  if (!bucket_ids || bucket_ids.length === 0) {
+    return null; // If no bucket IDs, return null to not render anything
+  }
+
   return (
     <div className={`grid grid-cols-1 grid-cols-${col_num} gap-6 justify-center p-6 rounded-lg shadow-lg`}>
       {bucket_ids.map((bucket_id: number) => (
-        <div key={bucket_id} className="flex justify-center items-center"> {/* Flexbox container */}
+        <div key={bucket_id} className="flex justify-center items-center">
           <Widget bucketId={String(bucket_id)} />
         </div>
       ))}
     </div>
   );
 }
-

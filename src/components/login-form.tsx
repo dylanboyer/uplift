@@ -76,7 +76,7 @@ export function LoginForm({
               <div className="flex flex-col gap-3">
                 <Button
                   type="submit"
-                  className="w-full text-zinc-800 bg-zinc-200"
+                  className="w-full w-full text-zinc-800 bg-zinc-200 hover:text-zinc-200 hover:bg-indigo-600 transition-colors duration-300"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}

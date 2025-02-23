@@ -43,7 +43,9 @@ export default function ExerciseConfig() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">
-        Pick an exercise to make a goal! Or create a new one
+        <center>
+          Pick an exercise to make a goal! Or create a new one
+        </center>
       </h1>
 
       {/* Exercise Selection Grid */}
