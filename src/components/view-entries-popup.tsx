@@ -105,3 +105,4 @@ export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
       </div>
     </div>
   );
+}
