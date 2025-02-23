@@ -4,6 +4,7 @@ from flask import jsonify, request
 from Database import Exercises
 from Database import Entries
 
+
 @bp.route('/<entry_id>',methods=['GET','POST','DELETE'])
 def get_entry_data(entry_id):
 	if request.method == 'GET': # get

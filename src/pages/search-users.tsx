@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetUserData, useGetAllUsersForSearch } from "@/hooks/use-user"; // Assuming the hook is in a separate file
 import { Link } from "react-router-dom"; // Import Link for navigation
+import {LoadingCircle} from "@/components/loading-circle"
 
 export default function SearchUsers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,7 +13,7 @@ export default function SearchUsers() {
 
   // Loading state
   if (loading_data) {
-    return <p className="text-center text-white">Loading...</p>;
+    return <LoadingCircle />;
   }
 
   // Error handling

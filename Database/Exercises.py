@@ -188,7 +188,31 @@ def GetDataPoint(entry_id):
 
 		return session_to_json(session)[0]
 
-def AllDataPoints(bucket_id, *selection):
+def AllDataPointsExercise(exercise_id):
+	sql = '''
+	SELECT entry.weight, entry.created_at, entry.sets, entry.e_id, entry.b_id, b.reprange_id FROM Exercises e 
+		INNER JOIN ExerciseBuckets b ON b.e_id = e.e_id
+		INNER JOIN Entries entry ON entry.b_id = b.b_id
+	WHERE e.e_id = %s ORDER By entry.created_at;
+	'''
+	with SessionManager() as session:
+		session.execute(sql,(exercise_id,))
+
+		data = session_to_json(session)
+
+	split_by_reps = {}
+
+	for entry in data:
+		key = entry['reprange_id']
+		if key not in split_by_reps:
+			split_by_reps[key] = []
+
+		split_by_reps[key].append(entry)
+
+	return split_by_reps
+
+
+def AllDataPointsBucket(bucket_id, *selection):
 	args = len(selection)
 	print(args)
 	selection_text = '*'

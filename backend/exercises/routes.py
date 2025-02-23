@@ -63,6 +63,10 @@ def get_rep_ranges():
 # GET /<exercises_id>/points
 # returns the json point data of a all dataentries on a given exercises
 
+# GET /exercises/<entryid>/points
+# return { 1 : [], 2 : [], 3 : []} elements based on reprange_id
+#			-> inside of each list { b_id, e_id (entry_id), weight, sets, create_at }
+
 @bp.route('/<exercises_id>/points',methods=['GET'])
 def get_points(exercises_id):
 	user_id = session.get('user_id')
@@ -70,7 +74,7 @@ def get_points(exercises_id):
 		return({'status' : 'no permission'}), 403
 
 
-	data = Exercises.AllDataPoints(exercises_id, 'e_id')
+	data = Exercises.AllDataPointsExercise(exercises_id)
 	return jsonify(data), 200
 
 # GET /<exercises_id>/view

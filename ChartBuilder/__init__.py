@@ -7,7 +7,7 @@ GOAL_LINE_COLOR = '#A7D15C'
 
 def construct_basic_chart(bucket_id):
 	data = Exercises.GetExerciseBucket(bucket_id)[0]
-	data_entries = Exercises.AllDataPoints(bucket_id)
+	data_entries = Exercises.AllDataPointsBucket(bucket_id)
 
 
 	print(data)
