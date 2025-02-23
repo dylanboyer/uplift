@@ -210,6 +210,7 @@ def AllDataPointsExercise(exercise_id):
 		if key not in split_by_reps:
 			split_by_reps[key] = []
 
+		entry['created_at'] = entry['created_at'].strftime("%m/%d/%Y")
 		split_by_reps[key].append(entry)
 
 	return split_by_reps

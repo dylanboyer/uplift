@@ -46,13 +46,6 @@ export default function MainLayout() {
                   </Button>
                 </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem className="p-2">
-                <Link to="/entry">
-                  <Button className=" text-zinc-800 bg-zinc-200">
-                    Workouts
-                  </Button>
-                </Link>
-              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
