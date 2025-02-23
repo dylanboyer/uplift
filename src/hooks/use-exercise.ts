@@ -131,91 +131,110 @@ export const useCreateExercise = () => {
   return { createExercise, loading, error, success };
 };
 
+// POST edit exercise (given an id, name, and goals)
+interface Exercise {
+  name: string;
+  goals: number[];
+}
 
-// POST /entries/create
-// rep range int: 0, 1, 2
-// sets int:
-// weight: int
-// date: datetime iso format
-// exercise/_name (string, should match from previous click)
-// response 200, 400
-export const useCreateEntry = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<number | null>(null);
+export const useGetExercise = (exerciseId: string) => {
+  const [exercise, setExercise] = useState<Exercise | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  const createEntry = async (
-    repRange: number,
-    sets: number,
-    weight: number,
-    date: string,
-    exerciseName: string
-  ) => {
-    setIsLoading(true);
-    setError(null);
-    setStatus(null);
+  useEffect(() => {
+      const fetchExercise = async () => {
+          try {
+              const response = await fetch(`/backend/exercises/${exerciseId}`);
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              const data: Exercise = await response.json();
+              setExercise(data);
+          } catch (err) {
+              setError(err as Error);
+          } finally {
+              setLoading(false);
+          }
+      };
 
-    try {
-      // Validate rep_range (must be 0, 1, or 2)
-      if (repRange < 0 || repRange > 2) {
-        throw new Error("Rep range must be 0, 1, or 2.");
+      if (exerciseId) {
+          fetchExercise();
       }
+  }, [exerciseId]);
 
-      // Validate sets (must be a positive integer)
-      if (!Number.isInteger(sets) || sets <= 0) {
-        throw new Error("Sets must be a positive integer.");
-      }
-
-      // Validate weight (must be a positive integer)
-      if (!Number.isInteger(weight) || weight <= 0) {
-        throw new Error("Weight must be a positive integer.");
-      }
-
-      // Validate date (must be a valid ISO string)
-      if (!Date.parse(date)) {
-        throw new Error("Date must be a valid ISO timestamp.");
-      }
-
-      // Validate exercise_name (must be a non-empty string)
-      if (typeof exerciseName !== "string" || exerciseName.trim() === "") {
-        throw new Error("Exercise name must be a non-empty string.");
-      }
-
-      // Make the API request
-      const response = await fetch("/entries/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rep_range: repRange,
-          sets,
-          weight,
-          date,
-          exercise_name: exerciseName,
-        }),
-      });
-
-      // Handle non-OK responses
-      if (!response.ok) {
-        throw new Error(`Failed to create entry: ${response.statusText}`);
-      }
-
-      // Set the response status
-      setStatus(response.status);
-    } catch (err) {
-      // Handle errors
-      setError(err instanceof Error ? err.message : "Failed to create entry");
-      setStatus(400); // Set status to 400 on error
-    } finally {
-      // Reset loading state
-      setIsLoading(false);
-    }
-  };
-
-  return { createEntry, isLoading, error, status };
+  return { exercise, loading, error };
 };
 
+interface EditExerciseResponse {
+  status: string;
+}
+
+export const useEditExercise = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [response, setResponse] = useState<EditExerciseResponse | null>(null);
+
+  const editExercise = async (exerciseId: string, exercise: Exercise) => {
+      setLoading(true);
+      setError(null);
+      setResponse(null);
+
+      try {
+          const response = await fetch(`/backend/exercises/${exerciseId}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(exercise),
+          });
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const data: EditExerciseResponse = await response.json();
+          setResponse(data);
+      } catch (err) {
+          setError(err as Error);
+      } finally {
+          setLoading(false);
+      }
+  };
+
+  return { editExercise, loading, error, response };
+};
+
+interface DeleteExerciseResponse {
+  status: string;
+}
+
+export const useDeleteExercise = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [response, setResponse] = useState<DeleteExerciseResponse | null>(null);
+
+  const deleteExercise = async (exerciseId: string) => {
+      setLoading(true);
+      setError(null);
+      setResponse(null);
+
+      try {
+          const response = await fetch(`/backend/exercises/${exerciseId}`, {
+              method: 'DELETE',
+          });
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const data: DeleteExerciseResponse = await response.json();
+          setResponse(data);
+      } catch (err) {
+          setError(err as Error);
+      } finally {
+          setLoading(false);
+      }
+  };
+
+  return { deleteExercise, loading, error, response };
+};
 
 export const useGetAllBucketsFromUser = (user_id) => {
   const [bucket_ids, setExercises] = useState<string[]>([]);

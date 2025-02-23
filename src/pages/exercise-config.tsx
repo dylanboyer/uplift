@@ -35,17 +35,17 @@ export default function ExerciseConfig() {
         )}
 
         <button
-          className="p-4 bg-blue-500 outline-3 outline-amber-300 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className="p-4 bg-blue-400 outline-3 outline-amber-300 text-black rounded-lg hover:bg-blue-500 transition-colors"
           onClick={() => {
             setIsNewExercise(true);
             setSelectedExercise(null);
           }}
         >
-          Insert New Exercise OR Edit
+          New Exercise
         </button>
       </div>
 
-      <Separator className="my-6" />
+      <Separator className="bg-white my-6" />
 
       {/* Conditional Rendering for Forms */}
       {isNewExercise ? (
