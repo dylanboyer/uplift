@@ -76,18 +76,11 @@ def get_points(exercises_id):
 # GET /<exercises_id>/view
 # returns the json of all the info needed to render a charts.js component
 
-@bp.route('/<exercises_id>/view',methods=['GET'])
-def graph_data(exercises_id):
+@bp.route('/<bucket_id>/view',methods=['GET'])
+def graph_data(bucket_id):
 	user_id = session.get('user_id')
 
-	print('session',user_id)
-	print('found in db',Exercises.ExerciseBelongsToUser(exercises_id))
-	if not user_id or Exercises.ExerciseBelongsToUser(exercises_id) != user_id:
-		return({'status' : 'no permission'}), 403
-
-	print(exercises_id)
-
-	chart_data, chart_options = ChartBuilder.construct_basic_chart(exercises_id)
+	chart_data, chart_options = ChartBuilder.construct_basic_chart(bucket_id)
 
 	return jsonify(
 		{

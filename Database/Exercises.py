@@ -82,19 +82,31 @@ def UsersExercises(user_id):
 	with SessionManager() as session:
 		session.execute(sql, (user_id,))
 
-		return session_to_json(session)
+		return session_single_to_json(session)
 
-# get summary over Exercise with the bucket in mind 
-def GetExerciseBucket(exercise_id, rep_range_id):
-	return "DO THIS LATER"
+# given a user return all Buckets owned by user
+def UsersBuckets(user_id):
 	sql = '''
-	SELECT e.name, b.goal, e.u_id, r.label FROM Exercises e 
-		INNER JOIN ExerciseBucket b ON b.e_id = e.e_id 
-		INNER JOIN RepRange r ON r.r_id = b.r_id
-		WHERE e_id = %s;
+	SELECT b.b_id FROM ExerciseBuckets b INNER JOIN Exercises e ON e.e_id = b.e_id WHERE e.u_id = %s AND b.entry_count > 0;
 	'''
 	with SessionManager() as session:
-		session.execute(sql, (exercise_id,))
+		session.execute(sql, (user_id,))
+
+		return session_single_to_json(session)
+
+# get summary over Exercise with the bucket in mind 
+# return { name, goal, u_id, label}
+#		 lift name, goal, user, rep range
+def GetExerciseBucket(bucket_id):
+	#  
+	sql = '''
+	SELECT e.name, b.goal, e.u_id, r.label FROM Exercises e 
+		INNER JOIN ExerciseBuckets b ON b.e_id = e.e_id 
+		INNER JOIN RepRange r ON r.r_id = b.reprange_id
+		WHERE b.b_id = %s;
+	'''
+	with SessionManager() as session:
+		session.execute(sql, (bucket_id,))
 
 		return session_to_json(session)
 
@@ -198,7 +210,7 @@ def AllDataPoints(bucket_id, *selection):
 	print(sql)
 
 	with SessionManager() as session:
-		session.execute(sql,(exercise_id,))
+		session.execute(sql,(bucket_id,))
 
 		if args == 1:
 			return session_single_to_json(session)

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetUserID } from "@/hooks/use-user"; // Assuming the hook is in a separate file
-import Widget from "@/components/widget";
+import {Widget, WidgetBox} from "@/components/widget";
 
 import "@/components/widget.css";
 
@@ -23,6 +23,7 @@ export default function PublicProfile() {
   return (
     <div>
       <h1>Public page</h1>
+      <WidgetBox user_id={user_id} />
     </div>
   );
 }
