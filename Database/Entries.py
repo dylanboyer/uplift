@@ -20,7 +20,7 @@ def DeleteEntry(entry_id):
 
 def CreateEntry(exercise_id, weight, sets, date, rep_range_id):
     sql = '''
-    INSERT INTO main_gym_schema.Entries (B_ID, WEIGHT, SETS, created_at, reprange_id) 
+    INSERT INTO main_gym_schema.Entries (B_ID, WEIGHT, SETS, created_at) 
     VALUES (
         (SELECT B_ID 
          FROM main_gym_schema.ExerciseBuckets 
@@ -31,7 +31,7 @@ def CreateEntry(exercise_id, weight, sets, date, rep_range_id):
     '''
     
     with SessionManager() as session:
-        session.execute(sql, (exercise_id, rep_range_id, weight, sets, date, rep_range_id))
+        session.execute(sql, (exercise_id, rep_range_id, weight, sets, date,))
 
         resp = session.fetchone()
         if not resp:
