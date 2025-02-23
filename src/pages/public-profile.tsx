@@ -4,6 +4,7 @@ import { WidgetBox } from "@/components/widget";
 import React, { useState, useEffect } from "react";
 import "@/components/widget.css";
 
+
 export default function PublicProfile() {
   const { user_id } = useParams(); // Get user_id from the URL
   const { userID, loading_ses, error_ses } = useGetUserID(); // Get current user ID
@@ -54,14 +55,14 @@ export default function PublicProfile() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4 bg-zinc-800 text-white rounded-lg shadow-lg">
+    <div className="max-w-screen-xl mx-auto p-6 bg-zinc-800 text-white rounded-lg shadow-lg">
       {/* User Info Section */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col lg:flex-row items-center justify-between mb-8">
+        <div className="flex items-center space-x-6 mb-6 lg:mb-0">
           <img
             src={userData?.pfp_url}
             alt="User Profile Picture"
-            className="w-32 h-32 rounded-full border-4 border-gray-500"
+            className="w-40 h-40 rounded-full border-4 border-gray-500"
           />
           <div>
             <h1 className="text-3xl font-bold">{userData?.name}</h1>
@@ -76,7 +77,7 @@ export default function PublicProfile() {
           <button
             onClick={handleRefresh} // Directly call toggleFollow and update follower count
             disabled={loading}
-            className={`px-6 py-2 rounded-full font-semibold transition-all 
+            className={`px-6 py-3 rounded-full font-semibold transition-all 
               ${isFollowing ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"} 
               ${loading ? "opacity-50 cursor-not-allowed" : "text-white"}`}
           >
@@ -92,9 +93,8 @@ export default function PublicProfile() {
           {userData?.bio || "This user has not added a bio yet."}
         </p>
       </div>
+      <WidgetBox user_id={user_id} col_num={2}/>
 
-      {/* Display widgets for the user */}
-      <WidgetBox user_id={user_id} />
     </div>
   );
 }

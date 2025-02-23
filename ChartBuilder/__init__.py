@@ -25,16 +25,7 @@ def construct_basic_chart(bucket_id):
 	if len(data_entries) == 0:
 		return empty_chart(data)
 
-	# Correct dataset format
-	datapoints = [
-		{ # real data
-			'label': 'Progress',
-			'data': values,  # Data should be an array
-			'borderColor': BORDER_COLOR,
-			'backgroundColor': BACKGROUND_COLOR,
-			'fill': True
-		},
-		{ # constant line
+	goal_line = { # constant line
 			'label': 'Goal Line',
 			'data': [
 				{'x' : labels[0] , 'y' : data['goal']},
@@ -45,9 +36,20 @@ def construct_basic_chart(bucket_id):
 			'borderDash': [5, 5],
 			'fill': True,
 			'type' : 'line'
-		}
+	}
 
+	# Correct dataset format
+	datapoints = [
+		{ # real data
+			'label': 'Progress',
+			'data': values,  # Data should be an array
+			'borderColor': BORDER_COLOR,
+			'backgroundColor': BACKGROUND_COLOR,
+			'fill': True
+		}
 	]
+
+	if data['goal'] > 0: datapoints.append(goal_line)
 
 	data_point_formatting = {
 		'labels': labels,
@@ -63,7 +65,10 @@ def construct_basic_chart(bucket_id):
 			'title': {
 				'display': True,
 				'text': data['data_label'],
-				'color': 'white'
+				'color': 'white',
+				'font': {
+                        'size': 24
+                }
 			},
 			'legend': {
 				'labels': {
@@ -79,13 +84,17 @@ def construct_basic_chart(bucket_id):
 				},
 				'min': labels[0],  # Prevent IndexError
 				'ticks': {
-					'autoSkip': True
+					'autoSkip': True,
+					'color': 'white'
 				}
 			},
 			'y': {
 				'beginAtZero': True,
 				'min': 0,
-				'max': int(max(*values,data['goal']) * 1.25) if values else 0  # Prevents errors on empty lists
+				'max': int(max(*values,data['goal']) * 1.25) if values else 0,  # Prevents errors on empty lists
+				'ticks': {
+	                'color': 'white',  # Set y-axis label color to white
+	            }
 			}
 		}
 	}

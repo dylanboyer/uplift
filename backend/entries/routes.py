@@ -1,5 +1,5 @@
 from backend.entries import bp
-from flask import jsonify, request
+from flask import jsonify, request, session
 
 from Database import Exercises
 from Database import Entries
