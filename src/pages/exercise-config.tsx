@@ -9,6 +9,9 @@ import ExerciseButton from "@/components/ui/exercise-button"; // Import the new 
 import {EntryPopup} from "@/components/entry-popup";
 import {ExercisePopup} from "@/components/exercise-popup";
 import {ExerciseEditPopup} from "@/components/exercise-edit-popup";
+import { ViewEntriesPopup } from "@/components/view-entries-popup";
+import { onViewEntries } from "@/components/view-entries-popup";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function ExerciseConfig() {
   const { exercises = [], isLoading, error } = useGetAllExercises();
@@ -18,6 +21,7 @@ export default function ExerciseConfig() {
   } | null>(null);
   const [isNewExercise, setIsNewExercise] = useState<boolean>(false);
 
+  const [viewEntries, setViewEntries] = useState(null)
   const [addEntry, setAddEntry] = useState(null);
   const [modifyExercise, setModifyExercise] = useState(null);
   const [addNewExercise, setAddNewExercise] = useState(null);
@@ -28,6 +32,8 @@ export default function ExerciseConfig() {
     error: errorDelete,
     response: responseDelete,
   } = useDeleteExercise();
+
+  const navigate = useNavigate();
 
   const handleDelete = async (e_id) => {
     if (window.confirm("Are you sure you want to delete this exercise?")) {
@@ -55,15 +61,14 @@ export default function ExerciseConfig() {
              <ExerciseButton
                 key={exercise.e_id}
                 name={exercise.name}
-                onClick={() => {
-                  setSelectedExercise({
+                onViewEntries={() => {
+                  setViewEntries({
                     name: exercise.name,
                     id: exercise.e_id,
                   });
-                  setIsNewExercise(false);
                 }}
                 onModify={() => {
-                  setModifyExercise({
+                  setSelectedExercise({
                     name: exercise.name,
                     id: exercise.e_id,
                   });
@@ -96,20 +101,26 @@ export default function ExerciseConfig() {
           onClose={() => setAddEntry(null)}
         />
       )}
+        {viewEntries && (
+        <ViewEntriesPopup
+          exercise={viewEntries}
+          onClose={() => {
+            setViewEntries(null);
+          }}
+          />
+        )}
         {addNewExercise && (
         <ExercisePopup
           onClose={() => {
             setAddNewExercise(null);
-            navigate(0)
           }}
         />
       )}
-        {modifyExercise && (
+        {selectedExercise && (
         <ExerciseEditPopup
-          exercise_in={modifyExercise}
+          exercise_in={selectedExercise}
           onClose={() => {
-            setModifyExercise(null);
-            navigate(0)
+            setSelectedExercise(null);
           }}
         />
       )}

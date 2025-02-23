@@ -16,6 +16,7 @@ export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupPro
   const { editExercise, loading: loadingEdit, error: errorEdit, response: responseEdit } = useEditExercise();
 
 
+  const navigate = useNavigate();
   const [exerciseName, setExerciseName] = useState("");
   const [goalWeights, setGoalWeights] = useState({
     "1-5": "",
@@ -46,6 +47,7 @@ export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupPro
     );
 
     onClose();
+    navigate(0);
   };
 
   return (
