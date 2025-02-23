@@ -22,7 +22,7 @@ export const useCreateEntry = (): UseCreateEntryResult => {
     setError(null);
 
     try {
-      const response = await fetch(`/backend/entries/create`, {
+      const response = await fetch(`/backend/entries`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -236,34 +236,39 @@ export const useFollow = (userId) => {
 };
 
 
-export const useFetchAccomplishments = (userId: string | undefined) => {
-  const [accomplishments, setAccomplishments] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+export const useFetchAccomplishments = (user_id: string) => {
+  const [accomplishments, setAccomplishments] = useState<string[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userId) return; // Prevent fetch if userId is not available
+    if (!user_id) {
+      setLoading(false);
+      setError("Invalid user ID");
+      return;
+    }
 
-    const fetchData = async () => {
+    const fetchAccomplishments = async () => {
       try {
-        const response = await fetch(`/users/accomplishments/${userId}`);
+        const response = await fetch(`/backend/users/accomplishments/${user_id}`);
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`Failed to fetch: ${response.statusText}`);
         }
-        const data: { name: string }[] = await response.json(); // Expect an array of objects with a `name` field
 
-        // Extract only the `name` values to return an array of strings
-        setAccomplishments(data.map((item) => item.name));
+        const data = await response.json();
+        console.log(data)
+        setAccomplishments(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error occurred");
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [userId]);
+    fetchAccomplishments();
+  }, [user_id]);
 
   return { accomplishments, loading, error };
 };
+
 

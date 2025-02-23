@@ -35,7 +35,7 @@ def get_entry_data(entry_id):
 
 #POST /entries/create
 # provide {rep_range_id, sets, weight, date, e_id (Exercises_id)}
-@bp.route('/create',methods=['POST'])
+@bp.route('',methods=['POST'])
 def create_entry():
 	data = request.json
 	# check session
