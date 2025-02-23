@@ -25,7 +25,7 @@ def CreateEntry(exercise_id, weight, sets, date, rep_range_id):
         (SELECT B_ID 
          FROM main_gym_schema.ExerciseBuckets 
          WHERE E_ID = %s AND RepRange_ID = %s),
-        %s, %s, %s, %s
+        %s, %s, %s
     ) 
     RETURNING E_ID;
     '''
