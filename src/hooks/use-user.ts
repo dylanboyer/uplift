@@ -148,3 +148,36 @@ export const useGetUserData = (user_id) => {
 
   return { userData, loading_data, error_data };
 };
+
+export const useGetAllUsersForSearch = (user_id) => {
+  const [searchData, setSearchData] = useState(null);
+  const [loading_data, setLoading] = useState(true);
+  const [error_data, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("/backend/users/all", {
+          credentials: "include", // Ensure cookies are sent with the request
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch session data");
+        }
+
+        const data = await response.json();
+        console.log(data)
+        setSearchData(data); // Set the user_id if the session is valid
+
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  return { searchData, loading_data, error_data };
+};
