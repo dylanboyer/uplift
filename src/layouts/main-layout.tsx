@@ -65,7 +65,7 @@ export default function MainLayout() {
             {/* Add ml-auto here */}
             <NavigationMenuList>
               <NavigationMenuItem className="p-2">
-                <Link to="/goals">
+                <Link to="/search">
                   <Button className="text-zinc-800 bg-zinc-200">
                     Search User
                   </Button>

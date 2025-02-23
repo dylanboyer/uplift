@@ -115,3 +115,36 @@ export const useLogout = () => {
 
   return { logout, loading, error, isLoggedOut };
 };
+
+export const useGetUserData = (user_id) => {
+  const [userData, setUserData] = useState(null);
+  const [loading_data, setLoading] = useState(true);
+  const [error_data, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/backend/users/${user_id}`, {
+          credentials: "include", // Ensure cookies are sent with the request
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch session data");
+        }
+
+        const data = await response.json();
+        console.log(data)
+        setUserData(data[0]); // Set the user_id if the session is valid
+
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  return { userData, loading_data, error_data };
+};

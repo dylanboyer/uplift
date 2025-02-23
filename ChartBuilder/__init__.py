@@ -75,8 +75,7 @@ def construct_basic_chart(bucket_id):
 			'x': {
 				'type': 'time',
 				'time': {
-					'unit': 'day',
-					'tooltipFormat': 'll'
+					'unit': 'day'
 				},
 				'min': labels[0],  # Prevent IndexError
 				'ticks': {

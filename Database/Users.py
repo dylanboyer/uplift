@@ -54,7 +54,7 @@ def GetUser(user_id):
 	with SessionManager() as session:
 		session.execute(sql, (user_id,))
 
-		return session_to_json(session)[0]
+		return session_to_json(session)
 
 # create a user with all the information given
 # provide a dict of user data

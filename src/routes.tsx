@@ -9,6 +9,7 @@ import PublicProfile from "./pages/public-profile";
 import PrivateProfile from "./pages/private-profile";
 import ExerciseConfig from "./pages/exercise-config";
 import WorkoutEntry from "./pages/workout-entry";
+import SearchUsers from "./pages/search-users";
 import ProtectedRoute from "./components/protected-route";
 
 const AppRoutes = (
@@ -20,6 +21,7 @@ const AppRoutes = (
         <Route path="/users/:user_id" element={<PublicProfile />} />
         <Route path="/exercises" element={<ExerciseConfig />} />
         <Route path="/entry" element={<WorkoutEntry />} />
+        <Route path="/search" element={<SearchUsers />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
