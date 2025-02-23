@@ -1,4 +1,5 @@
 from Database.General import *
+import datetime
 
 
 def FollowUser(current_user, user_to_follow_id):
@@ -25,6 +26,46 @@ def CheckIsFollowing(current_user, user_of_interest):
 		session.execute(sql,(current_user,user_of_interest,))
 		response = session.fetchone()
 		return not not response
+
+
+def GetAchievements(user_id):
+	sql = '''
+	WITH RankedEntries AS (
+		SELECT 
+			r.label, 
+			e.weight, 
+			eb.goal,
+			eb.B_ID, 
+			e.E_ID,
+			e.created_at,
+			ROW_NUMBER() OVER (PARTITION BY eb.B_ID ORDER BY e.weight DESC) AS rn
+		FROM ExerciseBuckets eb
+		JOIN Entries e ON eb.B_ID = e.B_ID
+		JOIN Exercises ex ON eb.E_ID = ex.E_ID
+		JOIN RepRange r ON r.R_ID = eb.RepRange_ID
+		WHERE ex.U_ID = %s
+		  AND eb.GOAL > 0
+		  AND e.WEIGHT > eb.GOAL
+	)
+	SELECT label, weight, CREATED_AT, GOAL
+	FROM RankedEntries
+	WHERE rn = 1;
+	'''
+	with SessionManager() as session:
+		session.execute(sql,(user_id,))
+		response = session_to_json(session)
+
+	accomplishments = []
+	for entry in response:
+		# Format the date to only show the weekday and the month/day
+		date_str = entry['created_at'].strftime("%A, %B %d")
+		
+		# Use the rep range label, focus on the weight lifted, and include the goal
+		accomplishment_text = (f"Lifted {entry['weight']} lbs in the '{entry['label']}' rep range, "
+							   f"surpassing the goal of {entry['goal']} lbs, on {date_str}.")
+		accomplishments.append(accomplishment_text)
+
+	print(accomplishments)
 
 
 '''

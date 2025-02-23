@@ -122,6 +122,18 @@ def user_log_out():
 	return 200
 
 
+@bp.route('/accomplishments/<user_id>')
+def get_achivements(user_id):
+	achives = Users.GetAchievements(user_id)
+	print(achives)
+	print()
+	print()
+	print()
+	print()
+	print()
+	
+	return jsonify(achives), 200
+
 # POST /users/create
 #	DATA { name, email, username, password }
 # {'status' : 'ok', 'u_id' : <users_id>}, 200 on success

@@ -234,3 +234,36 @@ export const useFollow = (userId) => {
 
   return { isFollowing, toggleFollow, loading };
 };
+
+
+export const useFetchAccomplishments = (userId: string | undefined) => {
+  const [accomplishments, setAccomplishments] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userId) return; // Prevent fetch if userId is not available
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/users/accomplishments/${userId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data: { name: string }[] = await response.json(); // Expect an array of objects with a `name` field
+
+        // Extract only the `name` values to return an array of strings
+        setAccomplishments(data.map((item) => item.name));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  return { accomplishments, loading, error };
+};
+

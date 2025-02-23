@@ -24,9 +24,9 @@ export default function PrivateProfile() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-zinc-900 text-white">
       {/* Left Side: Profile + Accomplishments */}
-      <div className="col-span-10 lg:col-span-2 grid grid-rows-3 gap-4">
+      <div className="col-span-10 lg:col-span-2 grid grid-rows-[auto,1fr] gap-4">
         {/* Upper Left: Profile Information */}
-        <div className="row-span-8 bg-zinc-800 p-6 rounded-lg shadow-md space-y-4">
+        <div className="row-span-1 bg-zinc-800 p-6 rounded-lg shadow-md space-y-4">
           <div className="flex items-center space-x-4">
             <img
               src={profileData.pfp_url}
@@ -45,9 +45,9 @@ export default function PrivateProfile() {
         </div>
         
         {/* Lower Left: Accomplishments Box */}
-        <div className="row-span-7 bg-zinc-800 p-4 rounded-lg shadow-md">
+        <div className="bg-zinc-800 p-4 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold mb-2">Accomplishments</h3>
-          <AccomplishmentsBox />
+          <AccomplishmentsBox user_id={userID}/>
         </div>
       </div>
 

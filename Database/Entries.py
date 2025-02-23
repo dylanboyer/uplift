@@ -6,7 +6,7 @@ def UpdateEntry(entry_id, weight, sets, date):
 	UPDATE ENTRIES SET weight = %s, sets = %s, created_at = %s WHERE e_id = %s;
 	'''
 	with SessionManager() as session:
-		session.execute(sql,(weight,sets,created_at,entry_id,))
+		session.execute(sql,(weight,sets,date,entry_id,))
 	return True
 
 def DeleteEntry(entry_id):

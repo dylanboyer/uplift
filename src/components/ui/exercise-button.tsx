@@ -45,7 +45,7 @@ const ExerciseButton: React.FC<ExerciseButtonProps> = ({
                 </svg>
               </button>
               <div className="absolute bottom-8 left-0 hidden group-hover:block bg-black text-white text-xs rounded-md p-1 whitespace-nowrap z-50">
-                Add New Exercise
+                Add New Entry
               </div>
             </div>
             {/* Modify Button (Blue) with Tooltip */}
