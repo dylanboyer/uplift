@@ -18,34 +18,22 @@ def DeleteEntry(entry_id):
 
 	return True
 
-def CreateEntry(bucket_id, weight, sets, date, rep_range_id):
-	sql = '''
-	INSERT INTO ENTRIES (b_id weight, sets, created_at, reprange_id) VALUES %s, %s, %s, %s, %s RETURNING e_id;
-	'''
-	with SessionManager() as session:
-		session.execute(sql,(bucket_id,weight,sets,date,rep_range_id,))
+def CreateEntry(exercise_id, weight, sets, date, rep_range_id):
+    sql = '''
+    INSERT INTO main_gym_schema.Entries (B_ID, WEIGHT, SETS, created_at, reprange_id) 
+    VALUES (
+        (SELECT B_ID 
+         FROM main_gym_schema.ExerciseBuckets 
+         WHERE E_ID = %s AND RepRange_ID = %s),
+        %s, %s, %s, %s
+    ) 
+    RETURNING E_ID;
+    '''
+    
+    with SessionManager() as session:
+        session.execute(sql, (exercise_id, rep_range_id, weight, sets, date, rep_range_id))
 
-		resp = session.fetchone()
-		if not resp:
-			return False
-		return True
-
-'''
-def UpdateExerciseInformation(exercise_id, name, goals):
-	bucket_script = 'UPDATE ExerciseBuckets SET goal = %s WHERE RepRange_ID = %s AND e_id = %s;'
-	sql = '''
-	#UPDATE Exercises SET name = %s WHERE e_id = %s;
-	'''
-	for range_id in range(1,len(goals) + 1):
-		sql += bucket_script%(goals[range_id-1], range_id, exercise_id)
-
-	try:
-		with SessionManager() as session:
-			session.execute(sql, (name,exercise_id,))
-
-	except Exception as e:
-		print(e)
-		return False
-
-	return True
-'''
+        resp = session.fetchone()
+        if not resp:
+            return False
+        return True

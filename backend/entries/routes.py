@@ -34,7 +34,7 @@ def get_entry_data(entry_id):
 
 
 #POST /entries/create
-# provide {rep_range_id, sets, weight, date, b_id}
+# provide {rep_range_id, sets, weight, date, e_id (Exercises_id)}
 @bp.route('/create',methods=['POST'])
 def create_entry():
 	data = request.json
@@ -47,7 +47,7 @@ def create_entry():
 
 	# bucket_id, weight, sets, date, rep_range_id
 
-	response = Entries.CreateEntry(data['b_id'],data['weight'],data['sets'],data['date'],data['rep_range_id'])
+	response = Entries.CreateEntry(data['e_id'],data['weight'],data['sets'],data['date'],data['rep_range_id'])
 
 	if response:
 		return jsonify({'status' : 'ok'}), 200

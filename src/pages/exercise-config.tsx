@@ -1,9 +1,11 @@
+// ExerciseConfig.tsx
 import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useGetAllExercises } from "@/hooks/use-exercise";
 import { CreateExerciseForm } from "@/components/create-exercise-form";
 import { EditExerciseForm } from "@/components/edit-exercise-form";
 import { LoadingCircle } from "@/components/loading-circle";
+import ExerciseButton from "@/components/ui/exercise-button"; // Import the new button component
 
 export default function ExerciseConfig() {
   const { exercises = [], isLoading, error } = useGetAllExercises();
@@ -23,12 +25,12 @@ export default function ExerciseConfig() {
       </h1>
 
       {/* Exercise Selection Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="flex flex-wrap justify-center gap-4"> {/* Added justify-center to center buttons */}
         {exercises.length > 0
           ? exercises.map((exercise) => (
-              <button
+              <ExerciseButton
                 key={exercise.e_id}
-                className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                name={exercise.name}
                 onClick={() => {
                   setSelectedExercise({
                     name: exercise.name,
@@ -36,21 +38,18 @@ export default function ExerciseConfig() {
                   });
                   setIsNewExercise(false);
                 }}
-              >
-                {exercise.name}
-              </button>
+              />
             ))
           : null}
 
-        <button
-          className="p-4 bg-blue-400 outline-3 outline-amber-300 text-black rounded-lg hover:bg-blue-500 transition-colors"
+        <ExerciseButton
+          name="+"
           onClick={() => {
             setIsNewExercise(true);
             setSelectedExercise(null);
           }}
-        >
-          New Exercise
-        </button>
+          isNew={true} // Pass isNew as true for styling
+        />
       </div>
 
       <Separator className="bg-white my-6" />
