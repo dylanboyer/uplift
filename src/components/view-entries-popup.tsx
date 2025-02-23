@@ -13,6 +13,8 @@ import {
 import { useGetAllEntriesFromExercise } from "@/hooks/use-exercise";
 import { useDeleteEntry } from "@/hooks/use-entry";
 
+import { Navigate, useNavigate } from "react-router-dom";
+
 interface EntryPopupProps {
   exercise: { name: string; id: string };
   onClose: () => void;
@@ -27,6 +29,8 @@ const REP_RANGE_HEADERS: Record<string, string> = {
 export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
   const { data, loading, error } = useGetAllEntriesFromExercise(exercise.id);
   const { deleteEntry, loading: deleteLoading, error: deleteError, success } = useDeleteEntry();
+
+  const navigate = useNavigate();
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/65">
@@ -69,6 +73,7 @@ export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
                         <button
                           onClick={() => {
                             deleteEntry(entry.e_id);
+                            navigate(0);
                           }}
                           className="p-2 rounded-md text-white transition-colors hover:bg-red-400"
                           disabled={deleteLoading}

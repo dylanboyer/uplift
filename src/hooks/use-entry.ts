@@ -50,7 +50,7 @@ export const useDeleteEntry = (entryId: string) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const deleteEntry = useCallback(async () => {
+  const deleteEntry = useCallback(async (entryId: string) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
