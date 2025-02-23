@@ -224,7 +224,7 @@ def AllDataPointsBucket(bucket_id, *selection):
 		selection_text = ','.join(selection)
 
 	sql = '''
-	SELECT {} FROM Entries WHERE B_id = %s;
+	SELECT {} FROM Entries WHERE B_id = %s ORDER By created_at;
 	'''.format(selection_text)
 
 	print(sql)
