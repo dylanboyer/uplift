@@ -43,15 +43,7 @@ export default function MainLayout() {
                     </Link>
                   </NavigationMenuItem>
                 </>
-              ) : (
-                <NavigationMenuItem className="p-2">
-                  <Link to="/login">
-                    <div className="text-zinc-200 bg-zinc-900 hover:bg-indigo-600 hover:text-zinc-50 transition-all duration-300 transform hover:scale-105 hover:shadow-lg py-2 px-4 rounded-lg cursor-pointer">
-                      Login
-                    </div>
-                  </Link>
-                </NavigationMenuItem>
-              )}
+              ) : null}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -86,9 +78,16 @@ export default function MainLayout() {
               ) : (
                 <>
                   <NavigationMenuItem className="p-2">
+                    <Link to="/login">
+                      <div className="text-zinc-200 bg-zinc-900 hover:bg-indigo-600 hover:text-zinc-50 transition-all duration-300 transform hover:scale-105 hover:shadow-lg py-2 px-4 rounded-lg cursor-pointer">
+                        Login
+                      </div>
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem className="p-2">
                     <Link to="/signup">
                       <div className="text-zinc-200 bg-zinc-900 hover:bg-indigo-600 hover:text-zinc-50 transition-all duration-300 transform hover:scale-105 hover:shadow-lg py-2 px-4 rounded-lg cursor-pointer">
-                        Signup
+                        Create Account
                       </div>
                     </Link>
                   </NavigationMenuItem>
