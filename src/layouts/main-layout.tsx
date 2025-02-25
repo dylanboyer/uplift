@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -8,15 +8,9 @@ import { useLogout, useGetUserID } from "@/hooks/use-user";
 
 export default function MainLayout() {
   const { userID, loading: userLoading, error: userError } = useGetUserID();
-  const {
-    logout,
-    loading: logoutLoading,
-    error: logoutError,
-    isLoggedOut,
-  } = useLogout();
+  const { logout, loading: logoutLoading, error: logoutError, isLoggedOut } = useLogout();
 
   const handleLogout = () => {
-    Navigate("/login");
     logout();
   };
 
@@ -64,7 +58,7 @@ export default function MainLayout() {
               </NavigationMenuItem>
               <NavigationMenuItem className="p-2">
                 {userID && !isLoggedOut ? (
-                  <Link to="/login">
+                  <Link to="/">
                     <div
                       className="text-zinc-200 bg-zinc-900 hover:bg-indigo-600 hover:text-zinc-50 transition-all duration-300 transform hover:scale-105 hover:shadow-lg py-2 px-4 rounded-lg cursor-pointer"
                       onClick={handleLogout}

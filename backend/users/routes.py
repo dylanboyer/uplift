@@ -119,7 +119,7 @@ def user_log_in():
 @bp.route('/logout', methods=['POST'])
 def user_log_out():
 	session['user_id'] = None
-	return 200
+	return jsonify({'status':'ok'}), 200
 
 
 @bp.route('/accomplishments/<user_id>')

@@ -107,7 +107,7 @@ export const useLogout = () => {
 
       setIsLoggedOut(true); // Logout was successful
     } catch (err) {
-      setError(err);
+      setError(err)
     } finally {
       setLoading(false);
     }
