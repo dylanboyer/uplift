@@ -97,7 +97,7 @@ export function Widget({ bucketId }: WidgetProps) {
 }
 
 interface WidgetBoxProps {
-  user_id: number;
+  user_id: string | null;
   col_num: number;
 }
 

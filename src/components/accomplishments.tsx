@@ -2,7 +2,7 @@ import React from 'react';
 import { FaTrophy, FaStar } from 'react-icons/fa';
 import { useFetchAccomplishments } from "@/hooks/use-user";
 
-const AccomplishmentsBox: React.FC<{ user_id?: string; owner?: boolean }> = ({ user_id, owner }) => {
+const AccomplishmentsBox: React.FC<{ user_id: string | null; owner?: boolean }> = ({ user_id, owner }) => {
   if (!user_id) {
     return <div>Loading accomplishments...</div>; // Ensure valid user_id before fetching
   }

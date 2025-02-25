@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetExercise, useEditExercise } from "@/hooks/use-exercise";
 import { useNavigate } from "react-router-dom";
+import { LoadingCircle } from "@/components/loading-circle";
 
 interface ExerciseEditPopupProps {
   exercise_in: { name: string; id: string }
@@ -12,13 +13,16 @@ interface ExerciseEditPopupProps {
 }
 
 export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupProps) {
-  const { exercise, loading: loadingExercise, error: errorExercise } = useGetExercise(exercise_in.id);
-  const { editExercise, loading: loadingEdit, error: errorEdit, response: responseEdit } = useEditExercise();
-
+  const { exercise, loading : get_load } = useGetExercise(exercise_in.id);
+  const { editExercise, loading: loadingEdit, error} = useEditExercise();
 
   const navigate = useNavigate();
   const [exerciseName, setExerciseName] = useState("");
-  const [goalWeights, setGoalWeights] = useState({
+  const [goalWeights, setGoalWeights] = useState<{
+    "1-5" : string,
+    "6-10" : string,
+    "11+" : string
+  }>({
     "1-5": "",
     "6-10": "",
     "11+": "",
@@ -26,29 +30,36 @@ export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupPro
 
 
   useEffect(() => {
+    console.log(goalWeights)
+    console.log(exerciseName)
     if (exercise) {
       setExerciseName(exercise.name);
       setGoalWeights({
-        '1-5' : exercise.goals[0],
-        '6-10': exercise.goals[1],
-        '11+' : exercise.goals[2]
+        '1-5' : exercise.goals[0].toString() ,
+        '6-10': exercise.goals[1].toString() ,
+        '11+' : exercise.goals[2].toString() 
       })
     }
   }, [exercise]);
 
-  const { createExercise, loading, error, success } = useEditExercise();
-
   const handleSubmit = async () => {
     if (!exerciseName || !goalWeights["1-5"] || !goalWeights["6-10"] || !goalWeights["11+"]) return;
 
-    await createExercise(
-      exerciseName,
-      [ parseInt(goalWeights["1-5"], 10), parseInt(goalWeights["6-10"], 10), parseInt(goalWeights["11+"], 10)]
+    await editExercise(
+      exercise_in.id,
+      {
+        name : exerciseName,
+        goals : [parseInt(goalWeights["1-5"],10) || 0, parseInt(goalWeights["6-10"],10) || 0, parseInt(goalWeights["11+"],10) || 0]
+      }
     );
 
     onClose();
     navigate(0);
   };
+
+  if (get_load) {
+    return <LoadingCircle />
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/65">
@@ -76,7 +87,7 @@ export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupPro
         <h3 className="text-lg font-semibold mb-2">Goal Weights</h3>
         <p className="text-sm text-gray-400 mb-4">Modify your target weights for each rep range.</p>
 
-        {Object.keys(goalWeights).map((range) => (
+        {(Object.keys(goalWeights) as Array<keyof typeof goalWeights>).map((range) => (
           <div key={range} className="mb-4">
             <Label className="mb-1" htmlFor={range}>
               {range} Reps (lbs)
@@ -85,7 +96,12 @@ export function ExerciseEditPopup({ exercise_in, onClose }: ExerciseEditPopupPro
               id={range}
               type="number"
               value={goalWeights[range]}
-              onChange={(e) => setGoalWeights({ ...goalWeights, [range]: e.target.value })}
+              onChange={(e) =>
+                setGoalWeights((prev) => ({
+                  ...prev,
+                  [range]: e.target.value,
+                }))
+              }
             />
           </div>
         ))}

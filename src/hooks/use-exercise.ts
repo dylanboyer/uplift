@@ -149,46 +149,50 @@ export const useCreateExercise = () => {
 interface useGetExerciseReturn {
   exercise: Exercise | null,
   loading : boolean,
-  error : Error | null;
+  error : string | null;
   
 }
 
-export const useGetExercise = (exerciseId: string) : useGetExerciseReturn  => {
-  const [exercise, setExercise] = useState<Exercise | null>(null);
+export function useGetExercise(id: string) : useGetExerciseReturn {
+  const [exercise, setExercise] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-      const fetchExercise = async () => {
-          try {
-              const response = await fetch(`/backend/exercises/${exerciseId}`);
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              const data: Exercise = await response.json();
-              setExercise(data);
-          } catch (err) {
-              setError(err as Error);
-          } finally {
-              setLoading(false);
-          }
-      };
-
-      if (exerciseId) {
-          fetchExercise();
+    const fetchExercise = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/backend/exercises/${id}`);
+        const data = await response.json();
+        setExercise(data);
+        setLoading(false);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("unexpected Error")
+        }
+        setLoading(false);
       }
-  }, [exerciseId]);
+    };
+
+    fetchExercise();
+  }, [id]);
 
   return { exercise, loading, error };
-};
-
-interface EditExerciseResponse {
-  status: string;
 }
 
-export const useEditExercise = () => {
+
+
+interface EditExerciseResponse {
+  editExercise: (exerciseId: string, exercise: Exercise) => Promise<void>,
+  loading : boolean,
+  error : string | null,
+}
+
+export const useEditExercise = () : EditExerciseResponse => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<EditExerciseResponse | null>(null);
 
   const editExercise = async (exerciseId: string, exercise: Exercise) => {
@@ -210,13 +214,17 @@ export const useEditExercise = () => {
           const data: EditExerciseResponse = await response.json();
           setResponse(data);
       } catch (err) {
-          setError(err as Error);
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError("unexpected error")
+          }
       } finally {
           setLoading(false);
       }
   };
 
-  return { editExercise, loading, error, response };
+  return { editExercise, loading, error };
 };
 
 interface DeleteExerciseResponse {
@@ -252,7 +260,7 @@ export const useDeleteExercise = () => {
   return { deleteExercise, loading, error, response };
 };
 
-export const useGetAllBucketsFromUser = (user_id : number) => {
+export const useGetAllBucketsFromUser = (user_id : string) => {
   const [bucket_ids, setExercises] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

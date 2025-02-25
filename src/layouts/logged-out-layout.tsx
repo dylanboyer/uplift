@@ -1,9 +1,4 @@
 import { Outlet } from "react-router-dom";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu"; // Adjust import based on your file structure
 
 export default function LoggedOutLayout() {
   return (

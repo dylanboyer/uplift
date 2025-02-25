@@ -11,19 +11,23 @@ interface ExercisePopupProps {
 
 export function ExercisePopup({ onClose }: ExercisePopupProps) {
   const [exerciseName, setExerciseName] = useState("");
-  const [goalWeights, setGoalWeights] = useState({
-    "1-5": 0,
-    "6-10": 0,
-    "11+": 0,
+  const [goalWeights, setGoalWeights] = useState<{
+    "1-5" : string,
+    "6-10": string,
+    "11+" : string
+  }>({
+    "1-5": "0",
+    "6-10": "0",
+    "11+": "0",
   });
-  const { createExercise, loading, error, success } = useCreateExercise();
+  const { createExercise, loading, error } = useCreateExercise();
 
   const handleSubmit = async () => {
     if (!exerciseName || !goalWeights["1-5"] || !goalWeights["6-10"] || !goalWeights["11+"]) return;
 
     await createExercise({
       name : exerciseName,
-      goals : [ goalWeights["1-5"], goalWeights["6-10"], goalWeights["11+"] ]
+      goals : [ parseInt(goalWeights["1-5"], 10), parseInt(goalWeights["6-10"],10), parseInt(goalWeights["11+"],10) ]
     });
     onClose();
   };
@@ -54,7 +58,7 @@ export function ExercisePopup({ onClose }: ExercisePopupProps) {
         <h3 className="text-lg font-semibold mb-2">Goal Weights</h3>
         <p className="text-sm text-gray-400 mb-4">Set your target weights for each rep range.</p>
 
-        {Object.keys(goalWeights).map((range) => (
+        {(Object.keys(goalWeights) as Array<keyof typeof goalWeights>).map((range) => (
           <div key={range} className="mb-4">
             <Label className="mb-1" htmlFor={range}>
               {range} Reps (lbs)
@@ -63,7 +67,12 @@ export function ExercisePopup({ onClose }: ExercisePopupProps) {
               id={range}
               type="number"
               value={goalWeights[range]}
-              onChange={(e) => setGoalWeights({ ...goalWeights, [range]: e.target.value })}
+              onChange={(e) =>
+                setGoalWeights((prev) => ({
+                  ...prev,
+                  [range]: e.target.value,
+                }))
+              }
             />
           </div>
         ))}

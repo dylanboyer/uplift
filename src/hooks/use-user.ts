@@ -6,10 +6,30 @@ interface LoginResponse {
   error?: string;
 }
 
-export const useGetUserID = () => {
-  const [userID, setUserID] = useState(null);
+
+interface getUserIdProp {
+  userID : string | null,
+  loading: boolean,
+  error : string
+}
+
+
+interface UserDataProp {
+  created_at : string,
+  email : string,
+  username : string,
+  follower_count : number,
+  name : string,
+  pfp_url : string,
+  u_id : number,
+  updated_at : string,
+  bio : string | null,
+}
+
+export const useGetUserID = () : getUserIdProp => {
+  const [userID, setUserID] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchUserID = async () => {
@@ -30,7 +50,9 @@ export const useGetUserID = () => {
           setUserID(null); // Set user_id to null if the session is invalid
         }
       } catch (err) {
-        setError(err);
+        if (err instanceof Error) {
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -88,7 +110,7 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
   const logout = async () => {
@@ -107,7 +129,11 @@ export const useLogout = () => {
 
       setIsLoggedOut(true); // Logout was successful
     } catch (err) {
-      setError(err)
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("unexpected Error")
+      }
     } finally {
       setLoading(false);
     }
@@ -116,13 +142,20 @@ export const useLogout = () => {
   return { logout, loading, error, isLoggedOut };
 };
 
-export const useGetUserData = (user_id) => {
+interface useGetUserDataProp {
+  userData : UserDataProp | null,
+  loading_data : boolean,
+  error_data : string | null,
+  refetch: () => Promise<void>
+}
+
+export const useGetUserData = (user_id : string | null): useGetUserDataProp => {
   const [userData, setUserData] = useState(null);
   const [loading_data, setLoading] = useState(true);
-  const [error_data, setError] = useState(null);
+  const [error_data, setError] = useState<string | null>(null);
 
   // Function to fetch user data
-  const fetchUserData = async () => {
+  const fetchUserData = async ()=> {
     setLoading(true);
     setError(null);
 
@@ -140,7 +173,11 @@ export const useGetUserData = (user_id) => {
       setUserData(data[0]);
 
     } catch (err) {
-      setError(err);
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("unexpected Error")
+      }
     } finally {
       setLoading(false);
     }
@@ -156,10 +193,10 @@ export const useGetUserData = (user_id) => {
 };
 
 
-export const useGetAllUsersForSearch = (user_id) => {
+export const useGetAllUsersForSearch = () => {
   const [searchData, setSearchData] = useState(null);
   const [loading_data, setLoading] = useState(true);
-  const [error_data, setError] = useState(null);
+  const [error_data, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -177,7 +214,11 @@ export const useGetAllUsersForSearch = (user_id) => {
         setSearchData(data); // Set the user_id if the session is valid
 
       } catch (err) {
-        setError(err);
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError("unexpected Error")
+        }
       } finally {
         setLoading(false);
       }
@@ -189,7 +230,7 @@ export const useGetAllUsersForSearch = (user_id) => {
   return { searchData, loading_data, error_data };
 };
 
-export const useFollow = (userId) => {
+export const useFollow = (userId : string) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
 

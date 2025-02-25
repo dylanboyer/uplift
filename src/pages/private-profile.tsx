@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
 import { useGetUserID, useGetUserData } from "@/hooks/use-user"; // Assuming the hook is in a separate file
-import { useGetUsedExercises } from "@/hooks/use-exercise";
-import { Widget, WidgetBox } from "@/components/widget";
+import { WidgetBox } from "@/components/widget";
 import AccomplishmentsBox from "@/components/accomplishments";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Scrollable Area component for charts
 import { useEffect, useState } from "react";
+import { LoadingCircle } from "@/components/loading-circle";
 
 export default function PrivateProfile() {
-  const { userID, loading_user, error_user } = useGetUserID(); // Use the custom hook
+  const { userID } = useGetUserID(); // Use the custom hook
 
   // State for profile data
   const [profileData, setProfileData] = useState({
@@ -18,10 +17,10 @@ export default function PrivateProfile() {
     follower_count: 0,
   });
 
-  const [loading_data, setLoadingData] = useState(true);
-  const [error_data, setErrorData] = useState(null);
+  const [ isLoading, setLoadingData ] = useState(true);
+  // const [error_data, setErrorData] = useState(null);
 
-  const { userData, loading_data: userDataLoading, error_data: userDataError } = useGetUserData(userID); // Always call the hook
+  const { userData } = useGetUserData(userID); // Always call the hook
 
   useEffect(() => {
     if (userData) {
@@ -32,6 +31,10 @@ export default function PrivateProfile() {
       setLoadingData(false); // Stop loading if no userID is available
     }
   }, [userData]); // Run this effect whenever userData changes
+
+  if (isLoading) {
+    return (<LoadingCircle />)
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 bg-zinc-900 text-white">

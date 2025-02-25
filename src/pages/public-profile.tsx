@@ -1,13 +1,19 @@
 import { useParams } from "react-router-dom";
 import { useGetUserID, useGetUserData, useFollow } from "@/hooks/use-user";
 import { WidgetBox } from "@/components/widget";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { LoadingCircle } from "@/components/loading-circle";
 
 import AccomplishmentsBox from "@/components/accomplishments";
 
+
+
 export default function PublicProfile() {
   const { user_id } = useParams(); // Get user_id from the URL
-  const { userID, loading_ses, error_ses } = useGetUserID(); // Get current user ID
+  if (user_id == undefined) {
+    return (<p>no id provided</p>);
+  }
+  const { userID } = useGetUserID(); // Get current user ID
   const { userData, loading_data, error_data } = useGetUserData(user_id); // Get public user data without refetch
   const { isFollowing: initialIsFollowing, toggleFollow, loading } = useFollow(user_id); // Don't pass refetch
 
@@ -47,7 +53,7 @@ export default function PublicProfile() {
   };
 
   if (loading_data) {
-    return <p className="text-center text-gray-500">Loading user data...</p>;
+    return (<LoadingCircle />)
   }
 
   if (error_data) {
