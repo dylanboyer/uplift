@@ -7,8 +7,8 @@ import {
 import { useLogout, useGetUserID } from "@/hooks/use-user";
 
 export default function MainLayout() {
-  const { userID, loading: userLoading, error: userError } = useGetUserID();
-  const { logout, loading: logoutLoading, error: logoutError, isLoggedOut } = useLogout();
+  const { userID, loading: userLoading } = useGetUserID();
+  const { logout, loading: logoutLoading, isLoggedOut } = useLogout();
 
   const handleLogout = () => {
     logout();
@@ -77,7 +77,6 @@ export default function MainLayout() {
                       <div
                         className="text-zinc-200 bg-zinc-900 hover:bg-indigo-600 hover:text-zinc-50 transition-all duration-300 transform hover:scale-105 hover:shadow-lg py-2 px-4 rounded-lg cursor-pointer"
                         onClick={handleLogout}
-                        disabled={logoutLoading}
                       >
                         {logoutLoading ? "Logging out..." : "Logout"}
                       </div>

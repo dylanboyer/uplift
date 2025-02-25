@@ -25,12 +25,15 @@ const AppRoutes = (
         <Route path="/test" element={<WorkoutEntry />}/>
       </Route>
 
-      <Route path="*" element={<NotFound />} />
-    </Route>
-    <Route element={<LoggedOutLayout />}>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+
+      <Route path="*" element={<NotFound />} />
     </Route>
+    {/* <Route element={<LoggedOutLayout />}>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+    </Route> */}
   </Route>
 );
 
