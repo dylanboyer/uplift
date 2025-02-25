@@ -5,6 +5,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"; // Scrollable Area com
 import { useEffect, useState } from "react";
 import { LoadingCircle } from "@/components/loading-circle";
 
+import ActivityTracker from "@/components/activity-monitor";
+
 export default function PrivateProfile() {
   const { userID } = useGetUserID(); // Use the custom hook
 
@@ -57,6 +59,7 @@ export default function PrivateProfile() {
             <p className="text-md">Email: {profileData.email}</p>
             <p className="text-md">Followers: {profileData.follower_count}</p>
           </div>
+          <ActivityTracker/>
         </div>
 
         {/* Accomplishments Box */}
