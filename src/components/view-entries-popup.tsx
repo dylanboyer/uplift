@@ -26,7 +26,7 @@ const REP_RANGE_HEADERS: Record<string, string> = {
 
 export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
   const { data, loading, error } = useGetAllEntriesFromExercise(exercise.id);
-  const { deleteEntry, loading: deleteLoading, error: deleteError, success } = useDeleteEntry();
+  const { deleteEntry, loading: deleteLoading} = useDeleteEntry();
 
   const navigate = useNavigate();
 

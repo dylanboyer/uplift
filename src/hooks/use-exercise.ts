@@ -188,6 +188,7 @@ interface EditExerciseResponse {
   editExercise: (exerciseId: string, exercise: Exercise) => Promise<void>,
   loading : boolean,
   error : string | null,
+  response : EditExerciseResponse | null
 }
 
 export const useEditExercise = () : EditExerciseResponse => {
@@ -224,7 +225,7 @@ export const useEditExercise = () : EditExerciseResponse => {
       }
   };
 
-  return { editExercise, loading, error };
+  return { editExercise, loading, error, response };
 };
 
 interface DeleteExerciseResponse {
