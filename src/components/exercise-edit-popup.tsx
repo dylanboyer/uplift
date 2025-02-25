@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetExercise, useEditExercise } from "@/hooks/use-exercise";
-import { navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ExerciseEditPopupProps {
   exercise_in: { name: string; id: string }

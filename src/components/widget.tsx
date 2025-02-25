@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
 import { useGetAllBucketsFromUser } from "@/hooks/use-exercise";
@@ -14,7 +14,6 @@ import {
   TimeScale,
 } from 'chart.js';
 
-// Register necessary Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -77,18 +76,19 @@ export function Widget({ bucketId }: WidgetProps) {
   }
 
   return !loading && (
-    <div className="bg-zinc-300 widget flex-1 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 h-[250px] border border-white rounded-xl shadow-lg m-4 p-4 hover:shadow-2xl transition-all ease-in-out flex flex-col justify-between">
+    <div className="bg-zinc-500 widget flex-1 w-[500px] h-[250px] border border-white rounded-xl shadow-lg m-4 p-4 hover:shadow-2xl transition-all ease-in-out flex flex-col justify-between">
       {(!dataset?.datasets?.length || !options) ? (
         <p className="text-center text-white">No data available</p>
       ) : (
         <Line
           key={chartKey}
           data={dataset}
+          className='bg-inherit'
           options={{
             ...options,
             responsive: true,
             maintainAspectRatio: false,
-            aspectRatio: 3,  // Adjust aspect ratio to make it fill half the width and look good
+            aspectRatio: 3
           }}
         />
       )}
@@ -113,12 +113,13 @@ export function WidgetBox({ user_id, col_num }: WidgetBoxProps) {
   }
 
   if (error) {
-    return <div className="text-center text-red-500">Error: {error.message}</div>;
+    return <div className="text-center text-red-500">Error: {error}</div>;
   }
 
   if (!bucket_ids || bucket_ids.length === 0) {
     return null; // If no bucket IDs, return null to not render anything
   }
+
 
   return (
     <div className={`grid grid-cols-1 grid-cols-${col_num} gap-6 justify-center p-6 rounded-lg shadow-lg`}>

@@ -1,5 +1,3 @@
-import React from "react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LoadingCircle } from "@/components/loading-circle";
 import {
@@ -13,7 +11,7 @@ import {
 import { useGetAllEntriesFromExercise } from "@/hooks/use-exercise";
 import { useDeleteEntry } from "@/hooks/use-entry";
 
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface EntryPopupProps {
   exercise: { name: string; id: string };

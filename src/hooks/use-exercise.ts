@@ -1,6 +1,12 @@
 // use-exercise.ts --- A BUNCH of hooks to get exercise data
 import { useState, useEffect } from "react";
 
+
+interface Exercise {
+  name: string;
+  goals: number[];
+}
+
 // GET /exercises/has/names --> list of strings and ids of exercises the user has
 export const useGetAllExercises = () => {
   const [exercises, setExercises] = useState([]); // ✅ Default to empty array
@@ -98,11 +104,11 @@ export const useGetExerciseRanges = () => {
 // goal of ints of your goals [0, 180, 0] --> have lista
 // response: 200, 400
 export const useCreateExercise = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
-  const createExercise = async (name, goals) => {
+  const createExercise = async ({name, goals} : Exercise) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -122,7 +128,11 @@ export const useCreateExercise = () => {
 
       setSuccess(true);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+
+      }
     } finally {
       setLoading(false);
     }
@@ -132,12 +142,16 @@ export const useCreateExercise = () => {
 };
 
 // POST edit exercise (given an id, name, and goals)
-interface Exercise {
-  name: string;
-  goals: number[];
+
+
+interface useGetExerciseReturn {
+  exercise: Exercise | null,
+  loading : boolean,
+  error : Error | null;
+  
 }
 
-export const useGetExercise = (exerciseId: string) => {
+export const useGetExercise = (exerciseId: string) : useGetExerciseReturn  => {
   const [exercise, setExercise] = useState<Exercise | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -236,8 +250,8 @@ export const useDeleteExercise = () => {
   return { deleteExercise, loading, error, response };
 };
 
-export const useGetAllBucketsFromUser = (user_id) => {
-  const [bucket_ids, setExercises] = useState<string[]>([]);
+export const useGetAllBucketsFromUser = (user_id : number) => {
+  const [bucket_ids, setExercises] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

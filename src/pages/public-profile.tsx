@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useGetUserID, useGetUserData, useFollow } from "@/hooks/use-user";
 import { WidgetBox } from "@/components/widget";
 import React, { useState, useEffect } from "react";
-import "@/components/widget.css";
 
 import AccomplishmentsBox from "@/components/accomplishments";
 

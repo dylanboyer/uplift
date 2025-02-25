@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import fetchData from "@/utils/fetch-data";
 import { Label } from "@/components/ui/label";
-import {
-  useGetExercise,
-  useEditExercise,
-  useDeleteExercise,
-} from "@/hooks/use-exercise";
-import { navigate, useNavigate } from "react-router-dom";
+import { useGetExercise, useEditExercise, useDeleteExercise } from "@/hooks/use-exercise";
+import { useNavigate } from "react-router-dom";
 import { LoadingCircle } from "@/components/loading-circle";
 
 interface EditExerciseFormProps {

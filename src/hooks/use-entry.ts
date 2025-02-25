@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useCallback} from "react";
 
 interface EntryData {
   e_id: string;
   weight: number;
   sets: number;
+  rep_range_id: number;
   date: string;
 }
+
 
 interface UseCreateEntryResult {
   createEntry: (data: EntryData) => Promise<void>;
@@ -42,8 +44,6 @@ export const useCreateEntry = (): UseCreateEntryResult => {
 
   return { createEntry, isLoading, error };
 };
-
-import { useState, useCallback } from 'react';
 
 export const useDeleteEntry = (entryId: string) => {
   const [loading, setLoading] = useState(false);

@@ -96,20 +96,18 @@ CREATE TABLE main_gym_schema.Posts(
 CREATE OR REPLACE FUNCTION update_follower_count()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- If a new row is inserted (a user is followed), increment the follower count of the followed user
     IF TG_OP = 'INSERT' THEN
         UPDATE main_gym_schema.Users
         SET FOLLOWER_COUNT = FOLLOWER_COUNT + 1
-        WHERE U_ID = NEW.FOLLOWING_USER;  -- Increment follower count for the FOLLOWING_USER
+        WHERE U_ID = NEW.FOLLOWING_USER;
     
-    -- If a row is deleted (a user is unfollowed), decrement the follower count of the unfollowed user
     ELSIF TG_OP = 'DELETE' THEN
         UPDATE main_gym_schema.Users
         SET FOLLOWER_COUNT = FOLLOWER_COUNT - 1
-        WHERE U_ID = OLD.FOLLOWING_USER;  -- Decrement follower count for the FOLLOWING_USER
+        WHERE U_ID = OLD.FOLLOWING_USER;
     END IF;
 
-    RETURN NULL; -- Triggers that perform updates typically return NULL
+    RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
