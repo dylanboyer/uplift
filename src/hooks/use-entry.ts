@@ -45,7 +45,7 @@ export const useCreateEntry = (): UseCreateEntryResult => {
   return { createEntry, isLoading, error };
 };
 
-export const useDeleteEntry = (entryId: string) => {
+export const useDeleteEntry = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -73,7 +73,7 @@ export const useDeleteEntry = (entryId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [entryId]);
+  }, []);
 
   return { deleteEntry, loading, error, success };
 };

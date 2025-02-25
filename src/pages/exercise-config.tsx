@@ -1,17 +1,13 @@
 // ExerciseConfig.tsx
 import React, { useState } from "react";
-import { Separator } from "@/components/ui/separator";
 import { useGetAllExercises, useDeleteExercise } from "@/hooks/use-exercise";
-import { CreateExerciseForm } from "@/components/create-exercise-form";
-import { EditExerciseForm } from "@/components/edit-exercise-form";
 import { LoadingCircle } from "@/components/loading-circle";
 import ExerciseButton from "@/components/ui/exercise-button"; // Import the new button component
 import {EntryPopup} from "@/components/entry-popup";
 import {ExercisePopup} from "@/components/exercise-popup";
 import {ExerciseEditPopup} from "@/components/exercise-edit-popup";
 import { ViewEntriesPopup } from "@/components/view-entries-popup";
-import { onViewEntries } from "@/components/view-entries-popup";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ExerciseConfig() {
   const { exercises = [], isLoading, error } = useGetAllExercises();

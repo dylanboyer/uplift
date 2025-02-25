@@ -30,6 +30,11 @@ export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
 
   const navigate = useNavigate();
 
+  const handleDelete = (entryId : string) => {
+    deleteEntry(entryId);
+    navigate(0);
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/65">
       <div className="bg-zinc-800 border-2 border-black p-6 rounded-lg shadow-lg w-288 max-h-3/4 overflow-y-auto">
@@ -70,8 +75,7 @@ export function ViewEntriesPopup({ exercise, onClose }: EntryPopupProps) {
                       <TableCell className="text-right">
                         <button
                           onClick={() => {
-                            deleteEntry(entry.e_id);
-                            navigate(0);
+                            handleDelete(entry.e_id)
                           }}
                           className="p-2 rounded-md text-white transition-colors hover:bg-red-400"
                           disabled={deleteLoading}

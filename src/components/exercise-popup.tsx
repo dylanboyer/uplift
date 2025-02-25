@@ -12,19 +12,19 @@ interface ExercisePopupProps {
 export function ExercisePopup({ onClose }: ExercisePopupProps) {
   const [exerciseName, setExerciseName] = useState("");
   const [goalWeights, setGoalWeights] = useState({
-    "1-5": "",
-    "6-10": "",
-    "11+": "",
+    "1-5": 0,
+    "6-10": 0,
+    "11+": 0,
   });
   const { createExercise, loading, error, success } = useCreateExercise();
 
   const handleSubmit = async () => {
     if (!exerciseName || !goalWeights["1-5"] || !goalWeights["6-10"] || !goalWeights["11+"]) return;
 
-    await createExercise(
-      exerciseName,
-      [ parseInt(goalWeights["1-5"], 10), parseInt(goalWeights["6-10"], 10), parseInt(goalWeights["11+"], 10)]
-    );
+    await createExercise({
+      name : exerciseName,
+      goals : [ goalWeights["1-5"], goalWeights["6-10"], goalWeights["11+"] ]
+    });
     onClose();
   };
 

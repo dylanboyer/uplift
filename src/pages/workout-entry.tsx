@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useGetAllExercises } from "@/hooks/use-exercise";
-import { CreateExerciseForm } from "@/components/create-exercise-form";
-import { EditExerciseForm } from "@/components/edit-exercise-form";
 import { LoadingCircle } from "@/components/loading-circle";
 import { navigate, useNavigate } from "react-router-dom";
 import { EntryPopup } from "@/components/entry-popup";

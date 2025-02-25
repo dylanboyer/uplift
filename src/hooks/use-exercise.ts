@@ -109,11 +109,13 @@ export const useCreateExercise = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   const createExercise = async ({name, goals} : Exercise) => {
+    console.log(name, goals)
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
+      
       const response = await fetch('/backend/exercises/create', {
         method: 'POST',
         headers: {
@@ -131,7 +133,7 @@ export const useCreateExercise = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-
+        setError("unexpected error")
       }
     } finally {
       setLoading(false);
