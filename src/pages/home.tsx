@@ -39,7 +39,7 @@ export default function Home() {
       {/* Example Widget */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold text-indigo-400 mb-6">Your Progress Dashboard</h2>
-        <Widget bucketId={1} />
+        <Widget bucketId='1' />
       </section>
 
       {/* Call to Action */}

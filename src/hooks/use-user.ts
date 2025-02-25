@@ -192,8 +192,13 @@ export const useGetUserData = (user_id : string | null): useGetUserDataProp => {
   return { userData, loading_data, error_data, refetch: fetchUserData };
 };
 
+interface getAllUsersForSearchProp {
+  searchData : { u_id : string, name : string, username : string}[] | null,
+  loading_data : boolean,
+  error_data : string | null,
+}
 
-export const useGetAllUsersForSearch = () => {
+export const useGetAllUsersForSearch = () : getAllUsersForSearchProp => {
   const [searchData, setSearchData] = useState(null);
   const [loading_data, setLoading] = useState(true);
   const [error_data, setError] = useState<string | null>(null);

@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useGetAllExercises } from "@/hooks/use-exercise";
 import { LoadingCircle } from "@/components/loading-circle";
-import { navigate, useNavigate } from "react-router-dom";
-import { EntryPopup } from "@/components/entry-popup";
 import { ViewEntriesPopup } from "@/components/view-entries-popup";
+
+interface Exercise {
+  name : string,
+  id : string
+}
 
 export default function WorkoutEntry() {
   const { exercises = [], isLoading, error } = useGetAllExercises();
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
 
   if (isLoading) return <LoadingCircle />;
   if (error) return <div style={{ color: "red" }}>Error: {error}</div>;
@@ -21,7 +24,7 @@ export default function WorkoutEntry() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {exercises.length > 0
-          ? exercises.map((exercise) => (
+          ? exercises.map((exercise : {e_id : string, name : string}) => (
               <button
                 key={exercise.e_id}
                 className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"

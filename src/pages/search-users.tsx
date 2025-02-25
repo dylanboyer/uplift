@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { useGetUserData, useGetAllUsersForSearch } from "@/hooks/use-user"; // Assuming the hook is in a separate file
 import { Link } from "react-router-dom"; // Import Link for navigation
 import {LoadingCircle} from "@/components/loading-circle"
 
+interface SearchUser {
+  name : string,
+  username : string,
+  u_id : string,
+}
+
+
 export default function SearchUsers() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { user_id } = useParams(); // Assuming you are getting user_id from params
 
   // State to hold fetched user data
   const { searchData, loading_data, error_data } = useGetAllUsersForSearch();
@@ -18,11 +23,11 @@ export default function SearchUsers() {
 
   // Error handling
   if (error_data) {
-    return <p className="text-center text-red-500">Error fetching user data: {error_data.message}</p>;
+    return <p className="text-center text-red-500">Error fetching user data: {error_data}</p>;
   }
 
   // Filter the list of users based on the search query
-  const filteredUsers = searchData?.filter((user) =>
+  const filteredUsers = searchData?.filter((user : SearchUser) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -75,7 +80,7 @@ export function UserEntry({ user_id }: { user_id: string }) {
 
   // Error handling
   if (error_data) {
-    return <p className="text-center text-red-500">Error fetching user data: {error_data.message}</p>;
+    return <p className="text-center text-red-500">Error fetching user data: {error_data}</p>;
   }
 
   return (
@@ -84,14 +89,14 @@ export function UserEntry({ user_id }: { user_id: string }) {
         {/* Display user's profile picture and basic information */}
         <div className="flex items-center space-x-6">
           <img
-            src={userData.pfp_url}
-            alt={`${userData.name}'s profile picture`}
+            src={userData?.pfp_url}
+            alt={`${userData?.name}'s profile picture`}
             className="w-24 h-24 rounded-full border-2 border-white"
           />
           <div>
-            <h1 className="text-3xl font-bold text-white">{userData.name}</h1>
-            <p className="text-lg text-zinc-400">@{userData.username}</p>
-            <p className="text-sm text-zinc-300">{userData.follower_count} followers</p>
+            <h1 className="text-3xl font-bold text-white">{userData?.name}</h1>
+            <p className="text-lg text-zinc-400">@{userData?.username}</p>
+            <p className="text-sm text-zinc-300">{userData?.follower_count} followers</p>
           </div>
         </div>
       </div>

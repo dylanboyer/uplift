@@ -1,5 +1,5 @@
 // ExerciseConfig.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetAllExercises, useDeleteExercise } from "@/hooks/use-exercise";
 import { LoadingCircle } from "@/components/loading-circle";
 import ExerciseButton from "@/components/ui/exercise-button"; // Import the new button component
@@ -19,19 +19,14 @@ export default function ExerciseConfig() {
 
   const [viewEntries, setViewEntries] = useState(null)
   const [addEntry, setAddEntry] = useState(null);
-  const [modifyExercise, setModifyExercise] = useState(null);
+  // const [modifyExercise, setModifyExercise] = useState(null);
   const [addNewExercise, setAddNewExercise] = useState(null);
 
-  const {
-    deleteExercise,
-    loading: loadingDelete,
-    error: errorDelete,
-    response: responseDelete,
-  } = useDeleteExercise();
+  const { deleteExercise } = useDeleteExercise();
 
   const navigate = useNavigate();
 
-  const handleDelete = async (e_id) => {
+  const handleDelete = async (e_id : string) => {
     if (window.confirm("Are you sure you want to delete this exercise?")) {
       await deleteExercise(e_id);
       navigate(0);
